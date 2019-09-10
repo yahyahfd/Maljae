@@ -1,0 +1,145 @@
+\documentclass{article}
+
+\usepackage[a4paper]{geometry}
+\usepackage[francais]{babel}
+\usepackage{amsmath}
+\usepackage{xspace}
+
+\newcommand{\mineq}{\min_{\text{eq}}\xspace}
+\newcommand{\maxeq}{\max_{\text{eq}}\xspace}
+\newcommand{\nproj}{N}
+\newcommand{\nbeq}{k}
+\newcommand{\eq}[1]{\text{eq}_{#1}}
+
+\title{Algo}
+
+\begin{document}
+
+\maketitle
+
+Au semestre prochain, dans le cadre d'une mati\`ere intitul\'ee
+``Projet de programmation'', vous aurez le choix entre plusieurs
+sujets de projet. Le but de ce document est de vous expliquer
+l'algorithme utilis\'e pour la distribution de ces sujets. (C'est
+\'egalement l'algorithme utilis\'e pour affelnet, le logiciel
+d'affectation des lyc\'eens en seconde.)
+
+Tout le cours de ``Pr\'epro 2: Conduite de projet'' sera construit
+autour d'une application qui impl\'emente cet algorithme.
+
+Pour plus de transparence, nous vous d\'ecrivons ici l'algorithme
+utilis\'e et les enseignants de projet vous fourniront toutes les
+donn\'ees pour que vous puissiez v\'erifier \emph{a posteriori\/} les
+r\'esultats, mais l'algorithme en lui-m\^eme ne fait pas partie du
+cours de conduite de projets.
+
+\section{Situation initiale}
+On d\'ecrit ici les donn\'ees fournies \`a l'algorithme, avec les
+contraintes li\'ees \`a ces donn\'ees.
+\paragraph{Les \'equipes}
+Les projets sont \`a faire par \'equipe d'\'etudiants. La taille de
+ces \'equipes est impos\'ee, entre \(\mineq\) et \(\maxeq\). On
+dispose pour chaque membre de l'\'equipe de ses nom, pr\'enom et
+adresse mail. Il y a \(\nbeq\) \'equipes.
+
+\paragraph{Les v\oe ux}
+Chaque \'equipe doit donner un ordre de pr\'ef\'erence sur l'ensemble
+des sujets. Il y a \(\nproj\) sujets diff\'erents.
+
+\paragraph{La graine de l'al\'ea}
+Chaque \'equipe doit fournir un nombre entier strictement positif de
+son choix, qui permettra de faire fonctionner l'algorithme
+d'attribution des sujets.
+
+\paragraph{Date limite}
+Une date limite est fournie pour que les \'equipes s'inscrivent et
+donnent leurs v\oe ux.
+
+\section{L'algorithme}
+L'algorithme se d\'eroule en plusieurs \'etapes (les \'etapes sont
+expliqu\'ees en d\'etail plus bas):
+\begin{enumerate}
+\item on \'etablit un ordre initial;
+\item on modifie l'ordre initial gr\^ace \`a l'ensemble des graines
+  des \'equipes, pour obtenir une liste de d\'epart\footnote{Dans
+    affelnet, la liste de d\'epart est li\'ee au nombre de points que
+    vous avez en fonction de vos notes, votre statut, etc.};
+\item on consid\`ere les \'equipes une par une, dans l'ordre de la
+  liste de d\'epart \'etablie ci-dessus:
+  \begin{itemize}
+    \item pour l'\'equipe courante, on prend le sujet le mieux
+      class\'e dans sa liste de v\oe ux pour lequel il reste de la
+      place, et on le lui attribue.
+  \end{itemize}
+\end{enumerate}
+
+\paragraph{Ordre initial}
+L'ordre initial est obtenu en regardant l'adresse mail des membres de
+l'\'equipe la plus petite dans l'ordre alphab\'etique (ordre
+\texttt{ascii} pour comparer deux caract\`eres). Cet ordre est
+total. On appelle \(\eq{1}\), \(\eq{2}\),\ldots ,\(\eq{\nbeq}\) les
+\'equipes, dans l'ordre initial.
+
+\paragraph{Liste de d\'epart}
+Pour obtenir la liste de d\'epart, on applique une permutation \`a la
+suite des \'equipes donn\'ee par l'ordre initial. Cette permutation
+est obtenue sous forme de produit de \(\nbeq\) transpositions de
+l'ensemble \(\{1,2,\ldots,\nbeq\}\), \`a partir des graines fournies
+par les \'equipes (rappel: une transposition est une permutation qui
+\'echange deux \'el\'ements et laisse les autres en place). Pour tout
+\(i\) entre \(1\) et \(k\), on d\'efinit \(n_i\) comme \'etant la
+somme des graines de toutes les \'equipes, sauf
+l'\'equipe~\(\eq{i}\).
+
+La transposition \(t_i\) inverse \(i\) et
+\(i + \left(n_i\%(\nbeq-i+1)\right)\). Ce dernier est un entier entre
+\(i\) et \(\nbeq\), donc \(t_i\) \'echange l'\'equipe en
+position~\(i\)  avec une \'equipe en position sup\'erieure ou \'egale.
+
+La permutation finale est obtenue par composition de ces transitions:
+\(t_{\nbeq}\circ t_{2\nbeq-1}\circ \cdots\circ t_1\) (rappel: la
+composition de fonctions s'effectue de droite \`a gauche).
+
+On prend l'image de \((1,2,\ldots,\nbeq)\) par cette permutation pour
+obtenir la liste de d\'epart. L'ordre de cette liste d\'epend donc des graines
+donn\'ees par toutes les \'equipes (et des adresses mail de certains
+\'etudiants), de fa\c con d\'eterministe, mais vous ne pouvez pas le
+conna\^{\i}tre \emph{a priori} sans une communication totale entre
+toutes les \'equipes.
+
+\paragraph{\'Egalit\'e des chances?} On ne va pas se lancer dans une
+analyse fine de cet algorithme, mais montrons que chaque \'equipe a
+les m\^emes chances de se retrouver en premi\`ere position sur la
+liste de d\'epart.
+
+On suppose que les choix des graines par les \'equipes sont
+al\'eatoires. On rappelle que \(t_i\)
+\'echange l'\'equipe en position \(i\) avec une \'equipe en position
+sup\'erieure ou \'egale \`a \(i\): une fois qu'on a appliqu\'e \(t_i\circ \cdots
+\circ t_1\), le d\'ebut de la liste entre les positions~\(1\) et \(i\)
+est fix\'e et ne peut plus \^etre modifi\'e par
+\(t_\nbeq\circ\cdots\circ t_{i+1}\).
+
+Il y a une seule fa\c con de se retrouver en premi\`ere position dans
+la liste de d\'epart, c'est d'\^etre \'echang\'e avec \(1\) par
+\(t_1\) (y compris pour~\(1\), dans ce cas \(t_1\) est
+l'identit\'e). La probabilit\'e que cela arrive \`a un \'el\'ement est
+donc de \(1/\nbeq\).
+
+\medskip
+
+Montrons que c'est la m\^eme probabilit\'e pour qu'une \'equipe se
+retrouve en deuxi\`eme position dans la liste de d\'epart (et nous
+nous arr\^eterons l\`a).
+
+Pour que l'\'equipe~\(\eq{j}\) (en position \(j\) dans l'ordre initial)
+se retrouve en deuxi\`eme position dans la liste de d\'epart, il faut
+que sa position~\(i\) apr\`es l'application de \(t_1\) soit au
+moins~\(2\): \(i\geq 2\) (probabilit\'e: \((\nbeq-1)/\nbeq\)), et que
+\(t_2\) \'echange~\(2\) et~\(i\) (probabilit\'e: \(1/\nbeq\)). La
+probabilit\'e que l'\'equipe~\(\eq{j}\) soit en deuxi\`eme position
+dans la liste de d\'epart est donc \(1/\nbeq\).
+
+\section{Exemple}
+
+\end{document}
