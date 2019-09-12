@@ -18,8 +18,7 @@ The assignment process of `maljae` works in three steps:
    their teams and express which programming tasks they would like to
    get by ordering all the tasks with respect to their preferences.
    There is a deadline for this step. Notice that teams cannot exceed
-   a given number of members and they must also have a minimum number
-   of members.
+   a given number of members.
 
 2. The assignment: After the deadline, the students choices are
    processed by an algorithm which decides the task assignment.
