@@ -31,9 +31,9 @@ This part of the document is still work-in-progress.
 
 ## How maljae is supposed to be used?
 
-maljae is made of two main components: a webserver to collect the team
-information and a command-line tool to implement the task assignment
-algorithm.
+maljae is made of two main components:
+1. a webserver to collect the team information and to visualize task assignment.
+2. a command-line tool to implement the task assignment algorithm.
 
 ### Webserver
 
