@@ -43,7 +43,7 @@ maljae is made of two main components:
 `maljae` server can be run with the following command:
 
 ```
-java -jar maljae-server -p PORT
+java -jar maljae-webserver -p PORT
 ```
 
 This command assumes that the current directory contains:
