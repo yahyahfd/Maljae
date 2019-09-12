@@ -5,8 +5,8 @@
 Imagine that you have a fixed number of teachers to supervise the
 programming projects of a bunch of students. Students are regrouped
 into small teams and each teacher can supervise a limited number of
-teams. In addition, imagine that each teacher only supervises a
-specific programming task, and that the students sometimes prefer some
+teams. In addition, imagine that each teacher only supervises a limited
+number of programming tasks, and that the students sometimes prefer some
 tasks over others. How to assign teams to each teacher to optimize the
 students happiness? That's what `maljae` solves.
 
