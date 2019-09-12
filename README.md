@@ -30,7 +30,30 @@ The assignment process of `maljae` works in three steps:
 
 ## What is the assignment algorithm used by maljae?
 
-This part of the document is still work-in-progress.
+While giving their task preferences, the teams are also asked to give
+an integer. After the deadline, a seed is attributed to each team: it
+is the sum of the integers given by all the other teams.
+
+The assignment algorithm is made of the following steps:
+
+1. The complete teams are ordered according to the smallest email address of
+   their members (alphabetical order, characters being ordered with
+   ascii order), say from `1` to `k`. The seed of the team `i` is denoted by `n_i`.
+   
+2. For each team `i` (in the previous order), consider the
+   transposition `t_i` that exchanges `i` and `i +
+   (n_i%(k-i-1))`. Consider then the permutation `t = t_k o t_{k-1} o
+   ... o t_1`.
+   
+3. The order of the teams is given by the image of `(1,2,...,k)`
+   by `t`.
+   
+4. Consider the teams in the order given in step 3. For each team, the
+   assigned task is the first free one in its preference list of tasks.
+
+5. The same steps are followed to order the teams that lack one
+   member, and the obtained list is placed after the ordered list of
+   complete teams. Then again for the teams that lack two members, etc.
 
 ## How maljae is supposed to be used?
 
