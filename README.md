@@ -31,8 +31,8 @@ The assignment process of `maljae` works in three steps:
 ## What is the assignment algorithm used by maljae?
 
 While giving their task preferences, the teams are also asked to give
-an integer. After the deadline, a seed is attributed to each team: it
-is the sum of the integers given by all the other teams.
+a secret integer. After the deadline, a seed is attributed to each team: it
+is the sum of the secret integers given by all the other teams.
 
 The assignment algorithm is made of the following steps:
 
@@ -107,8 +107,43 @@ these expectations, there is always a way to recover a valid state
 because the files are stored in a git repository. This git repository
 is initialized when the server is launched for the first time.
 
-The design of the data model is work-in-progress.
+## Data model
 
+The data model of an instance of `maljae` consists in a single instance of session data record.
+
+### Session data record 
+
+A session data record contains the following data: 
+
+ - a descriptive text
+ - the given of a minimal and maximal number of students per team 
+ - a default number of slots per assignment
+ - a deadline
+ - the schedule of the "Groupes de TD" (so that compatibility of mixed teams can be checked). Alternatively, this could just be a partition of the set of groups. 
+ - a list of assignments
+ - a list of students 
+ - a list of teams
+ 
+ All but the last two items should be set before opening the server to the students and not modified after that.
+ 
+### Assignment
+
+ An assignment consists in an assignment unique name, a description (short text) and a number of slots (maximal number of teams who can be assigned this task). 
+  
+### Student
+
+ Each student is uniquely identified by its main email address at Paris-Diderot, that is the address having the following form: `firstname.surname@etu.univ-paris-diderot.fr`.
+ 
+ Moreover, each student should input the name of her or his "Groupe de TD".
+ 
+ Finally, each student record also contains the team she or he belongs to, provided the student already conformed being a member of this team. 
+ 
+### Team
+
+A team has a unique identifier (randomly generated at team creation), a list of assignments names in preference order, a list of students (confirmed or not yet confirmed team members) and the secret integer given as an input to the assignment algorithm.
+ 
+A student's membership is confirmed if and only if the team registered for this student is this team.
+ 
 ## License
 
 This software is released under the MIT license.
