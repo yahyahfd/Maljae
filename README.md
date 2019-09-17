@@ -66,19 +66,10 @@ maljae is made of two main components:
 `maljae` server can be run with the following command:
 
 ```
-java -jar maljae-webserver -p PORT
+java -jar maljae-webserver configuration-file.json
 ```
 
-This command assumes that the current directory contains:
-
-- the file `config.json` which describes how the server is configured.
-  If this file does not exist, the server stops.
-
-- the directory `data` which a JSON file for each registered team.
-  If this directory does not exist, it is created by the server.
-
-Once it is running, a webserver is waiting for requests on port
-`PORT`.
+(An example of configuration file can be found in `datamodel/src/test/resources/config.json`.)
 
 ### Command-line tool
 
