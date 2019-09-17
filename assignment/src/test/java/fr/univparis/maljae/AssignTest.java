@@ -39,6 +39,6 @@ public class AssignTest
     {
 	String[] args = {};
 	Assign.main (args);
-        assertEquals("maljae assigner version 0.1 running.\n", outContent.toString());
+        assertEquals("maljae assigner version 0.1 is not implemented yet.\n", outContent.toString());
     }
 }
