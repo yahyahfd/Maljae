@@ -1,5 +1,6 @@
 package fr.univparis.maljae;
 
+import java.util.StringTokenizer;
 import java.util.regex.*;
 import java.util.concurrent.ThreadLocalRandom;
 import java.io.*;
@@ -15,17 +16,22 @@ public class Team {
     private String    identifier;
     public String     getIdentifier () { return identifier; }
 
-    private Task[]    preferences;
-    public Task[]     getPreferences () { return preferences; }
+    private ArrayList<Task>    preferences;
+    public ArrayList<Task>     getPreferences () { return preferences; }
 
-    private Student[] students;
-    private Integer   secret;
+    private ArrayList<Student> students;
+    private Integer            secret;
+    public Integer getSecret () { return secret; }
+    public void updateSecretFromString (String s) {
+	secret = Integer.parseInt (s);
+    }
 
     Team (Student creator) {
 	identifier = generateRandomTeamIdentifier ();
-	preferences = Configuration.getTasks ();
-	students = new Student[Configuration.getMaxNbUsersPerTeam ()];
-	secret = null;
+	preferences = new ArrayList<Task> (Arrays.asList (Configuration.getTasks ()));
+	students = new ArrayList<Student> (Configuration.getMaxNbUsersPerTeam ());
+	students.add (creator);
+	secret = ThreadLocalRandom.current().nextInt(10, 100);
     }
 
     /* FIXME: The following code is ugly! */
@@ -37,15 +43,15 @@ public class Team {
 	}
 	secret     = json.getInt ("secret");
 	JSONArray preferences_json = json.getJSONArray ("preferences");
-	preferences = new Task [preferences_json.length ()];
+	preferences = new ArrayList<Task> (preferences_json.length ());
 	for (int i = 0; i < preferences_json.length (); i++) {
 	    String pid = preferences_json.getString (i);
-	    preferences[i] = Configuration.getTask (pid);
+	    preferences.add (i, Configuration.getTask (pid));
 	}
 	JSONArray students_json = json.getJSONArray ("students");
-	students = new Student [students_json.length ()];
+	students = new ArrayList<Student> (students_json.length ());
 	for (int i = 0; i < students_json.length (); i++)
-	    students[i] = new Student (students_json.getJSONObject (i));
+	    students.add (i, new Student (students_json.getJSONObject (i)));
     }
 
     /* FIXME: The following code is ugly! */
@@ -54,13 +60,15 @@ public class Team {
 	json.put ("identifier", identifier);
 	json.put ("secret", secret);
 	JSONArray preferences_json = new JSONArray ();
-	for (int i = 0; i < preferences.length; i++) {
-	    preferences_json.put (preferences[i].getIdentifier ());
+	for (int i = 0; i < preferences.size (); i++) {
+	    if (preferences.get (i) != null) {
+		preferences_json.put (preferences.get (i).getIdentifier ());
+	    }
 	}
 	json.put ("preferences", preferences_json);
 	JSONArray students_json = new JSONArray ();
-	for (int i = 0; i < students.length; i++) {
-	    students_json.put (students[i].toJSON ());
+	for (int i = 0; i < students.size (); i++) {
+	    students_json.put (students.get (i).toJSON ());
 	}
 	json.put ("students", students_json);
 	FileWriter fw = new FileWriter (f);
@@ -70,18 +78,42 @@ public class Team {
 
     public String preferencesToString () {
 	String result = "";
-	for (int i = 0; i < preferences.length; i++) {
-	    result += preferences[i].getIdentifier () + " ";
+	for (int i = 0; i < preferences.size (); i++) {
+	    result += preferences.get (i).getIdentifier () + ";";
 	}
 	return result;
     }
 
+    public void updatePreferencesFromString (String s) {
+	System.out.println ("Prefs: " + s);
+	String[] fields = s.split (";");
+	ArrayList<Task> newPreferences = new ArrayList<Task> ();
+	for (int i = 0; i < fields.length; i++) {
+	    newPreferences.add (Configuration.getTask (fields[i]));
+	}
+	// FIXME: We should check that newPreferences is a permutation
+	// FIXME: of all task identifiers.
+	this.preferences = newPreferences;
+    }
+
     public String studentsToString () {
 	String result = "";
-	for (int i = 0; i < students.length; i++) {
-	    result += students[i].toString () + " ";
+	for (int i = 0; i < students.size (); i++) {
+	    result += students.get (i).toString () + ";";
 	}
 	return result;
+    }
+
+    public void updateStudentsFromString (String who, String s) {
+	System.out.println (who + " " + s);
+	String[] fields = s.split (";");
+	ArrayList<Student> newStudents = new ArrayList<Student> ();
+	for (int i = 0; i < fields.length; i++) {
+	    newStudents.add (Student.fromString (fields[i]));
+	}
+	// FIXME: We should check that [who] did not change the status of
+	// FIXME: other team members.
+	this.students = newStudents;
     }
 
     public String toString () {
@@ -93,13 +125,25 @@ public class Team {
     }
 
     private static String generateRandomTeamIdentifier () {
-	return "team" + ThreadLocalRandom.current().nextInt(10000, 1 << 31);
+	return "maljae" + ThreadLocalRandom.current().nextInt(10000, Integer.MAX_VALUE);
     }
 
     public static boolean isValidTeamFileName (String fname) {
 	Pattern p = Pattern.compile (".*-team.json");
 	Matcher m = p.matcher (fname);
 	return m.find ();
+    }
+
+    public void removeStudent (String email) {
+	Student found = null;
+	for (Student student : students) {
+	    if (student.getEmail ().equals (email)) {
+		found = student;
+		break;
+	    }
+	}
+	if (found != null)
+	    students.remove (found);
     }
 
 }

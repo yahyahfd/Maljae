@@ -11,6 +11,11 @@ public class Student {
 	confirmed = json.getBoolean ("confirmed");
     }
 
+    Student (String email0, Boolean confirmed0) {
+	email = email0;
+	confirmed = confirmed0;
+    }
+
     public String getEmail () {
 	return email;
     }
@@ -24,7 +29,12 @@ public class Student {
     }
 
     public String toString () {
-	return email + "[" + confirmed + "]";
+	return email + "/" + confirmed;
+    }
+
+    public static Student fromString (String s) {
+	String[] fields = s.split ("/");
+	return new Student (fields[0], Boolean.parseBoolean (fields[1]));
     }
 
     public JSONObject toJSON () {

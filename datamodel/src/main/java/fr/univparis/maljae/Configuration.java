@@ -16,6 +16,11 @@ public class Configuration
     /** Version. We following semantic versioning conventions. */
     public static final String version = "0.1";
 
+    /** Data directory. This is the place where we will put data files. */
+    /* FIXME: This should be configurable! */
+    private static String dataDirectory = "./maljae-data";
+    public static String getDataDirectory () { return dataDirectory; }
+
     /** Dates are supposed to be written with the following format. */
     private static SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
 
@@ -47,7 +52,8 @@ public class Configuration
 
     public static Task getTask (String identifier) {
 	for (int i = 0; i < tasks.length; i++) {
-	    if (tasks[i].getIdentifier ().equals (identifier))
+	    String tid = tasks[i].getIdentifier ();
+	    if (tid.equals (identifier))
 		return tasks[i];
 	}
 	return null;
