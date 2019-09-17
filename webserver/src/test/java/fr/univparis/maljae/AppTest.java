@@ -11,7 +11,6 @@ import java.io.*;
  */
 public class AppTest
 {
-
     /*
 
       Setup console redirection.
@@ -35,10 +34,9 @@ public class AppTest
     }
 
     @Test
-    public void mainShouldDisplayInvite()
+    public void checkAbout()
     {
-	String[] args = {};
-	App.main (args);
+	App.about ();
         assertEquals("maljae server version 0.1 running.\n", outContent.toString());
     }
 }
