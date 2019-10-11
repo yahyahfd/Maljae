@@ -13,6 +13,8 @@ import org.json.*;
 /*** The team of students. */
 public class Team {
 
+    public static int [] lestock=new int[100];
+    public static int ba=0;
     private String    identifier;
     public String     getIdentifier () { return identifier; }
 
@@ -125,7 +127,17 @@ public class Team {
     }
 
     private static String generateRandomTeamIdentifier () {
-	return "maljae" + ThreadLocalRandom.current().nextInt(10000, Integer.MAX_VALUE);
+	String res="";
+	int g=ThreadLocalRandom.current().nextInt(10000, Integer.MAX_VALUE);
+	for(int a=0;a<lestock.length;a++){
+		if(g==lestock[a]){
+			generateRandomTeamIdentifier();
+		}
+	}
+	lestock[ba]=g;
+	ba=ba+1;
+	res=res+"maljae"+g;
+	return res;
     }
 
     public static boolean isValidTeamFileName (String fname) {
