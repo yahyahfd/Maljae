@@ -48,18 +48,19 @@ public class Configuration
     public static int getDefaultNbTeamsPerSubject () { return defaultNbTeamsPerSubject; }
 
     /** Task descriptions. */
-    private static Task[] tasks;
+    //private static Task[] tasks; Replaced Array by an ArrayList
+    private static LinkedArray<Task> tasks;
 
     public static Task getTask (String identifier) {
 	for (int i = 0; i < tasks.length; i++) {
-	    String tid = tasks[i].getIdentifier ();
+	    String tid = tasks.get(i).toString().getIdentifier ();
 	    if (tid.equals (identifier))
-		return tasks[i];
+		return tasks.get(i).toString();
 	}
 	return null;
     }
-
-    public static Task[] getTasks () {
+    //Changed the return type of this method from a simple array to an ArrayList
+    public static ArrayList<Task> getTasks () {
 	return tasks;
     }
 
@@ -75,9 +76,9 @@ public class Configuration
 	JSONObject rangeNbTeamsPerSubject = json.getJSONObject ("nb_teams_per_subject");
 	defaultNbTeamsPerSubject = rangeNbTeamsPerSubject.getInt ("default");
 	JSONArray json_tasks = json.getJSONArray ("tasks");
-	tasks = new Task [json_tasks.length ()];
+	tasks = new LinkedArray<Task> (json_tasks.length ());
 	for (int index = 0; index < json_tasks.length (); index++) {
-	    tasks[index] = new Task (json_tasks.getJSONObject (index));
+	    tasks.indexOf(index) = new Task (json_tasks.getJSONObject (index));
 	}
     }
 }

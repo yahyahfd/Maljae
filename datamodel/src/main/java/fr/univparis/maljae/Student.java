@@ -16,7 +16,7 @@ public class Student {
     Student (String email0, Boolean confirmed0, String groupeTd0) {
 	email = email0;
 	confirmed = confirmed0;
-	groupeTd⁼groupeTd0;
+	groupeTdâ�¼groupeTd0;
     }
 
     public String getEmail () {
@@ -26,7 +26,7 @@ public class Student {
     public Boolean getConfirmed () {
 	return confirmed;
     }
-    
+
     public String getGroupeTd(){//new Adding
     return groupeTd;
     }
@@ -40,8 +40,9 @@ public class Student {
     }
 
     public static Student fromString (String s) {
-	String[] fields = s.split ("/");
-	return new Student (fields[0], Boolean.parseBoolean (fields[1]),fields[2]);//expected to be a third field for groupeTd
+	//String[] fields = s.split ("/"); replaced an array by an ArrayList
+	ArrayList<String> fields = s.split ("/");
+	return new Student (fields.get(0).toString(), Boolean.parseBoolean (fields.get(1).toString()),fields.get(2).toString());//expected to be a third field for groupeTd
     }
 
     public JSONObject toJSON () {

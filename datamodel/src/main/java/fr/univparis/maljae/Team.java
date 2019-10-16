@@ -86,10 +86,13 @@ public class Team {
 
     public void updatePreferencesFromString (String s) {
 	System.out.println ("Prefs: " + s);
-	String[] fields = s.split (";");
+
+	//String[] fields = s.split (";"); Replaced Array with an ArrayList
+	ArrayList<String> fields = s.split(";");
+
 	ArrayList<Task> newPreferences = new ArrayList<Task> ();
-	for (int i = 0; i < fields.length; i++) {
-	    newPreferences.add (Configuration.getTask (fields[i]));
+	for (int i = 0; i < fields.size(); i++) {
+	    newPreferences.add (Configuration.getTask (fields.get(i).toString()));
 	}
 	// FIXME: We should check that newPreferences is a permutation
 	// FIXME: of all task identifiers.
@@ -106,10 +109,13 @@ public class Team {
 
     public void updateStudentsFromString (String who, String s) {
 	System.out.println (who + " " + s);
-	String[] fields = s.split (";");
+
+	//String[] fields = s.split (";"); Replaced Array with an ArrayList
+	ArrayList<String> fields = s.split(";");
+
 	ArrayList<Student> newStudents = new ArrayList<Student> ();
-	for (int i = 0; i < fields.length; i++) {
-	    newStudents.add (Student.fromString (fields[i]));
+	for (int i = 0; i < fields.size(); i++) {
+	    newStudents.add (Student.fromString (fields.get(i).toString()));
 	}
 	// FIXME: We should check that [who] did not change the status of
 	// FIXME: other team members.
