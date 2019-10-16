@@ -39,15 +39,15 @@ The assignment algorithm is made of the following steps:
 1. The complete teams are ordered according to the smallest email address of
    their members (alphabetical order, characters being ordered with
    ascii order), say from `1` to `k`. The seed of the team `i` is denoted by `n_i`.
-   
+
 2. For each team `i` (in the previous order), consider the
    transposition `t_i` that exchanges `i` and `i +
    (n_i%(k-i-1))`. Consider then the permutation `t = t_k o t_{k-1} o
    ... o t_1`.
-   
+
 3. The order of the teams is given by the image of `(1,2,...,k)`
    by `t`.
-   
+
 4. Consider the teams in the order given in step 3. For each team, the
    assigned task is the first free one in its preference list of tasks.
 
@@ -84,7 +84,7 @@ java -jar maljae-assign
 ```
 
 the administrator obtains a file named `assignments.json`. This file
-contains the assignments and the execution trace of the
+contains the task description and the execution trace of the
 algorithm. Once this file is created, the server can notify the
 students of the results using a dedicated web page.
 
@@ -95,46 +95,47 @@ administrator can modify these files as long as it respects the format
 and the invariants described in this section. Otherwise, there is no
 guarantee that `maljae` will work properly. In case of violation of
 these expectations, there is always a way to recover a valid state
-because the files are stored in a git repository. This git repository
+because the files are stored in a git reonents:
+1. a webserver to collect the team informatiopository. This git repository
 is initialized when the server is launched for the first time.
 
 ## Data model
 
 The data model of an instance of `maljae` consists in a single instance of session data record.
 
-### Session data record 
+### Session data record
 
-A session data record contains the following data: 
+A session data record contains the following data:
 
  - a descriptive text
- - the given of a minimal and maximal number of students per team 
+ - the given of a minimal and maximal number of students per team
  - a default number of slots per assignment
  - a deadline
- - the schedule of the "Groupes de TD" (so that compatibility of mixed teams can be checked). Alternatively, this could just be a partition of the set of groups. 
- - a list of assignments
- - a list of students 
+ - the schedule of the "Groupes de TD" (so that compatibility of mixed teams can be checked). Alternatively, this could just be a partition of the set of groups.
+ - a list of task
+ - a list of students
  - a list of teams
- 
+
  All but the last two items should be set before opening the server to the students and not modified after that.
- 
+
 ### Assignment
 
- An assignment consists in an assignment unique name, a description (short text) and a number of slots (maximal number of teams who can be assigned this task). 
-  
+ An assignment consists in an assignment unique identifier(String),a title(String) that is unique, a description (short text) and a number of slots (maximal number of teams who can be assigned this task).
+
 ### Student
 
  Each student is uniquely identified by its main email address at Paris-Diderot, that is the address having the following form: `firstname.surname@etu.univ-paris-diderot.fr`.
- 
+
  Moreover, each student should input the name of her or his "Groupe de TD".
- 
- Finally, each student record also contains the team she or he belongs to, provided the student already conformed being a member of this team. 
- 
+
+ Finally, each student record also contains the team she or he belongs to, provided the student already conformed being a member of this team.
+
 ### Team
 
 A team has a unique identifier (randomly generated at team creation), a list of assignments names in preference order, a list of students (confirmed or not yet confirmed team members) and the secret integer given as an input to the assignment algorithm.
- 
+
 A student's membership is confirmed if and only if the team registered for this student is this team.
- 
+
 ## License
 
 This software is released under the MIT license.
