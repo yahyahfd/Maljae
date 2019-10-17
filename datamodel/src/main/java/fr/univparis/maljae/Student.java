@@ -29,7 +29,7 @@ public class Student {
     }
 
     public String toString () {
-	return email + "/" + confirmed + "/" + groupeTd;
+	return email + "/" + confirmed + "/";
     }
 
     public static Student fromString (String s) {
