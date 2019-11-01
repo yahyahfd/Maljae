@@ -50,4 +50,10 @@ public class Teams {
 	team.saveTo (new File (filename));
     }
 
+    public static String[] alphabetical_order(String[] TeamsNames)
+ 	   {
+ 	    	Arrays.sort(TeamsNames);
+ 	    	return TeamsNames;
+ 	   }
+
 }
