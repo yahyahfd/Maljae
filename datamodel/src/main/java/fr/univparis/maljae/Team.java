@@ -22,6 +22,13 @@ public class Team {
     private ArrayList<Student> students;
     private Integer            secret;
     public Integer getSecret () { return secret; }
+    public Integer seed;
+    public Integer getSeed () { return seed; }
+    public void setSeed(Integer seed) {
+  		this.seed = seed;
+  	}
+
+
     public void updateSecretFromString (String s) {
 	secret = Integer.parseInt (s);
     }
