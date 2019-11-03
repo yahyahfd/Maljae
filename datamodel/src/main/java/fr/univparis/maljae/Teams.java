@@ -56,4 +56,17 @@ public class Teams {
  	    	return TeamsNames;
  	   }
 
+     public void Tnitialize_Seed_for_each_teams()
+     {
+        int Sum=0; // I created variakble to sum all secret numbers
+        for(int i=0; i<teams.size();i++)
+        {
+          Sum+=teams.get(i).getSecret();
+        }
+        for(int i=0; i<teams.size();i++) // For each teams in the ArrayList I calculate their seed with their secret numbers
+        {
+            teams.get(i).setSeed(Sum-teams.get(i).getSecret());
+        }
+     }
+
 }
