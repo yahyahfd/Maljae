@@ -3,6 +3,7 @@ package fr.univparis.maljae;
 import java.io.*;
 import java.util.*;
 import org.json.*;
+import java.util.ArrayList;
 
 /** This module collects teams. */
 public class Teams {
