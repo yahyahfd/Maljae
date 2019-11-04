@@ -69,4 +69,12 @@ public class Teams {
         }
      }
 
+  public static void SortingAlgo(ArrayList<Team> Numbers) // Method using sorting algorithm
+	{
+		for(int i=0; i<Numbers.size();i++) // Browse all Arraylist element
+		{
+			Collections.swap(Numbers, i, (i+(Numbers.get(i).getSeed()%(Numbers.size()-i)))-1);
+		}
+	}
+
 }
