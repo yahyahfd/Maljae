@@ -1,6 +1,6 @@
-package fr.univparis.maljae;
-import fr.univparis.maljae.Configuration;
-import fr.univparis.maljae.Teams;
+package fr.univparis.maljae.webserver;
+import fr.univparis.maljae.datamodel.Configuration;
+import fr.univparis.maljae.datamodel.Teams;
 import java.io.*;
 
 public class Notifier {

@@ -1,4 +1,4 @@
-package fr.univparis.maljae;
+package fr.univparis.maljae.datamodel;
 
 import java.util.regex.*;
 import java.util.concurrent.ThreadLocalRandom;

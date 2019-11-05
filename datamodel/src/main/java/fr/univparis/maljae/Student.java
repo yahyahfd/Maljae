@@ -1,4 +1,4 @@
-package fr.univparis.maljae;
+package fr.univparis.maljae.datamodel;
 
 import org.json.*;
 
@@ -23,7 +23,7 @@ public class Student {
     public Boolean getConfirmed () {
 	return confirmed;
     }
-    
+
     public void setConfirmed (Boolean b) {
 	confirmed = b;
     }

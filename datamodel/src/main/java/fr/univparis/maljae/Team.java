@@ -1,4 +1,4 @@
-package fr.univparis.maljae;
+package fr.univparis.maljae.datamodel;
 
 import java.util.StringTokenizer;
 import java.util.regex.*;
@@ -13,7 +13,7 @@ import org.json.*;
 /*** The team of students. */
 public class Team {
 
-    public static int [] lestock=new int[100];
+    public static int[] lestock=new int[100];
     public static int ba=0;
     private String    identifier;
     public String     getIdentifier () { return identifier; }

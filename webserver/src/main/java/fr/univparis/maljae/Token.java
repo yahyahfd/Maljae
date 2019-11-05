@@ -1,12 +1,12 @@
-package fr.univparis.maljae;
+package fr.univparis.maljae.webserver;
 import java.util.*;
 import java.io.*;
 import java.lang.Math;
 import org.apache.commons.io.FileUtils;
 import org.json.*;
-import fr.univparis.maljae.Configuration;
-import fr.univparis.maljae.Teams;
-import fr.univparis.maljae.Team;
+import fr.univparis.maljae.datamodel.Configuration;
+import fr.univparis.maljae.datamodel.Teams;
+import fr.univparis.maljae.datamodel.Team;
 
 public final class Token {
 
