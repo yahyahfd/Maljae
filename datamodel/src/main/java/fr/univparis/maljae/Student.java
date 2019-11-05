@@ -23,8 +23,7 @@ public class Student {
     public Boolean getConfirmed () {
 	return confirmed;
     }
-
-
+    
     public void setConfirmed (Boolean b) {
 	confirmed = b;
     }
@@ -35,7 +34,7 @@ public class Student {
 
     public static Student fromString (String s) {
 	String[] fields = s.split ("/");
-	return new Student (fields[0], Boolean.parseBoolean (fields[1]));//expected to be a third field for groupeTd
+	return new Student (fields[0], Boolean.parseBoolean (fields[1]));
     }
 
     public JSONObject toJSON () {
