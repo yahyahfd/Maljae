@@ -13,7 +13,7 @@ import org.json.*;
 /*** The team of students. */
 public class Team {
 
-    public static int [] lestock=new int[100];
+    public static int lestock[] = new int[100];
     public static int ba=0;
     private String    identifier;
     public String     getIdentifier () { return identifier; }
@@ -22,6 +22,7 @@ public class Team {
     public ArrayList<Task>     getPreferences () { return preferences; }
 
     private ArrayList<Student> students;
+    public String mail ;
     private Integer            secret;
     public Integer getSecret () { return secret; }
     public void updateSecretFromString (String s) {
@@ -33,6 +34,7 @@ public class Team {
 	preferences = new ArrayList<Task> (Arrays.asList (Configuration.getTasks ()));
 	students = new ArrayList<Student> (Configuration.getMaxNbUsersPerTeam ());
 	students.add (creator);
+	this.mail=creator.getEmail();
 	secret = ThreadLocalRandom.current().nextInt(10, 100);
     }
 
