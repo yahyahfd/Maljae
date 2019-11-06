@@ -10,17 +10,10 @@ import java.text.DateFormat;
 import org.apache.commons.io.FileUtils;
 import org.json.*;
 
-import java.util.ArrayList;
-
 /*** The team of students. */
 public class Team {
 
-    /*We replaced an Array by an ArrayList
     public static int [] lestock=new int[100];
-    */
-
-    public static ArrayList<Integer> letstock=new ArrayList<Integer>(100);
-
     public static int ba=0;
     private String    identifier;
     public String     getIdentifier () { return identifier; }
@@ -95,19 +88,11 @@ public class Team {
 
     public void updatePreferencesFromString (String s) {
 	System.out.println ("Prefs: " + s);
-  //String[] fields = s.split (";"); Replaced Array with an ArrayList
-  List<String> fields = new ArrayList<String>(Arrays.asList(s.split (";")));
-
+	String[] fields = s.split (";");
 	ArrayList<Task> newPreferences = new ArrayList<Task> ();
-  /*Changed This from array to arraylist
 	for (int i = 0; i < fields.length; i++) {
 	    newPreferences.add (Configuration.getTask (fields[i]));
 	}
-  */
-  for (int i = 0; i < fields.size(); i++) {
-      newPreferences.add (Configuration.getTask (fields.get(i).toString()));
-  }
-
 	// FIXME: We should check that newPreferences is a permutation
 	// FIXME: of all task identifiers.
 	this.preferences = newPreferences;
@@ -123,22 +108,11 @@ public class Team {
 
     public void updateStudentsFromString (String who, String s) {
 	System.out.println (who + " " + s);
-
-  //String[] fields = s.split (";"); Replaced Array with an ArrayList
-  List<String> fields = new ArrayList<String>(Arrays.asList(s.split (";")));
-
-  ArrayList<Student> newStudents = new ArrayList<Student> ();
-
-  /*Changed from Array to ArrayList
-  for (int i = 0; i < fields.length; i++) {
+	String[] fields = s.split (";");
+	ArrayList<Student> newStudents = new ArrayList<Student> ();
+	for (int i = 0; i < fields.length; i++) {
 	    newStudents.add (Student.fromString (fields[i]));
 	}
-  */
-
-  for (int i = 0; i < fields.size(); i++) {
-	    newStudents.add (Student.fromString (fields.get(i).toString()));
-	}
-
 	// FIXME: We should check that [who] did not change the status of
 	// FIXME: other team members.
 	this.students = newStudents;
@@ -156,21 +130,11 @@ public class Team {
 	String res="";
 	int g=ThreadLocalRandom.current().nextInt(10000, Integer.MAX_VALUE);
 	for(int a=0;a<lestock.length;a++){
-		/*Changed this from array to ArrayList
-    if(g==lestock[a]){
+		if(g==lestock[a]){
 			generateRandomTeamIdentifier();
 		}
-    */
-    if(g==lestock.get(a).toString()){
-      generateRandomTeamIdentifier();
-    }
 	}
-
-  /*Changed this to arraylist from array
 	lestock[ba]=g;
-  */
-
-  letstock.get(ba).toString()=g;
 	ba=ba+1;
 	res=res+"maljae"+g;
 	return res;
