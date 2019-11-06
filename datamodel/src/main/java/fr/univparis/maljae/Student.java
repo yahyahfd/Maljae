@@ -2,6 +2,8 @@ package fr.univparis.maljae;
 
 import org.json.*;
 
+import java.util.ArrayList;
+
 public class Student {
     private String  email;
     private Boolean confirmed;
@@ -23,7 +25,7 @@ public class Student {
     public Boolean getConfirmed () {
 	return confirmed;
     }
-    
+
     public void setConfirmed (Boolean b) {
 	confirmed = b;
     }
@@ -32,9 +34,11 @@ public class Student {
 	return email + "/" + confirmed + "/";
     }
 
+
     public static Student fromString (String s) {
-	String[] fields = s.split ("/");
-	return new Student (fields[0], Boolean.parseBoolean (fields[1]));
+   	  //String[] fields = s.split ("/"); replaced an array by an ArrayList
+      List<String> fields = new ArrayList<String>(Arrays.asList(s.split ("/")));
+   	  return new Student (fields.get(0).toString(), Boolean.parseBoolean (fields.get(1).toString()),fields.get(2).toString());//expected to be a third field for groupeTd
     }
 
     public JSONObject toJSON () {

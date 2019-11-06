@@ -7,6 +7,8 @@ import java.text.DateFormat;
 import org.apache.commons.io.FileUtils;
 import org.json.*;
 
+import java.util.ArrayList;
+
 /** This module gives access to the configuration of the maljae instance.
  *
  *
@@ -48,20 +50,37 @@ public class Configuration
     public static int getDefaultNbTeamsPerSubject () { return defaultNbTeamsPerSubject; }
 
     /** Task descriptions. */
-    private static Task[] tasks;
+    //private static Task[] tasks; Replaced Array by an ArrayList
+    private static LinkedArray<Task> tasks;
 
+    //changed the return method from Array to ArrayList
     public static Task getTask (String identifier) {
-	for (int i = 0; i < tasks.length; i++) {
-	    String tid = tasks[i].getIdentifier ();
-	    if (tid.equals (identifier))
-		return tasks[i];
-	}
-	return null;
+      for (int i = 0; i < tasks.length; i++) {
+        String tid = tasks.get(i).toString().getIdentifier ();
+        if (tid.equals (identifier))
+      return tasks.get(i).toString();
+      }
+      return null;
     }
 
-    public static Task[] getTasks () {
-	return tasks;
+    //Changed the return type of this method from a simple array to an ArrayList
+      public static ArrayList<Task> getTasks () {
+      return tasks;
     }
+
+    /*
+      public static Task getTask (String identifier) {
+      	for (int i = 0; i < tasks.length; i++) {
+      	    String tid = tasks[i].getIdentifier ();
+      	    if (tid.equals (identifier))
+      		  return tasks[i];
+      }
+  	   return null;
+      }
+      public static Task[] getTasks () {
+  	     return tasks;
+      }
+    */
 
     /** Load configuration file in memory. */
     /* FIXME: This function is badly written! */
