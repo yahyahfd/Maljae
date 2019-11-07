@@ -11,9 +11,13 @@ public class Teams {
     private static final ArrayList<Team> teams = new ArrayList<Team> ();
 
     public static void loadFrom (File d) throws IOException {
-	for (File f : d.listFiles ()) {
-	    if (Team.isValidTeamFileName (f.getName ()))
-		teams.add (new Team (f));
+	try{
+		for (File f : d.listFiles ()) {
+		    if (Team.isValidTeamFileName (f.getName ()))
+			teams.add (new Team (f));
+		}
+	}catch(Exception e){
+		System.out.println("Team was not found on this server");
 	}
     }
 

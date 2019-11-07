@@ -29,12 +29,12 @@ public class Student {
     }
 
     public String toString () {
-	return email + "/" + confirmed + "/" + groupeTd;
+	return email + "/" + confirmed + "/";
     }
 
     public static Student fromString (String s) {
 	String[] fields = s.split ("/");
-	return new Student (fields[0], Boolean.parseBoolean (fields[1]),fields[2]);//expected to be a third field for groupeTd
+	return new Student (fields[0], Boolean.parseBoolean (fields[1]));
     }
 
     public JSONObject toJSON () {
