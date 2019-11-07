@@ -26,7 +26,7 @@ public class Team {
 	secret = Integer.parseInt (s);
     }
 
-    Team (Student creator) {
+    Team (Student creator) {            // constructor for Team
 	identifier = generateRandomTeamIdentifier ();
 	preferences = new ArrayList<Task> (Arrays.asList (Configuration.getTasks ()));
 	students = new ArrayList<Student> (Configuration.getMaxNbUsersPerTeam ());
@@ -76,7 +76,7 @@ public class Team {
 	fw.close ();
     }
 
-    public String preferencesToString () {
+    public String preferencesToString () {           //printing the preferences
 	String result = "";
 	for (int i = 0; i < preferences.size (); i++) {
 	    result += preferences.get (i).getIdentifier () + ";";
@@ -84,7 +84,7 @@ public class Team {
 	return result;
     }
 
-    public void updatePreferencesFromString (String s) {
+    public void updatePreferencesFromString (String s) {      // making new preferences list from string
 	System.out.println ("Prefs: " + s);
 	String[] fields = s.split (";");
 	ArrayList<Task> newPreferences = new ArrayList<Task> ();
@@ -96,7 +96,7 @@ public class Team {
 	this.preferences = newPreferences;
     }
 
-    public String studentsToString () {
+    public String studentsToString () {       // Printing members of the team
 	String result = "";
 	for (int i = 0; i < students.size (); i++) {
 	    result += students.get (i).toString () + ";";
@@ -104,7 +104,7 @@ public class Team {
 	return result;
     }
 
-    public void updateStudentsFromString (String who, String s) {
+    public void updateStudentsFromString (String who, String s) {     //making new students list from string
 	System.out.println (who + " " + s);
 	String[] fields = s.split (";");
 	ArrayList<Student> newStudents = new ArrayList<Student> ();
@@ -116,7 +116,7 @@ public class Team {
 	this.students = newStudents;
     }
 
-    public String toString () {
+    public String toString () {                 //Printing a description of the team with the preferences and the members etc...
 	String description = identifier + "\n";
 	description += preferencesToString () + "\n";
 	description += studentsToString () + "\n";
@@ -124,17 +124,17 @@ public class Team {
 	return description;
     }
 
-    private static String generateRandomTeamIdentifier () {
+    private static String generateRandomTeamIdentifier () {          
 	return "maljae" + ThreadLocalRandom.current().nextInt(10000, Integer.MAX_VALUE);
     }
 
-    public static boolean isValidTeamFileName (String fname) {
+    public static boolean isValidTeamFileName (String fname) {     //checking file name
 	Pattern p = Pattern.compile (".*-team.json");
 	Matcher m = p.matcher (fname);
 	return m.find ();
     }
 
-    public void removeStudent (String email) {
+    public void removeStudent (String email) {      //removing a student from a team
 	Student found = null;
 	for (Student student : students) {
 	    if (student.getEmail ().equals (email)) {

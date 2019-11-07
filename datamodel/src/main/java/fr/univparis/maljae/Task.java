@@ -18,7 +18,7 @@ public class Task {
 	this.description = o.getString ("description");
     }
 
-    public String toString () {
+    public String toString () {   // method toString to print attributes from Task class
 	return
 	    this.identifier + "\n" +
 	    this.title + "\n" +
@@ -26,7 +26,7 @@ public class Task {
 	    this.description;
     }
 
-    public String getIdentifier () {
+    public String getIdentifier () {    //Getter for Identifier
 	return identifier;
     }
 
