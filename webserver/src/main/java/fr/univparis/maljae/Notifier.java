@@ -8,9 +8,6 @@ import javax.mail.internet.MimeMessage;
 import java.util.Properties;
 
 public class Notifier {
-
-    /* FIXME: Email sending has to be implemented. For the moment, we store message
-       FIXME: in files */
     public static void sendEmail (String email, String subject, String messageSend)throws IOException{
       String username = "maljae.sendmail@gmail.com";
       String password = "maljae123";
@@ -29,12 +26,10 @@ public class Notifier {
       try {
         Message message = new MimeMessage(session);
         message.setFrom(new InternetAddress("maljae.sendmail@gmail.com"));
-        message.setRecipients(Message.RecipientType.TO,InternetAddress.parse("adam000202@gmail.com"));
-        message.setSubject("Testing Gmail SSL");
+        message.setRecipients(Message.RecipientType.TO,InternetAddress.parse(email));
+        message.setSubject(subject);
         message.setText(messageSend);
         Transport.send(message);
-        System.out.println("Done");
-
       } catch (MessagingException e) {
         e.printStackTrace();
       }
