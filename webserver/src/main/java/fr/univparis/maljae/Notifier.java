@@ -2,21 +2,37 @@ package fr.univparis.maljae;
 import fr.univparis.maljae.Configuration;
 import fr.univparis.maljae.Teams;
 import java.io.*;
+import javax.mail.*;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
+import java.util.Properties;
 
 public class Notifier {
+    public static void sendEmail (String email, String subject, String messageSend)throws IOException{
+      String username = "maljae.sendmail@gmail.com";
+      String password = "maljae123";
+      Properties prop = new Properties();
+  		prop.put("mail.smtp.host", "smtp.gmail.com");
+      prop.put("mail.smtp.port", "465");
+      prop.put("mail.smtp.auth", "true");
+      prop.put("mail.smtp.socketFactory.port", "465");
+      prop.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
 
-    /* FIXME: Email sending has to be implemented. For the moment, we store message
-       FIXME: in files */
-    public static void sendEmail (String email, String subject, String message)
-	throws IOException
-    {
-	String filename = message.hashCode () + subject.hashCode () + "-email.txt";
-	File f = new File (Configuration.getDataDirectory () + "/" + filename);
-	FileWriter fw = new FileWriter (f);
-	fw.write ("email: " + email + "\n" +
-		  "subject: " + subject + "\n" +
-		  "message:\n" + message + "\n");
-	fw.close ();
+      Session session = Session.getInstance(prop,new javax.mail.Authenticator() {
+        protected PasswordAuthentication getPasswordAuthentication() {
+          return new PasswordAuthentication(username,password);
+        }
+      });
+      try {
+        Message message = new MimeMessage(session);
+        message.setFrom(new InternetAddress("maljae.sendmail@gmail.com"));
+        message.setRecipients(Message.RecipientType.TO,InternetAddress.parse(email));
+        message.setSubject(subject);
+        message.setText(messageSend);
+        Transport.send(message);
+      } catch (MessagingException e) {
+        e.printStackTrace();
+      }
     }
 
     public static void sendTeamCreation (String host, Token token)
