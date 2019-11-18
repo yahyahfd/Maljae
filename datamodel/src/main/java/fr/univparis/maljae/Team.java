@@ -149,15 +149,20 @@ public class Team {
     }
 
     public void removeStudent (String email) {
-	Student found = null;
-	for (Student student : students) {
-	    if (student.getEmail ().equals (email)) {
-		found = student;
-		break;
-	    }
-	}
-	if (found != null)
-	    students.remove (found);
+	     Student found = null;
+	     for (Student student : students) {
+	        if (student.getEmail ().equals (email)) {
+		          found = student;
+		            break;
+	         }
+	     }
+	      if (found != null)
+	       students.remove (found);
+    }
+    public void addStudent (Student eleve, Team equipe) {
+      if(eleve!=null){
+        equipe.students.add(eleve);
+      }
     }
 
 }
