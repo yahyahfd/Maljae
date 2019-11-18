@@ -159,5 +159,12 @@ public class Team {
 	if (found != null)
 	    students.remove (found);
     }
+    public void miseajourmail(Team equipe){
+      for (Student student : students){
+        if(student.getEmail().length()<equipe.mail.length()){
+          equipe.mail=student.getEmail();
+        }
+      }
+    }
 
 }
