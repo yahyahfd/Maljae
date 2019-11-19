@@ -3,6 +3,7 @@ package fr.univparis.maljae;
 import java.io.*;
 import java.util.*;
 import org.json.*;
+import java.util.ArrayList;
 
 /** This module collects teams. */
 public class Teams {
@@ -10,15 +11,19 @@ public class Teams {
     /* FIXME: This may be not the right data structure... */
     private static final ArrayList<Team> teams = new ArrayList<Team> ();
 
-    public static void loadFrom (File d) throws IOException {     //adding team to the teams list
-	for (File f : d.listFiles ()) {
-	    if (Team.isValidTeamFileName (f.getName ()))
-		teams.add (new Team (f));
+    public static void loadFrom (File d) throws IOException {       //Load Team from a file
+	try{
+		for (File f : d.listFiles ()) {
+		    if (Team.isValidTeamFileName (f.getName ()))
+			teams.add (new Team (f));
+		}
+	}catch(Exception e){
+		System.out.println("Team was not found on this server");
 	}
     }
 
     /* FIXME: Shouldn't we throw an exception when the team is not found? */
-    public static Team getTeam (String identifier) {                     //Getter for Team with an identifier
+    public static Team getTeam (String identifier) {         //Getting a team from identifier
 	for (Team team : teams) {
 	    if (team.getIdentifier ().equals (identifier))
 		return team;
@@ -26,13 +31,13 @@ public class Teams {
 	return null;
     }
 
-    public static void removeFromExistingTeam (String email) {       //Remove a student from a team that actually exist
+    public static void removeFromExistingTeam (String email) {       //Removing a student from a team
 	for (Team team : teams) {
 	    team.removeStudent (email);
 	}
     }
 
-    public static Team createTeam (String email) throws IOException {      //creating a new team with an email
+    public static Team createTeam (String email) throws IOException {
 	removeFromExistingTeam (email);
 	Team newTeam = new Team (new Student (email, true));
 	teams.add (newTeam);
@@ -43,11 +48,38 @@ public class Teams {
 	return newTeam;
     }
 
-    public static void saveTeam (Team team) throws IOException {             //Saving a team in a file
+    public static void saveTeam (Team team) throws IOException {
 	String filename =
 	    Configuration.getDataDirectory () + "/" +
 	    team.getIdentifier () + "-team.json";
 	team.saveTo (new File (filename));
     }
+
+    public static String[] alphabetical_order(String[] TeamsNames)
+ 	   {
+ 	    	Arrays.sort(TeamsNames);
+ 	    	return TeamsNames;
+ 	   }
+
+     public void Tnitialize_Seed_for_each_teams()
+     {
+        int Sum=0; // I created variakble to sum all secret numbers
+        for(int i=0; i<teams.size();i++)
+        {
+          Sum+=teams.get(i).getSecret();
+        }
+        for(int i=0; i<teams.size();i++) // For each teams in the ArrayList I calculate their seed with their secret numbers
+        {
+            teams.get(i).setSeed(Sum-teams.get(i).getSecret());
+        }
+     }
+
+  public static void SortingAlgo(ArrayList<Team> Numbers) // Method using sorting algorithm
+	{
+		for(int i=0; i<Numbers.size();i++) // Browse all Arraylist element
+		{
+			Collections.swap(Numbers, i, (i+(Numbers.get(i).getSeed()%(Numbers.size()-i)))-1);
+		}
+	}
 
 }

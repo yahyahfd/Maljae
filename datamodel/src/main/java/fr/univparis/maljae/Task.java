@@ -11,14 +11,14 @@ public class Task {
     private String url;
     private String description;
 
-    Task (JSONObject o) {
+    Task (JSONObject o) {            //Json contructor for Task
 	this.identifier = o.getString ("identifier");
 	this.title = o.getString ("title");
 	this.url = o.getString ("url");
 	this.description = o.getString ("description");
     }
 
-    public String toString () {   // method toString to print attributes from Task class
+    public String toString () {
 	return
 	    this.identifier + "\n" +
 	    this.title + "\n" +
@@ -26,7 +26,7 @@ public class Task {
 	    this.description;
     }
 
-    public String getIdentifier () {    //Getter for Identifier
+    public String getIdentifier () {
 	return identifier;
     }
 
