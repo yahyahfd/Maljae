@@ -11,7 +11,7 @@ public class Task {
     private String url;
     private String description;
 
-    Task (JSONObject o) {
+    Task (JSONObject o) {            //Json contructor for Task
 	this.identifier = o.getString ("identifier");
 	this.title = o.getString ("title");
 	this.url = o.getString ("url");

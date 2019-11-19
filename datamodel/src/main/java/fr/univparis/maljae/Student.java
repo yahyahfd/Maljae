@@ -7,17 +7,17 @@ public class Student {
     private Boolean confirmed;
     private int groupeTd;
 
-    Student (JSONObject json) {
+    Student (JSONObject json) {      //Json contructor for student
 	email = json.getString ("email");
 	confirmed = json.getBoolean ("confirmed");
   if (json.has("groupeTd")) groupeTd = json.getInt("groupeTd");
     }
 
-    Student (String email0, Boolean confirmed0) {
+    Student (String email0, Boolean confirmed0) {        //Simple constructor for student without specified TD group
 	email = email0;
 	confirmed = confirmed0;
     }
-    Student (String email0, Boolean confirmed0,int groupeTd0) {
+    Student (String email0, Boolean confirmed0,int groupeTd0) {      //Same constructor with a specified TD group
  email = email0;
  confirmed = confirmed0;
  groupeTd = groupeTd0;
@@ -48,12 +48,12 @@ public class Student {
 	return email + "/" + confirmed + "/";
     }
 
-    public static Student fromString (String s) {
+    public static Student fromString (String s) {            //Creating a student from a string entry
 	String[] fields = s.split ("/");
 	return new Student (fields[0], Boolean.parseBoolean (fields[1]));
     }
 
-    public JSONObject toJSON () {
+    public JSONObject toJSON () {          //Converting into json file
 	JSONObject json = new JSONObject ();
 	json.put ("email", email);
 	json.put ("confirmed", confirmed);
