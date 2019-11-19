@@ -17,8 +17,13 @@ public class Configuration
     public static final String version = "0.1";
 
     /** Data directory. This is the place where we will put data files. */
-    /* FIXME: This should be configurable! */
-    private static String dataDirectory = "./maljae-data";
+
+    private static String dataDirectory;
+    
+    public static void setDataDirectory(String n){
+      dataDirectory=n;
+    }
+
     public static String getDataDirectory () { return dataDirectory; }
 
     /** Dates are supposed to be written with the following format. */
