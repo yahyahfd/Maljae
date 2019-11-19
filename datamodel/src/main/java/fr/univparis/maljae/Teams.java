@@ -3,6 +3,7 @@ package fr.univparis.maljae.datamodel;
 import java.io.*;
 import java.util.*;
 import org.json.*;
+import java.util.ArrayList;
 
 /** This module collects teams. */
 public class Teams {
@@ -11,9 +12,13 @@ public class Teams {
     private static final ArrayList<Team> teams = new ArrayList<Team> ();
 
     public static void loadFrom (File d) throws IOException {
-	for (File f : d.listFiles ()) {
-	    if (Team.isValidTeamFileName (f.getName ()))
-		teams.add (new Team (f));
+	try{
+		for (File f : d.listFiles ()) {
+		    if (Team.isValidTeamFileName (f.getName ()))
+			teams.add (new Team (f));
+		}
+	}catch(Exception e){
+		System.out.println("Team was not found on this server");
 	}
     }
 
@@ -49,5 +54,32 @@ public class Teams {
 	    team.getIdentifier () + "-team.json";
 	team.saveTo (new File (filename));
     }
+
+    public static String[] alphabetical_order(String[] TeamsNames)
+ 	   {
+ 	    	Arrays.sort(TeamsNames);
+ 	    	return TeamsNames;
+ 	   }
+
+     public void Tnitialize_Seed_for_each_teams()
+     {
+        int Sum=0; // I created variakble to sum all secret numbers
+        for(int i=0; i<teams.size();i++)
+        {
+          Sum+=teams.get(i).getSecret();
+        }
+        for(int i=0; i<teams.size();i++) // For each teams in the ArrayList I calculate their seed with their secret numbers
+        {
+            teams.get(i).setSeed(Sum-teams.get(i).getSecret());
+        }
+     }
+
+  public static void SortingAlgo(ArrayList<Team> Numbers) // Method using sorting algorithm
+	{
+		for(int i=0; i<Numbers.size();i++) // Browse all Arraylist element
+		{
+			Collections.swap(Numbers, i, (i+(Numbers.get(i).getSeed()%(Numbers.size()-i)))-1);
+		}
+	}
 
 }
