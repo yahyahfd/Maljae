@@ -18,7 +18,7 @@ public class Configuration
 
     /** Data directory. This is the place where we will put data files. */
 
-    private static String dataDirectory;
+    private static String dataDirectory = "./maljae-data";
     
     public static void setDataDirectory(String n){
       dataDirectory=n;
