@@ -35,7 +35,7 @@ public class Team {
 	secret = Integer.parseInt (s);
     }
 
-    Team (Student creator) {
+    Team (Student creator) {           //Team constructor with a first student who is the creator
 	identifier = generateRandomTeamIdentifier ();
 	preferences = new ArrayList<Task> (Arrays.asList (Configuration.getTasks ()));
 	students = new ArrayList<Student> (Configuration.getMaxNbUsersPerTeam ());
@@ -44,7 +44,7 @@ public class Team {
     }
 
     /* FIXME: The following code is ugly! */
-    Team (File f) throws IOException {
+    Team (File f) throws IOException {         //Creating team from json file
 	JSONObject json = new JSONObject (FileUtils.readFileToString (f, "utf-8"));
 	identifier = json.getString ("identifier");
 	if (! f.getName ().equals (identifier + "-team.json")) {
@@ -64,7 +64,7 @@ public class Team {
     }
 
     /* FIXME: The following code is ugly! */
-    public void saveTo (File f) throws IOException {
+    public void saveTo (File f) throws IOException {         //We save the team with the preferences in a file
 	JSONObject json = new JSONObject ();
 	json.put ("identifier", identifier);
 	json.put ("secret", secret);
@@ -85,7 +85,7 @@ public class Team {
 	fw.close ();
     }
 
-    public String preferencesToString () {
+    public String preferencesToString () {        // If you want to print all the preferences from a team  
 	String result = "";
 	for (int i = 0; i < preferences.size (); i++) {
 	    result += preferences.get (i).getIdentifier () + ";";
@@ -105,7 +105,7 @@ public class Team {
 	this.preferences = newPreferences;
     }
 
-    public String studentsToString () {
+    public String studentsToString () {     //If you want to print all the students from a team
 	String result = "";
 	for (int i = 0; i < students.size (); i++) {
 	    result += students.get (i).toString () + ";";

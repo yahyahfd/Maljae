@@ -11,7 +11,7 @@ public class Teams {
     /* FIXME: This may be not the right data structure... */
     private static final ArrayList<Team> teams = new ArrayList<Team> ();
 
-    public static void loadFrom (File d) throws IOException {
+    public static void loadFrom (File d) throws IOException {       //Load Team from a file
 	try{
 		for (File f : d.listFiles ()) {
 		    if (Team.isValidTeamFileName (f.getName ()))
@@ -23,7 +23,7 @@ public class Teams {
     }
 
     /* FIXME: Shouldn't we throw an exception when the team is not found? */
-    public static Team getTeam (String identifier) {
+    public static Team getTeam (String identifier) {         //Getting a team from identifier
 	for (Team team : teams) {
 	    if (team.getIdentifier ().equals (identifier))
 		return team;
@@ -31,7 +31,7 @@ public class Teams {
 	return null;
     }
 
-    public static void removeFromExistingTeam (String email) {
+    public static void removeFromExistingTeam (String email) {       //Removing a student from a team
 	for (Team team : teams) {
 	    team.removeStudent (email);
 	}
