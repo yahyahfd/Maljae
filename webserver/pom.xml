@@ -55,8 +55,12 @@
       <artifactId>slf4j-simple</artifactId>
       <version>1.7.26</version>
     </dependency>
+    <dependency>
+      <groupId>com.sun.mail</groupId>
+      <artifactId>javax.mail</artifactId>
+      <version>1.6.2</version>
+    </dependency>
   </dependencies>
-
   <build>
     <pluginManagement><!-- lock down plugins versions to avoid using Maven defaults (may be moved to parent pom) -->
       <plugins>
@@ -104,7 +108,7 @@
 	  <configuration>
             <archive>
               <manifest>
-		<mainClass>fr.univparis.maljae.App</mainClass>
+		<mainClass>fr.univparis.maljae.webserver.App</mainClass>
               </manifest>
             </archive>
             <descriptorRefs>
