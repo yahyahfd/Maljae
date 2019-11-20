@@ -22,13 +22,16 @@ public class Teams {
 	}
     }
 
-    /* FIXME: Shouldn't we throw an exception when the team is not found? */
-    public static Team getTeam (String identifier) {         //Getting a team from identifier
-	for (Team team : teams) {
-	    if (team.getIdentifier ().equals (identifier))
-		return team;
-	}
-	return null;
+    public static Team getTeam (String identifier) throws IOException{
+      try{
+        for(Team team : teams){
+          if(team.getIdentifier().equals(identifier))
+          return team;
+        }
+      }catch(Exception e){
+        System.out.println("Team was not found on this server");
+      }
+      return null;
     }
 
     public static void removeFromExistingTeam (String email) {       //Removing a student from a team
