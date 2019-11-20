@@ -7,7 +7,7 @@ class Sortbyname implements Comparator<Student>
 { 
     // Used for sorting in ascending order of 
     // roll name 
-    public int compare(Student a, Student b) 
+    public int compare(Team a, Team b) 
     { 
         return a.mail.compareTo(b.name); 
     } 
