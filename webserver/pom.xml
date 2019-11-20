@@ -108,7 +108,7 @@
 	  <configuration>
             <archive>
               <manifest>
-		<mainClass>fr.univparis.maljae.App</mainClass>
+		<mainClass>fr.univparis.maljae.webserver.App</mainClass>
               </manifest>
             </archive>
             <descriptorRefs>

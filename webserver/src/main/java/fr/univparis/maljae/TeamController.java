@@ -1,6 +1,7 @@
-package fr.univparis.maljae;
-import fr.univparis.maljae.Configuration;
-import fr.univparis.maljae.Teams;
+package fr.univparis.maljae.webserver;
+import fr.univparis.maljae.datamodel.Configuration;
+import fr.univparis.maljae.datamodel.Team;
+import fr.univparis.maljae.datamodel.Teams;
 import io.javalin.*;
 import io.javalin.plugin.rendering.FileRenderer;
 import io.javalin.plugin.rendering.JavalinRenderer;

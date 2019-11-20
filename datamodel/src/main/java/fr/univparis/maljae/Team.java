@@ -1,4 +1,4 @@
-package fr.univparis.maljae;
+package fr.univparis.maljae.datamodel;
 
 import java.util.StringTokenizer;
 import java.util.regex.*;

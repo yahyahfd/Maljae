@@ -1,4 +1,4 @@
-package fr.univparis.maljae;
+package fr.univparis.maljae.datamodel;
 
 import static org.junit.Assert.*;
 

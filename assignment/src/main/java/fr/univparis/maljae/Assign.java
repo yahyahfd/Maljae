@@ -1,5 +1,5 @@
-package fr.univparis.maljae;
-import fr.univparis.maljae.Configuration;
+package fr.univparis.maljae.assignement;
+import fr.univparis.maljae.datamodel.Configuration;
 
 /**
  * Hello world!
