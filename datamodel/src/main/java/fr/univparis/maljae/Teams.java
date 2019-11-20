@@ -22,6 +22,10 @@ public class Teams {
 	}
     }
 
+    public static ArrayList<Team> getTeams(){
+      return teams;
+    }
+
     public static Team getTeam (String identifier) throws IOException{
       try{
         for(Team team : teams){
@@ -58,12 +62,6 @@ public class Teams {
 	team.saveTo (new File (filename));
     }
 
-    public static String[] alphabetical_order(String[] TeamsNames)
- 	   {
- 	    	Arrays.sort(TeamsNames);
- 	    	return TeamsNames;
- 	   }
-
      public void Tnitialize_Seed_for_each_teams()
      {
         int Sum=0; // I created variakble to sum all secret numbers
@@ -76,13 +74,5 @@ public class Teams {
             teams.get(i).setSeed(Sum-teams.get(i).getSecret());
         }
      }
-
-  public static void SortingAlgo(ArrayList<Team> Numbers) // Method using sorting algorithm
-	{
-		for(int i=0; i<Numbers.size();i++) // Browse all Arraylist element
-		{
-			Collections.swap(Numbers, i, (i+(Numbers.get(i).getSeed()%(Numbers.size()-i)))-1);
-		}
-	}
 
 }

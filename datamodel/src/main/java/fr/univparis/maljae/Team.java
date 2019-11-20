@@ -19,7 +19,7 @@ public class Team {
     public String     getIdentifier () { return identifier; }
 
     private ArrayList<Task>    preferences;
-    public ArrayList<Task>     getPreferences () { return preferences; }
+    public ArrayList<Task>     getPreferences() { return preferences; }
 
     private ArrayList<Student> students;
     public String mail ;
@@ -87,7 +87,7 @@ public class Team {
 	fw.close ();
     }
 
-    public String preferencesToString () {        // If you want to print all the preferences from a team  
+    public String preferencesToString () {        // If you want to print all the preferences from a team
 	String result = "";
 	for (int i = 0; i < preferences.size (); i++) {
 	    result += preferences.get (i).getIdentifier () + ";";
