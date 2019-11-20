@@ -13,7 +13,7 @@ import org.json.*;
 /*** The team of students. */
 public class Team {
 
-    public static int[] lestock=new int[100];
+    public static int[] lestock = new int[100];
     public static int ba=0;
     private String    identifier;
     public String     getIdentifier () { return identifier; }
@@ -156,15 +156,29 @@ public class Team {
     }
 
     public void removeStudent (String email) {
-	Student found = null;
-	for (Student student : students) {
-	    if (student.getEmail ().equals (email)) {
-		found = student;
-		break;
-	    }
-	}
-	if (found != null)
-	    students.remove (found);
+	     Student found = null;
+	     for (Student student : students) {
+	        if (student.getEmail ().equals (email)) {
+		          found = student;
+		            break;
+	         }
+	     }
+	      if (found != null)
+	       students.remove (found);
+    }
+    public void addStudent (Student eleve) {
+      ArrayList<Team> n = Teams.returnTeam();
+      for (Team team : n) {
+        ArrayList<Student> t= team.students;
+        for(Student student : t ){
+          if(student.getEmail().equals(eleve.getEmail())){
+            break;
+          }
+        }
+      }
+      if(eleve!=null){
+        this.students.add(eleve);
+      }
     }
     public void miseajourmail(Team equipe){
       for (Student student : students){
