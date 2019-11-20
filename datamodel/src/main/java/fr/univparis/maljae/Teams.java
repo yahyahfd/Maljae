@@ -10,6 +10,10 @@ public class Teams {
     /* FIXME: This may be not the right data structure... */
     private static final ArrayList<Team> teams = new ArrayList<Team> ();
 
+    public static ArrayList<Team> returnTeam(){
+      return teams ;
+    }
+
     public static void loadFrom (File d) throws IOException {
 	for (File f : d.listFiles ()) {
 	    if (Team.isValidTeamFileName (f.getName ()))

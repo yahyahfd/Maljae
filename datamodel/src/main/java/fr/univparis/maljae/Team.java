@@ -160,6 +160,15 @@ public class Team {
 	       students.remove (found);
     }
     public void addStudent (Student eleve) {
+      ArrayList<Team> n = Teams.returnTeam();
+      for (Team team : n) {
+        ArrayList<Student> t= team.students;
+        for(Student student : t ){
+          if(student.getEmail().equals(eleve.getEmail())){
+            break;
+          }
+        }
+      }
       if(eleve!=null){
         this.students.add(eleve);
       }
