@@ -40,17 +40,19 @@ public class Assign
  {
    if(a.getTeams().size()==0)return;//just to check
    SortingAlgo(a);
-   ArrayList<Task> tasks = a.getTeams().get(0).getPreferences(); // This is an arraylist created to contain all the task available
+   ArrayList<Task> tasks = a.getTeams().get(0).getPreferences(); // This is an arraylist created to contain all the task available, for me we put all the task in the preferecences
 
    for(int i=0; i<a.getTeams().size();i++)
    {
      for (int j=0;j<a.getTeams().get(i).getPreferences().size();j++) {
        if(tasks.contains(a.getTeams().get(i).getPreferences().get(j))){//if the task preferred is still available we can assign it and then delete the task frome the list
+         Assignment.addTraceStep("The task "+a.getTeams().get(i).getPreferences().get(j)+" has been assign to this team ");//we show this when the task has been assigned
          Assignment.assignTask(a.getTeams().get(i),a.getTeams().get(i).getPreferences().get(j));
          tasks.remove(a.getTeams().get(i).getPreferences().get(j));
-         break;
+         break;//we only assign one task so we break the loop
        }
      }
+     Assignment.addTraceStep("Team "+a.getTeams().get(i).getIdentifier()+" has "+tasks.size()+" tasks left to be assigned: "+ tasks.toString());//we show the number of task left for each team
    }
  }
 
