@@ -184,7 +184,7 @@ public class Team {
     }
     public void miseajourmail(Team equipe){
       for (Student student : students){
-        if(student.getEmail().length()<equipe.mail.length()){
+        if(student.getEmail().compareTo(equipe.mail)<0){
           equipe.mail=student.getEmail();
         }
       }
