@@ -155,13 +155,29 @@ public class Team {
 	return m.find ();
     }
 
+    public void addStudent (Student eleve) {
+      ArrayList<Team> n = Teams.getTeams();
+      for (Team team : n) {
+        ArrayList<Student> t= team.students;
+        for(Student student : t ){
+          if(student.getEmail().equals(eleve.getEmail())){
+            break;
+          }
+        }
+      }
+      if(eleve!=null){
+        this.students.add(eleve);
+      }
+    }
+
+
     public void removeStudent (String email) {
-	Student found = null;
-	for (Student student : students) {
-	    if (student.getEmail ().equals (email)) {
-		found = student;
-		break;
-	    }
+	     Student found = null;
+	      for (Student student : students) {
+	         if (student.getEmail ().equals (email)) {
+		           found = student;
+		             break;
+	              }
 	}
 	if (found != null)
 	    students.remove (found);
