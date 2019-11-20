@@ -18,6 +18,11 @@ public class Assign
     public static void alphabetical_order(Teams a)
  {
    Collections.sort(a.getTeams(),new SortbyMail());//we sort each team by alphabetical_order of their mail
+   String trace="";
+   for(int i=0; i<a.getTeams().size();i++){
+     trace+="Identifier: "+a.getTeams().get(i).getIdentifier()+" Mail :"+a.getTeams().get(i).mail+"\n";
+   }
+   Assignment.addTraceStep("This is the alphabetical order of the teams :\n                       " +trace);//this will show in the trace the final alphabetical order with the mail of each team
  }
 
  public static void SortingAlgo(Teams a)
@@ -26,7 +31,7 @@ public class Assign
    for(int i=0; i<a.getTeams().size();i++)
    {
      int indexForTrace=(i+(a.getTeams().get(i).getSeed()%(a.getTeams().size()-i)))-1;
-     Assignment.addTraceStep("exchange "+a.getTeams().get(i)+" with the team in index i + (n_i%(k-i-1)) = "+ String.valueOf(indexForTrace)+ " wich is team "+a.getTeams().get(i).getIdentifier());
+     Assignment.addTraceStep("exchange "+a.getTeams().get(i)+" with the team in index i + (n_i%(k-i-1)) = "+ String.valueOf(indexForTrace)+ " wich is team "+a.getTeams().get(i).getIdentifier());//add a trace for the transposition
      Collections.swap(a.getTeams(), i, indexForTrace);//here we do the swapping using the alghorithm
    }
  }
