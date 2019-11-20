@@ -3,7 +3,7 @@ import fr.univparis.maljae.datamodel;
 import java.util.*; 
 import java.lang.*; 
 import java.io.*; 
-class Sortbyname implements Comparator<Student> 
+class Sortbyname implements Comparator<Team> 
 { 
     // Used for sorting in ascending order of 
     // roll name 
