@@ -13,7 +13,7 @@ import org.json.*;
 /*** The team of students. */
 public class Team {
 
-    public static int lestock[] = new int[100];
+    public static int [] lestock = new int[100];
     public static int ba=0;
     private String    identifier;
     public String     getIdentifier () { return identifier; }
@@ -159,9 +159,9 @@ public class Team {
 	      if (found != null)
 	       students.remove (found);
     }
-    public void addStudent (Student eleve, Team equipe) {
+    public void addStudent (Student eleve) {
       if(eleve!=null){
-        equipe.students.add(eleve);
+        this.students.add(eleve);
       }
     }
 
