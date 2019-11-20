@@ -1,4 +1,4 @@
-package fr.univparis.maljae;
+package fr.univparis.maljae.datamodel;
 
 import java.io.File;
 import java.util.Date;
@@ -18,7 +18,8 @@ public class Configuration
 
     /** Data directory. This is the place where we will put data files. */
     /* FIXME: This should be configurable! */
-    private static String dataDirectory = "./maljae-data";
+     private static String dataDirectory = "./maljae-data";
+
     public static String getDataDirectory () { return dataDirectory; }
 
     /** Dates are supposed to be written with the following format. */
@@ -63,21 +64,37 @@ public class Configuration
 	return tasks;
     }
 
+    public static void setDates(JSONObject j){
+      try{
+        openingDate = df.parse (j.getString ("opening_date"));
+        closingDate = df.parse (j.getString ("closing_date"));
+      }catch(Exception e){
+        System.out.println("Incorrect Date(s)");
+      }
+    }
+    public static void setNbUsersPerTeam(JSONObject j){
+      minNbUsersPerTeam = j.getInt ("min");
+    	maxNbUsersPerTeam = j.getInt ("max");
+    }
+    public static void setdefaultNbTeamsPerSubject(JSONObject j){
+      defaultNbTeamsPerSubject = j.getInt ("default");
+    }
+    public static void tasksArray(JSONArray j){
+      tasks = new Task [j.length ()];
+      for (int index = 0; index < j.length (); index++) {
+          tasks[index] = new Task (j.getJSONObject (index));
+      }
+    }
     /** Load configuration file in memory. */
     /* FIXME: This function is badly written! */
     public static void loadFrom (File f) throws Exception {
-	JSONObject json = new JSONObject (FileUtils.readFileToString (f, "utf-8"));
-	openingDate = df.parse (json.getString ("opening_date"));
-	closingDate = df.parse (json.getString ("closing_date"));
-	JSONObject rangeNbUsersPerTeam = json.getJSONObject ("nb_users_per_team");
-	minNbUsersPerTeam = rangeNbUsersPerTeam.getInt ("min");
-	maxNbUsersPerTeam = rangeNbUsersPerTeam.getInt ("max");
-	JSONObject rangeNbTeamsPerSubject = json.getJSONObject ("nb_teams_per_subject");
-	defaultNbTeamsPerSubject = rangeNbTeamsPerSubject.getInt ("default");
-	JSONArray json_tasks = json.getJSONArray ("tasks");
-	tasks = new Task [json_tasks.length ()];
-	for (int index = 0; index < json_tasks.length (); index++) {
-	    tasks[index] = new Task (json_tasks.getJSONObject (index));
-	}
+    	JSONObject json = new JSONObject (FileUtils.readFileToString (f, "utf-8"));
+      setDates(json);
+    	JSONObject rangeNbUsersPerTeam = json.getJSONObject ("nb_users_per_team");
+      setNbUsersPerTeam(rangeNbUsersPerTeam);
+    	JSONObject rangeNbTeamsPerSubject = json.getJSONObject ("nb_teams_per_subject");
+      setdefaultNbTeamsPerSubject(rangeNbTeamsPerSubject);
+    	JSONArray json_tasks = json.getJSONArray ("tasks");
+      tasksArray(json_tasks);
     }
 }
