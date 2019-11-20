@@ -22,6 +22,7 @@ public class Team {
     public ArrayList<Task>     getPreferences () { return preferences; }
 
     private ArrayList<Student> students;
+    public String mail ;
     private Integer            secret;
     public Integer getSecret () { return secret; }
     public Integer seed;
@@ -40,6 +41,7 @@ public class Team {
 	preferences = new ArrayList<Task> (Arrays.asList (Configuration.getTasks ()));
 	students = new ArrayList<Student> (Configuration.getMaxNbUsersPerTeam ());
 	students.add (creator);
+	this.mail=creator.getEmail();
 	secret = ThreadLocalRandom.current().nextInt(10, 100);
     }
 
@@ -163,6 +165,13 @@ public class Team {
 	}
 	if (found != null)
 	    students.remove (found);
+    }
+    public void miseajourmail(Team equipe){
+      for (Student student : students){
+        if(student.getEmail().length()<equipe.mail.length()){
+          equipe.mail=student.getEmail();
+        }
+      }
     }
 
 }
