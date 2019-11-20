@@ -1,4 +1,4 @@
-package fr.univparis.maljae;
+package fr.univparis.maljae.webserver;
 
 import static org.junit.Assert.*;
 
