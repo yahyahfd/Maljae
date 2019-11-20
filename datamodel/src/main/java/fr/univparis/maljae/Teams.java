@@ -11,7 +11,7 @@ public class Teams {
     /* FIXME: This may be not the right data structure... */
     private static final ArrayList<Team> teams = new ArrayList<Team> ();
 
-    private static String[] TeamsNames= new String[teams.size()];
+    private static String[] TeamsNames= CreateArraywithTeamsName(teams);
 
     public static String[] getTeamsNames() {
 		return TeamsNames;
@@ -75,12 +75,14 @@ public class Teams {
         }
      }
 
-     public static void CreateArraywithTeamsName(ArrayList<Team> teams)
-       {
-     	  for(int i=0; i<teams.size();i++)
-     	  {
-     		  TeamsNames[i]=teams.get(i).getIdentifier();
-     	  }
-       }
+     public static String[] CreateArraywithTeamsName(ArrayList<Team> teams)
+  {
+	  String[] Teamname= new String[teams.size()];
+	  for(int i=0; i<teams.size();i++)
+	  {
+		  TeamsNames[i]=teams.get(i).getIdentifier();
+	  }
+	return Teamname;
+  }
 
 }
