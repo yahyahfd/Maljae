@@ -25,7 +25,9 @@ public class Assign
    alphabetical_order(a);
    for(int i=0; i<a.getTeams().size();i++)
    {
-     Collections.swap(a.getTeams(), i, (i+(a.getTeams().get(i).getSeed()%(a.getTeams().size()-i)))-1);//here we do the swapping using the alghorithm
+     int indexForTrace=(i+(a.getTeams().get(i).getSeed()%(a.getTeams().size()-i)))-1;
+     Assignment.addTraceStep("exchange "+a.getTeams().get(i)+" with the team in index i + (n_i%(k-i-1)) = "+ String.valueOf(indexForTrace)+ " wich is team "+a.getTeams().get(i).getIdentifier());
+     Collections.swap(a.getTeams(), i, indexForTrace);//here we do the swapping using the alghorithm
    }
  }
 
