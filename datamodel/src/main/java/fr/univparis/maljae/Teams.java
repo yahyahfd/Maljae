@@ -11,6 +11,15 @@ public class Teams {
     /* FIXME: This may be not the right data structure... */
     private static final ArrayList<Team> teams = new ArrayList<Team> ();
 
+    private static String[] TeamsNames= new String[teams.size()];
+
+    public static String[] getTeamsNames() {
+		return TeamsNames;
+	}
+
+    public static ArrayList<Team> getTeams() {
+		return teams;
+	}
     public static void loadFrom (File d) throws IOException {
 	for (File f : d.listFiles ()) {
 	    if (Team.isValidTeamFileName (f.getName ()))
@@ -66,6 +75,12 @@ public class Teams {
         }
      }
 
-
+     public static void CreateArraywithTeamsName(ArrayList<Team> teams)
+       {
+     	  for(int i=0; i<teams.size();i++)
+     	  {
+     		  TeamsNames[i]=teams.get(i).getIdentifier();
+     	  }
+       }
 
 }
