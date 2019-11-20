@@ -1,4 +1,4 @@
-package fr.univparis.maljae;
+package fr.univparis.maljae.datamodel;
 
 import java.io.*;
 import java.util.*;
@@ -11,7 +11,7 @@ public class Teams {
     /* FIXME: This may be not the right data structure... */
     private static final ArrayList<Team> teams = new ArrayList<Team> ();
 
-    public static void loadFrom (File d) throws IOException {
+    public static void loadFrom (File d) throws IOException {       //Load Team from a file
 	try{
 		for (File f : d.listFiles ()) {
 		    if (Team.isValidTeamFileName (f.getName ()))
@@ -34,7 +34,7 @@ public class Teams {
       return null;
     }
 
-    public static void removeFromExistingTeam (String email) {
+    public static void removeFromExistingTeam (String email) {       //Removing a student from a team
 	for (Team team : teams) {
 	    team.removeStudent (email);
 	}
