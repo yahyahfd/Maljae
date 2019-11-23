@@ -176,12 +176,20 @@ public class Team {
 	      for (Student student : students) {
 	         if (student.getEmail ().equals (email)) {
 		           found = student;
-		             break;
-	              }
-	}
-	if (found != null)
-	    students.remove (found);
+		           break;
+	         }
+	  }
+      	if (found != null){
+          ArrayList<Team> tlist= Teams.getTeams();
+      	   students.remove (found);
+           if(students.isEmpty()){
+             tlist.remove(this);
+           }
+        }
     }
+
+
+
     public void miseajourmail(Team equipe){
       for (Student student : students){
         if(student.getEmail().compareTo(equipe.mail)<0){

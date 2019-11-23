@@ -75,4 +75,8 @@ public class Teams {
         }
      }
 
+     public  void deleteTeam(Team t){
+         teams.remove(t);
+     }
+
 }
