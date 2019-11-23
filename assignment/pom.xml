@@ -80,7 +80,7 @@
 	  <configuration>
             <archive>
               <manifest>
-		<mainClass>fr.univparis.maljae.Assign</mainClass>
+		<mainClass>fr.univparis.maljae.assignement.Assign</mainClass>
               </manifest>
             </archive>
             <descriptorRefs>
