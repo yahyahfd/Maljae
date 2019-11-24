@@ -1,6 +1,5 @@
 package fr.univparis.maljae.webserver;
-import fr.univparis.maljae.datamodel.Configuration;
-import fr.univparis.maljae.datamodel.Teams;
+import fr.univparis.maljae.datamodel.*;
 import java.io.*;
 import javax.mail.*;
 import javax.mail.internet.InternetAddress;
@@ -47,5 +46,17 @@ public class Notifier {
 	    "- To delete your team :\n" +
 	    "  http://" + host + "/team/delete/" + token.toString () + "\n";
 	sendEmail (token.getEmail (), "[maljae] Team Creation", message);
+    }
+    public static void sendUpdate(String host,Token token,String who)throws IOException{
+      String message="Hello!\n" +
+  	    who+" have edited the team.\n" +
+  	    "Here are the links to perform actions on this team.\n" +
+  	    "- To edit your team information :\n" +
+  	    "  http://" + host + "/team/edit/" + token.toString () + "\n" +
+  	    "- To delete your team :\n" +
+  	    "  http://" + host + "/team/delete/" + token.toString () + "\n";
+      for(Student student:token.getTeam().getStudents()){
+        sendEmail(student.getEmail(),"[maljae] Team Updated",message);
+      }
     }
 }
