@@ -48,6 +48,8 @@ public class TeamController {
     team.updatePreferencesFromString (ctx.formParam ("preferences"));
     team.updateTeamFromString(ctx.formParam("students"));
 		Teams.saveTeam (team);
+    String host = ctx.host ();
+    Notifier.sendUpdate(host,token,who);
 		ctx.redirect("/team-update-done.html");
 	    });
     }
