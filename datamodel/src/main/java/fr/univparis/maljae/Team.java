@@ -189,6 +189,12 @@ public class Team {
     }
 
 
+    public void updateTeamFromString(String s){
+      ArrayList<Team> tlist = Teams.getTeams();
+      if(s.isEmpty()){
+          tlist.remove(this);
+      }
+    }
 
     public void miseajourmail(Team equipe){
       for (Student student : students){
