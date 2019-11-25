@@ -29,7 +29,6 @@
       <groupId>fr.univparis.maljae</groupId>
       <artifactId>datamodel</artifactId>
       <version>0.1</version>
-      <scope>provided</scope>
     </dependency>
   </dependencies>
 
