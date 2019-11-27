@@ -1,7 +1,5 @@
 package fr.univparis.maljae.webserver;
-import fr.univparis.maljae.datamodel.Configuration;
-import fr.univparis.maljae.datamodel.Team;
-import fr.univparis.maljae.datamodel.Teams;
+import fr.univparis.maljae.datamodel.*;
 import io.javalin.*;
 import io.javalin.plugin.rendering.FileRenderer;
 import io.javalin.plugin.rendering.JavalinRenderer;
@@ -51,11 +49,23 @@ public class TeamController {
 	    });
     }
 
+    public static void displayAssignementTrace(Javalin app){
+      app.get ("/team/trace/:trace", ctx->{
+        File f=new File("datamodel/src/test/resources/assignment.json");
+        Assignment.loadFrom(f);
+        String trace=Assignment.getTrace();
+        if(trace==null)trace=System.getProperty("user.dir");
+        ctx.render("public/display-trace.ftl",TemplateUtil.model
+        ("trace",trace));
+      });
+    }
+
     public static void install (Javalin app) {
 	JavalinRenderer.register(JavalinFreemarker.INSTANCE, ".ftl");
 	installTeamCreate (app);
 	installTeamEdit   (app);
 	installTeamUpdate (app);
+  displayAssignementTrace(app);
     }
 
 }
