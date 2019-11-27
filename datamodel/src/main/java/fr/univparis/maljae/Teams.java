@@ -62,7 +62,7 @@ public class Teams {
 	team.saveTo (new File (filename));
     }
 
-     public void Tnitialize_Seed_for_each_teams()
+     public static void Tnitialize_Seed_for_each_teams()
      {
         int Sum=0; // I created variakble to sum all secret numbers
         for(int i=0; i<teams.size();i++)
