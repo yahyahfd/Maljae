@@ -10,6 +10,7 @@ public class Teams {
 
     /* FIXME: This may be not the right data structure... */
     private static final ArrayList<Team> teams = new ArrayList<Team> ();
+    public static void setTeams(ArrayList<Team> t){teams.addAll(t);}//this function is used for the unit test only
 
     public static void loadFrom (File d) throws IOException {       //Load Team from a file
 	try{
@@ -19,6 +20,7 @@ public class Teams {
 		}
 	}catch(Exception e){
 		System.out.println("Team was not found on this server");
+    throw e;
 	}
     }
 
