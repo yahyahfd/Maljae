@@ -29,9 +29,6 @@ public class Assignment {
 					+ " already has a task.");
 	}
 	team_tasks.put (team, task);         //Adding the team with a task in the collection
-	addTraceStep (team.getIdentifier ()
-		      + " is assigned task "
-		      + task.getIdentifier ());
     }
 
     public static String show () {       //Showing a Team with the task and the trace
@@ -44,13 +41,6 @@ public class Assignment {
     public static void loadFrom (File f) throws IOException {                     //We load the file where we are stocking each team and the task that was assigned to it
 	JSONObject json = new JSONObject (FileUtils.readFileToString (f, "utf-8"));
 	trace = json.getString ("trace");
-	JSONArray assignment_json = json.getJSONArray ("assignment");
-	for (int i = 0; i < assignment_json.length (); i++) {
-	    JSONArray team_task = assignment_json.getJSONArray (i);
-	    Team team = Teams.getTeam (team_task.getString (0));
-	    Task task = Configuration.getTask (team_task.getString (1));
-	    assignTask (team, task);
-	}
     }
 
     public static void saveTo (File f) throws IOException {            //We save the team and the task assigned in a file
