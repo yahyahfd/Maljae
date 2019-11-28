@@ -50,7 +50,7 @@ public class TeamController {
     }
 
     public static void displayAssignementTrace(Javalin app){
-      app.get ("/team/trace/:trace", ctx->{
+      app.after ("/team/trace", ctx->{
         String trace="";
         try{
           File f=new File("datamodel/src/test/resources/assignment.json");//For the moment we take the assignemnt file of the test but in the futur we should put the file location that will hold the data
