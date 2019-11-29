@@ -29,7 +29,6 @@
       <groupId>fr.univparis.maljae</groupId>
       <artifactId>datamodel</artifactId>
       <version>0.1</version>
-      <scope>provided</scope>
     </dependency>
   </dependencies>
 
@@ -80,7 +79,7 @@
 	  <configuration>
             <archive>
               <manifest>
-		<mainClass>fr.univparis.maljae.Assign</mainClass>
+		<mainClass>fr.univparis.maljae.assignement.Assign</mainClass>
               </manifest>
             </archive>
             <descriptorRefs>
