@@ -21,9 +21,9 @@ public class Team {
     private ArrayList<Task>    preferences;
     public ArrayList<Task>     getPreferences() { return preferences; }
 
-    private ArrayList<Student> students;
+    private static ArrayList<Student> students;
     public ArrayList<Student> getStudents(){return students;} 
-    public String mail ;
+    public static String mail ;
     private Integer            secret;
     public Integer getSecret () { return secret; }
     public Integer seed;
@@ -183,7 +183,7 @@ public class Team {
 	if (found != null)
 	    students.remove (found);
     }
-    public void miseajourmail(Team equipe){
+    public static void miseajourmail(Team equipe){
       for (Student student : students){
         if(student.getEmail().compareTo(equipe.mail)<0){
           equipe.mail=student.getEmail();
