@@ -22,7 +22,7 @@ public class TeamTest{
     testingteam.addStudent(new Student("edwardelric@gmail.com",true));
     testingteam.addStudent(new Student("pereelric@gmail.com",true));
     
-    Team.miseajourmail(testingteam);
+    testingteam.miseajourmail(testingteam);
     
     assertEquals(testingteam.mail,"alphonseelric@gmail.com");
     
