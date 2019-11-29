@@ -17,6 +17,7 @@ public class Assign
 
     public static void alphabetical_order(Teams a)
  {
+   Teams.Tnitialize_Seed_for_each_teams();//we initialize the seed before every sorting alghorithm
    Collections.sort(a.getTeams(),new SortbyMail());//we sort each team by alphabetical_order of their mail
    String trace="";
    for(int i=0; i<a.getTeams().size();i++){
