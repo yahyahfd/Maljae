@@ -46,7 +46,6 @@ public class TeamController {
 		team.updateSecretFromString (ctx.formParam ("secret"));
 		team.updateStudentsFromString (who, ctx.formParam ("students"));
     team.updatePreferencesFromString (ctx.formParam ("preferences"));
-    team.updateTeamFromString(ctx.formParam("students"));
 		Teams.saveTeam (team);
     String host = ctx.host ();
     Notifier.sendUpdate(host,token,who);
