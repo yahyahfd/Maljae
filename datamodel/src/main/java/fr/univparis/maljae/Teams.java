@@ -41,27 +41,27 @@ public class Teams {
     }
 
     public static void removeFromExistingTeam (String email) {       //Removing a student from a team
-	for (Team team : teams) {
-	    team.removeStudent (email);
-	}
+    	for (Team team : teams) {
+    	    team.removeStudent (email);
+    	}
     }
 
     public static Team createTeam (String email) throws IOException {
-	removeFromExistingTeam (email);
-	Team newTeam = new Team (new Student (email, true));
-	teams.add (newTeam);
-	String filename =
-	    Configuration.getDataDirectory () + "/" +
-	    newTeam.getIdentifier () + "-team.json";
-	newTeam.saveTo (new File (filename));
-	return newTeam;
+    	removeFromExistingTeam (email);
+    	Team newTeam = new Team (new Student (email, true));
+    	teams.add (newTeam);
+    	String filename =
+    	    Configuration.getDataDirectory () + "/" +
+    	    newTeam.getIdentifier () + "-team.json";
+    	newTeam.saveTo (new File (filename));
+    	return newTeam;
     }
 
     public static void saveTeam (Team team) throws IOException {
-	String filename =
+	    String filename =
 	    Configuration.getDataDirectory () + "/" +
 	    team.getIdentifier () + "-team.json";
-	team.saveTo (new File (filename));
+    	team.saveTo (new File (filename));
     }
 
      public static void Tnitialize_Seed_for_each_teams()
@@ -75,6 +75,10 @@ public class Teams {
         {
             teams.get(i).setSeed(Sum-teams.get(i).getSecret());
         }
+     }
+
+     public static void deleteTeam(Team t){
+         teams.remove(t);
      }
 
 }
