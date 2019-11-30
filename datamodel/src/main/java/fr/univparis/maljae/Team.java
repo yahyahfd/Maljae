@@ -24,6 +24,7 @@ public class Team {
     private ArrayList<Student> students;
     public ArrayList<Student> getStudents(){return students;} 
     public String mail ;
+    
     private Integer            secret;
     public Integer getSecret () { return secret; }
     public Integer seed;
