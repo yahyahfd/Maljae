@@ -1,4 +1,7 @@
 package fr.univparis.maljae.assignement;
+import fr.univparis.maljae.datamodel.*;
+import java.io.*;
+import java.util.*;
 
 import static org.junit.Assert.*;
 
@@ -40,5 +43,19 @@ public class AssignTest
 	String[] args = {};
 	Assign.main (args);
         assertEquals("maljae assigner version 0.1 is not implemented yet.\n", outContent.toString());
+    }
+
+    public void testAlphabetical_order(){
+      ArrayList<Team> teams=new ArrayList<Team>();
+      ArrayList<Student> students=new ArrayList<Student>();
+
+      for(int i=0;i<5;i++){
+        students.add(new Student("test"+String.valueOf(i)+"@gmail.com",true));
+      }
+      for(int i=0;i<5;i++){
+        teams.add(new Team(students.get(i)));
+      }    Teams.setTeams(teams);
+
+
     }
 }
