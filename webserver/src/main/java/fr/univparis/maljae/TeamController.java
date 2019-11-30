@@ -1,7 +1,5 @@
 package fr.univparis.maljae.webserver;
-import fr.univparis.maljae.datamodel.Configuration;
-import fr.univparis.maljae.datamodel.Team;
-import fr.univparis.maljae.datamodel.Teams;
+import fr.univparis.maljae.datamodel.*;
 import io.javalin.*;
 import io.javalin.plugin.rendering.FileRenderer;
 import io.javalin.plugin.rendering.JavalinRenderer;
@@ -53,11 +51,27 @@ public class TeamController {
 	    });
     }
 
+    public static void displayAssignementTrace(Javalin app){
+      app.after ("/team/trace", ctx->{
+        String trace="";
+        try{
+          File f=new File("datamodel/src/test/resources/assignment.json");//For the moment we take the assignemnt file of the test but in the futur we should put the file location that will hold the data
+          Assignment.loadFrom(f);
+          trace=Assignment.getTrace();
+        }catch(Exception e){
+          trace="The tasks have not been assigned yet !";
+        }
+        ctx.render("public/display-trace.ftl",TemplateUtil.model
+        ("trace",trace));
+      });
+    }
+
     public static void install (Javalin app) {
 	JavalinRenderer.register(JavalinFreemarker.INSTANCE, ".ftl");
 	installTeamCreate (app);
 	installTeamEdit   (app);
 	installTeamUpdate (app);
+  displayAssignementTrace(app);
     }
 
 }
