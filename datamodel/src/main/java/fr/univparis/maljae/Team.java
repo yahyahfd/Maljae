@@ -24,7 +24,7 @@ public class Team {
     private ArrayList<Student> students;
     public ArrayList<Student> getStudents(){return students;}
     public String mail ;
-    
+
     private Integer            secret;
     public Integer getSecret () { return secret; }
     public Integer seed;
@@ -98,12 +98,25 @@ public class Team {
     }
 
     public void updatePreferencesFromString (String s) {
+      boolean a=false;
     	System.out.println ("Prefs: " + s);
     	String[] fields = s.split (";");
     	ArrayList<Task> newPreferences = new ArrayList<Task> ();
     	for (int i = 0; i < fields.length; i++) {
     	    newPreferences.add (Configuration.getTask (fields[i]));
     	}
+      
+      for(int b=0;b<this.preferences.size();b++){
+        int a=0;
+        while(a!=newPreferences.size()&&(this.preferences.get(b)!=newPreferences.get(a))){
+        a++;
+        }
+      }for(int b=0;b<newPreferences.size();b++){
+        int a=0;
+        while(a!=this.preferences.size()&&(newPreferences.get(b)!=this.preferences.get(a))){
+              a++;
+              }
+            }
     	// FIXME: We should check that newPreferences is a permutation
     	// FIXME: of all task identifiers.
     	this.preferences = newPreferences;
