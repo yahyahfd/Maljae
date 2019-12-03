@@ -98,28 +98,40 @@ public class Team {
     }
 
     public void updatePreferencesFromString (String s) {
-      boolean a=false;
+      int permut =0;
+      int permut2 =0;
     	System.out.println ("Prefs: " + s);
     	String[] fields = s.split (";");
     	ArrayList<Task> newPreferences = new ArrayList<Task> ();
     	for (int i = 0; i < fields.length; i++) {
     	    newPreferences.add (Configuration.getTask (fields[i]));
     	}
-      
+
       for(int b=0;b<this.preferences.size();b++){
         int a=0;
-        while(a!=newPreferences.size()&&(this.preferences.get(b)!=newPreferences.get(a))){
+        while(a!=newPreferences.size()){
+          if(this.preferences.get(b).getIdentifier()==newPreferences.get(a).getIdentifier()){
+            permut++;
+          }
         a++;
         }
-      }for(int b=0;b<newPreferences.size();b++){
+      }
+      for(int b=0;b<newPreferences.size();b++){
         int a=0;
         while(a!=this.preferences.size()&&(newPreferences.get(b)!=this.preferences.get(a))){
+          if(newPreferences.get(b).getIdentifier()==this.preferences.get(a).getIdentifier()){
+            permut2++;
+          }
               a++;
               }
             }
+            if ((permut==permut2)&&(permut==this.preferences.size())){
+              this.preferences = newPreferences;
+            }else{
+              return;
+            }
     	// FIXME: We should check that newPreferences is a permutation
     	// FIXME: of all task identifiers.
-    	this.preferences = newPreferences;
     }
 
     public String studentsToString () {     //If you want to print all the students from a team
