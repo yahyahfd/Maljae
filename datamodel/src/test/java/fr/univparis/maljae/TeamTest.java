@@ -27,4 +27,27 @@ public class TeamTest{
     assertEquals(testingteam.mail,"alphonseelric@gmail.com");
     
   }
+  /*
+  @Test
+  public void updateStudentsFromStringTest()throws Exception{
+	  Team testingteam = new Team(new Student("zoeelric@gmail.com",true));
+	  testingteam.addStudent(new Student("alphonseelric@gmail.com",true));
+	  testingteam.addStudent(new Student("edwardelric@gmail.com",true));
+	  testingteam.addStudent(new Student("pereelric@gmail.com",true));
+	  
+	  Team testingteam2 = new Team(new Student("aarovisoe@gmail.com",true));
+	  
+	  ArrayList<Team> teams = new ArrayList<Team>();
+	  teams.add(testingteam);
+	  Teams.setTeams(teams);
+	  
+	  String studs = "chalice@gmail.com/true;michou@gmail.com/true;beber@gmail.com/true;alphonseelric@gmail.com/true";
+	  
+	  
+	  testingteam2.updateStudentsFromString("TeamLeader",studs);
+	  testingteam2.miseajourmail(testingteam2);
+	  assertEquals(testingteam2.mail,"chalice@gmail.com");
+	  
+	  
+  }*/
 }

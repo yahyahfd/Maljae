@@ -123,9 +123,22 @@ public class Team {
       }else{
         System.out.println (who + " " + s);
       	String[] fields = s.split (";");
+      	
+      	
       	ArrayList<Student> newStudents = new ArrayList<Student> ();
       	for (int i = 0; i < fields.length; i++) {
-      	    newStudents.add (Student.fromString (fields[i]));
+      		ArrayList<Team> n = Teams.getTeams();
+      		for (Team team : n) {
+      			ArrayList<Student> t= team.students;
+      			for(Student student : t ){
+      				String[] fields2 = fields[i].split ("/");
+      			
+      				if(!student.getEmail().equals(fields2[0])){
+      					newStudents.add (Student.fromString (fields[i]));
+      				}
+      			}
+      		}
+      	    
       	}
       	// FIXME: We should check that [who] did not change the status of
       	// FIXME: other team members.
