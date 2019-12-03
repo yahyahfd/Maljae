@@ -22,7 +22,7 @@ public class Team {
     public ArrayList<Task>     getPreferences() { return preferences; }
 
     private ArrayList<Student> students;
-    public ArrayList<Student> getStudents(){return students;} 
+    public ArrayList<Student> getStudents(){return students;}
     public String mail ;
     private Integer            secret;
     public Integer getSecret () { return secret; }
@@ -37,7 +37,7 @@ public class Team {
 	secret = Integer.parseInt (s);
     }
 
-    Team (Student creator) {           //Team constructor with a first student who is the creator
+    public Team (Student creator) {           //Team constructor with a first student who is the creator
 	identifier = generateRandomTeamIdentifier ();
 	preferences = new ArrayList<Task> (Arrays.asList (Configuration.getTasks ()));
 	students = new ArrayList<Student> (Configuration.getMaxNbUsersPerTeam ());

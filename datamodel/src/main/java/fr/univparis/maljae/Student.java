@@ -13,7 +13,7 @@ public class Student {
   if (json.has("groupeTd")) groupeTd = json.getInt("groupeTd");
     }
 
-    Student (String email0, Boolean confirmed0) {        //Simple constructor for student without specified TD group
+    public Student (String email0, Boolean confirmed0) {        //Simple constructor for student without specified TD group
 	email = email0;
 	confirmed = confirmed0;
     }

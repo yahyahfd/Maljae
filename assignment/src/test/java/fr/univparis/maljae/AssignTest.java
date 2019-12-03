@@ -46,15 +46,19 @@ public class AssignTest
     }
 
     public void testAlphabetical_order(){
+      String az="";
+      Boolean boo = new Boolean(true);
       ArrayList<Team> teams=new ArrayList<Team>();
       ArrayList<Student> students=new ArrayList<Student>();
 
       for(int i=0;i<5;i++){
-        students.add(new Student("test"+String.valueOf(i)+"@gmail.com",true));
+        students.add(new Student("test"+String.valueOf(i)+"@gmail.com",boo));
       }
       for(int i=0;i<5;i++){
         teams.add(new Team(students.get(i)));
       }    Teams.setTeams(teams);
+          teams.alphabetical_order();
+      assertArrayEquals(teams.toString(),"test1@gmail.com/true/;test2@gmail.com/true/;test3@gmail.com/true/;test4@gmail.com/true/;test5@gmail.com/true/;");
 
 
     }
