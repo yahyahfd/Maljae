@@ -40,6 +40,6 @@ public class TeamTest{
     testingteam.removeStudent("zoeelric@gmail.com");
     //team is empty normally
     //checking
-    assertEquals(Teams.getTeam("testingteam"),null);
+    assertEquals(testingteam.getStudents().size(),0);
   }
 }
