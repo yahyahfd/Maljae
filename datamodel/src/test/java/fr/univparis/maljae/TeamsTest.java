@@ -17,6 +17,9 @@ import java.util.ArrayList;
 public class TeamsTest{
   @Test
   public void seedInitialization()throws Exception{//we check that the seed are initialized correctly following the algorithm
+    URL url = this.getClass ().getResource ("/config.json");
+    File input = new File (url.getFile());
+    Configuration.loadFrom (input);
     ArrayList<Team> teams=new ArrayList<Team>();
     ArrayList<Student> students=new ArrayList<Student>();
     for(int i=0;i<5;i++){

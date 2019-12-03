@@ -21,10 +21,25 @@ public class TeamTest{
     testingteam.addStudent(new Student("alphonseelric@gmail.com",true));
     testingteam.addStudent(new Student("edwardelric@gmail.com",true));
     testingteam.addStudent(new Student("pereelric@gmail.com",true));
-    
-    testingteam.miseajourmail(testingteam);
-    
+
+    testingteam.updatemail();
+
     assertEquals(testingteam.mail,"alphonseelric@gmail.com");
-    
+
+  }
+
+  @Test
+  public void updateStudentsFromStringTest() throws IOException{
+    Team testingteam = new Team(new Student("zoeelric@gmail.com",true));
+    testingteam.addStudent(new Student("alphonseelric@gmail.com",true));
+    testingteam.addStudent(new Student("edwardelric@gmail.com",true));
+    testingteam.addStudent(new Student("pereelric@gmail.com",true));
+    testingteam.removeStudent("alphonseelric@gmail.com");
+    testingteam.removeStudent("edwardelric@gmail.com");
+    testingteam.removeStudent("pereelric@gmail.com");
+    testingteam.removeStudent("zoeelric@gmail.com");
+    //team is empty normally
+    //checking
+    assertEquals(testingteam.getStudents().size(),0);
   }
 }
