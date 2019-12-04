@@ -17,6 +17,9 @@ import java.util.ArrayList;
 public class TeamTest{
   @Test
   public void UpdateMailTest()throws Exception{//Testing that the update of mail in a team is working
+    URL url = this.getClass ().getResource ("/config.json");
+    File input = new File (url.getFile());
+    Configuration.loadFrom (input);
     Team testingteam = new Team(new Student("zoeelric@gmail.com",true));
     testingteam.addStudent(new Student("alphonseelric@gmail.com",true));
     testingteam.addStudent(new Student("edwardelric@gmail.com",true));
@@ -29,7 +32,10 @@ public class TeamTest{
   }
 
   @Test
-  public void updateStudentsFromStringTest() throws IOException{
+  public void updateStudentsFromStringTest() throws Exception{
+    URL url = this.getClass ().getResource ("/config.json");
+    File input = new File (url.getFile());
+    Configuration.loadFrom (input);
     Team testingteam = new Team(new Student("zoeelric@gmail.com",true));
     testingteam.addStudent(new Student("alphonseelric@gmail.com",true));
     testingteam.addStudent(new Student("edwardelric@gmail.com",true));
