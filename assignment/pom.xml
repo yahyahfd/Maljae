@@ -30,11 +30,11 @@
       <artifactId>datamodel</artifactId>
       <version>0.1</version>
     </dependency>
-    <!-- <dependency>
+    <dependency>
       <groupId>fr.univparis.maljae</groupId>
       <artifactId>webserver</artifactId>
       <version>0.1</version>
-    </dependency> -->
+    </dependency>
     <dependency>
       <groupId>org.json</groupId>
       <artifactId>json</artifactId>
