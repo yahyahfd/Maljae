@@ -51,6 +51,7 @@ public class Assignment {
 	    JSONArray team_task = new JSONArray ();
 	    team_task.put (assignment.getKey ().getIdentifier ());
 	    team_task.put (assignment.getValue ().getIdentifier ());
+      assignment_json.put(team_task);
 	}
 	json.put ("assignment", assignment_json);
 	FileWriter fw = new FileWriter (f);

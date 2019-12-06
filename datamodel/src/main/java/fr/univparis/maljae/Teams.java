@@ -15,10 +15,12 @@ public class Teams {
     public static void loadFrom (File d) throws IOException {       //Load Team from a file
 	try{
 		for (File f : d.listFiles ()) {
+        System.out.println(f.getName ());
 		    if (Team.isValidTeamFileName (f.getName ()))
 			teams.add (new Team (f));
 		}
 	}catch(Exception e){
+    System.out.println(e);
 		System.out.println("Team was not found on this server");
     throw e;
 	}

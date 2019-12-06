@@ -1,9 +1,10 @@
 package fr.univparis.maljae.assignement;
 import fr.univparis.maljae.datamodel.*;
+// import fr.univparis.maljae.webserver.*;
 import java.util.*;
 import java.lang.*;
 import java.io.*;
-
+import java.net.*;
 /**
  * Hello world!
  *
@@ -12,16 +13,26 @@ public class Assign
 {
     public static void main(String[] args)
     {
+      File input = new File("datamodel/src/test/resources/config.json");
+
+      try {
+
+        Configuration.loadFrom (input);
+      } catch(Exception e) {
+        System.out.print(e);
+      }
       AssignTask();
       try{
-        Assignment.saveTo(new File("datamodel/src/test/resources/assignment.json"));    
+        Assignment.saveTo(new File("datamodel/src/test/resources/assignment1.json"));
       }catch(Exception e){
         System.out.print(e);
       }
+      // TeamController.displayAssignementTrace();
     }
 
     public static void alphabetical_order()
  {
+
    Teams.Tnitialize_Seed_for_each_teams();//we initialize the seed before every sorting alghorithm
    Collections.sort(Teams.getTeams(),new SortbyMail());//we sort each team by alphabetical_order of their mail
    String trace="";
@@ -44,6 +55,7 @@ public class Assign
 
  public static void AssignTask()//we call all the sorting method in this and then assign each team a task
  {
+   loadFrom();
    if(Teams.getTeams().size()==0)return;//just to check
    SortingAlgo();
    ArrayList<Task> tasks = Teams.getTeams().get(0).getPreferences(); // This is an arraylist created to contain all the task available, for me we put all the task in the preferecences
@@ -61,6 +73,15 @@ public class Assign
      Assignment.addTraceStep("Team "+Teams.getTeams().get(i).getIdentifier()+" has "+tasks.size()+" tasks left to be assigned: "+ tasks.toString());//we show the number of task left for each team
    }
  }
-
+ public static void loadFrom(){
+   try {
+     Assignment.loadFrom(new File("datamodel/src/test/resources/assignment.json"));
+     Teams.loadFrom(new File("./maljae-data/"));
+     System.out.print(Teams.getTeams().size());
+     System.out.print(Assignment.getTrace());
+   } catch(Exception e) {
+     System.out.print(e);
+   }
+ }
 
 }
