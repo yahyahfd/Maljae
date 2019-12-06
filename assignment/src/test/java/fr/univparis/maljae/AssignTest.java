@@ -34,11 +34,11 @@ public class AssignTest
 	System.setErr(originalErr);
     }
 
-    @Test
-    public void mainShouldDisplayInvite()
-    {
-	String[] args = {};
-	Assign.main (args);
-        assertEquals("maljae assigner version 0.1 is not implemented yet.\n", outContent.toString());
-    }
+  //   @Test
+  //   public void mainShouldDisplayInvite()
+  //   {
+	// String[] args = {};
+	// Assign.main (args);
+  //       // assertEquals("maljae assigner version 0.1 is not implemented yet.\n", outContent.toString());
+  //   }
 }
