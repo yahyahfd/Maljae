@@ -31,11 +31,6 @@
       <version>0.1</version>
     </dependency>
     <dependency>
-      <groupId>fr.univparis.maljae</groupId>
-      <artifactId>webserver</artifactId>
-      <version>0.1</version>
-    </dependency>
-    <dependency>
       <groupId>org.json</groupId>
       <artifactId>json</artifactId>
       <version>20080701</version>

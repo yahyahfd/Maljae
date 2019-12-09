@@ -1,6 +1,5 @@
 package fr.univparis.maljae.assignement;
 import fr.univparis.maljae.datamodel.*;
-// import fr.univparis.maljae.webserver.*;
 import java.util.*;
 import java.lang.*;
 import java.io.*;
@@ -27,7 +26,6 @@ public class Assign
       }catch(Exception e){
         System.out.print(e);
       }
-      // TeamController.displayAssignementTrace();
     }
 
     public static void alphabetical_order()
