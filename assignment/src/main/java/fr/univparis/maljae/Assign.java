@@ -35,9 +35,9 @@ public class Assign
    Collections.sort(Teams.getTeams(),new SortbyMail());//we sort each team by alphabetical_order of their mail
    String trace="";
    for(int i=0; i<Teams.getTeams().size();i++){
-     trace+="Identifier: "+Teams.getTeams().get(i).getIdentifier()+" Mail :"+Teams.getTeams().get(i).mail+"\n";
+     trace+=" Identifier: "+Teams.getTeams().get(i).getIdentifier()+" ,Mail: "+Teams.getTeams().get(i).mail+"<br>";
    }
-   Assignment.addTraceStep("This is the alphabetical order of the teams :\n                       " +trace);//this will show in the trace the final alphabetical order with the mail of each team
+   Assignment.addTraceStep("<br>Alphabetical Sorting","This is the alphabetical order of the teams :                   "+"<br>"+trace+"<br>");//this will show in the trace the final alphabetical order with the mail of each team
  }
 
  public static void SortingAlgo()
@@ -46,11 +46,10 @@ public class Assign
    for(int i=0; i<Teams.getTeams().size();i++)
    {
      int indexForTrace=(i+(Teams.getTeams().get(i).getSeed()%(Teams.getTeams().size()-i)))-1;
-     Assignment.addTraceStep("exchange "+Teams.getTeams().get(i)+" with the team in index i + (n_i%(k-i-1)) = "+ String.valueOf(indexForTrace)+ " wich is team "+Teams.getTeams().get(i).getIdentifier());//add a trace for the transposition
+     Assignment.addTraceStep("<br>Transposition","exchange "+Teams.getTeams().get(i).getIdentifier()+" with the team in index i + (n_i%(k-i-1)) = "+ String.valueOf(indexForTrace)+ " wich is team "+Teams.getTeams().get(i).getIdentifier());//add a trace for the transposition
      Collections.swap(Teams.getTeams(), i, indexForTrace);//here we do the swapping using the alghorithm
    }
  }
-
  public static void AssignTask()//we call all the sorting method in this and then assign each team a task
  {
    loadFrom();
@@ -62,18 +61,16 @@ public class Assign
    {
      for (int j=0;j<Teams.getTeams().get(i).getPreferences().size();j++) {
        if(tasks.contains(Teams.getTeams().get(i).getPreferences().get(j))){//if the task preferred is still available we can assign it and then delete the task frome the list
-         Assignment.addTraceStep("The task "+Teams.getTeams().get(i).getPreferences().get(j)+" has been assign to this team ");//we show this when the task has been assigned
+         Assignment.addTraceStep("Assign","The task "+Teams.getTeams().get(i).getPreferences().get(j).getIdentifier()+" has been assign to team "+Teams.getTeams().get(i).getIdentifier());//we show this when the task has been assigned
          Assignment.assignTask(Teams.getTeams().get(i),Teams.getTeams().get(i).getPreferences().get(j));
          tasks.remove(Teams.getTeams().get(i).getPreferences().get(j));
          break;//we only assign one task so we break the loop
        }
      }
-     Assignment.addTraceStep("Team "+Teams.getTeams().get(i).getIdentifier()+" has "+tasks.size()+" tasks left to be assigned: "+ tasks.toString());//we show the number of task left for each team
    }
  }
  public static void loadFrom(){
    try {
-     Assignment.loadFrom(new File("datamodel/src/test/resources/assignment.json"));
      Teams.loadFrom(new File("./maljae-data/"));
      System.out.print(Teams.getTeams().size());
      System.out.print(Assignment.getTrace());

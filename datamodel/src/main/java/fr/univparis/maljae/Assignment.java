@@ -16,12 +16,17 @@ public class Assignment {
     private static HashMap<Team, Task> team_tasks = new HashMap<Team, Task> ();
 
     /** We must provide a trace of the assignment algorithm. */
-    private static String trace;
+    private static ArrayList<String> trace=new ArrayList<String> ();
 
     /** Returns a string representation for the trace. */
-    public static String getTrace () { return trace; }
+    public static ArrayList<String>  getTrace () { return trace; }
 
-    public static void addTraceStep (String s) { trace += s + "\n"; }
+    public static void addTraceStep (String key,String value){
+      if(key==null||value==null||key.length()<1)return;
+      String s=key+" : "+value;
+      s=s.replaceAll("[\\[\\](){}]","");
+      trace.add(s);
+    }
 
     public static void assignTask (Team team, Task task) {           //Assign a task to a team if it doesn't have any yet
 	if (team_tasks.containsKey (team)) {
@@ -40,12 +45,14 @@ public class Assignment {
 
     public static void loadFrom (File f) throws IOException {                     //We load the file where we are stocking each team and the task that was assigned to it
 	JSONObject json = new JSONObject (FileUtils.readFileToString (f, "utf-8"));
-	trace = json.getString ("trace");
+  JSONArray a=json.getJSONArray("trace");
+  for(int i=0;i<a.length();i++){
+    trace.add(a.optString(i));
+  }
     }
 
     public static void saveTo (File f) throws IOException {            //We save the team and the task assigned in a file
 	JSONObject json = new JSONObject ();
-	json.put ("trace", trace);
 	JSONArray assignment_json = new JSONArray ();
 	for (HashMap.Entry<Team, Task> assignment : team_tasks.entrySet ()) {
 	    JSONArray team_task = new JSONArray ();
@@ -53,6 +60,11 @@ public class Assignment {
 	    team_task.put (assignment.getValue ().getIdentifier ());
       assignment_json.put(team_task);
 	}
+	JSONArray trace_json = new JSONArray ();
+	for (String  tr: trace) {
+      trace_json.put(tr);
+	}
+  json.put ("trace", trace_json);
 	json.put ("assignment", assignment_json);
 	FileWriter fw = new FileWriter (f);
 	fw.write (json.toString (2));
