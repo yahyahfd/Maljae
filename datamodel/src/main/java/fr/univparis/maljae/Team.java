@@ -38,7 +38,7 @@ public class Team {
 	secret = Integer.parseInt (s);
     }
 
-    Team (Student creator) {           //Team constructor with a first student who is the creator
+    Team (Student creator) {//Team constructor with a first student who is the creator
 	identifier = generateRandomTeamIdentifier ();
 	preferences = new ArrayList<Task> (Arrays.asList (Configuration.getTasks ()));
 	students = new ArrayList<Student> (Configuration.getMaxNbUsersPerTeam ());
@@ -54,6 +54,7 @@ public class Team {
     	if (! f.getName ().equals (identifier + "-team.json")) {
     	    throw new RuntimeException ("Inconsistency in the data model: " + f.getName ());
     	}
+      mail =json.getString("mail");
     	secret     = json.getInt ("secret");
     	JSONArray preferences_json = json.getJSONArray ("preferences");
     	preferences = new ArrayList<Task> (preferences_json.length ());
@@ -78,6 +79,7 @@ public class Team {
     		preferences_json.put (preferences.get (i).getIdentifier ());
     	    }
     	}
+      json.put("mail",mail);
     	json.put ("preferences", preferences_json);
     	JSONArray students_json = new JSONArray ();
     	for (int i = 0; i < students.size (); i++) {

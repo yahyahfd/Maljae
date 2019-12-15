@@ -9,6 +9,10 @@
   </head>
 
   <body>
-	<p>This is the assignement trace : <br> ${trace}</p>
+  	<p style=text-size=20;>This is the assignement trace :
+      <#list trace as t>
+      <div>${t}</div>
+      </#list>
+    </p>
   </body>
 </html>
