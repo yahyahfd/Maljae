@@ -17,15 +17,36 @@ import java.util.ArrayList;
 public class TeamTest{
   @Test
   public void UpdateMailTest()throws Exception{//Testing that the update of mail in a team is working
+    URL url = this.getClass ().getResource ("/config.json");
+    File input = new File (url.getFile());
+    Configuration.loadFrom (input);
     Team testingteam = new Team(new Student("zoeelric@gmail.com",true));
     testingteam.addStudent(new Student("alphonseelric@gmail.com",true));
     testingteam.addStudent(new Student("edwardelric@gmail.com",true));
     testingteam.addStudent(new Student("pereelric@gmail.com",true));
-    
-    testingteam.miseajourmail(testingteam);
-    
+
+    testingteam.updatemail();
+
     assertEquals(testingteam.mail,"alphonseelric@gmail.com");
-    
+
+  }
+
+  @Test
+  public void updateStudentsFromStringTest() throws Exception{
+    URL url = this.getClass ().getResource ("/config.json");
+    File input = new File (url.getFile());
+    Configuration.loadFrom (input);
+    Team testingteam = new Team(new Student("zoeelric@gmail.com",true));
+    testingteam.addStudent(new Student("alphonseelric@gmail.com",true));
+    testingteam.addStudent(new Student("edwardelric@gmail.com",true));
+    testingteam.addStudent(new Student("pereelric@gmail.com",true));
+    testingteam.removeStudent("alphonseelric@gmail.com");
+    testingteam.removeStudent("edwardelric@gmail.com");
+    testingteam.removeStudent("pereelric@gmail.com");
+    testingteam.removeStudent("zoeelric@gmail.com");
+    //team is empty normally
+    //checking
+    assertEquals(testingteam.getStudents().size(),0);
   }
   /*
   @Test

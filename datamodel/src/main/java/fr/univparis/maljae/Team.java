@@ -24,7 +24,7 @@ public class Team {
     private ArrayList<Student> students;
     public ArrayList<Student> getStudents(){return students;}
     public String mail ;
-    
+
     private Integer            secret;
     public Integer getSecret () { return secret; }
     public Integer seed;
@@ -116,7 +116,7 @@ public class Team {
     	}
     	return result;
     }
-
+    
     public void updateStudentsFromString (String who, String s) {
       if(s.isEmpty()){
         Teams.deleteTeam(this);
@@ -124,24 +124,16 @@ public class Team {
         System.out.println (who + " " + s);
       	String[] fields = s.split (";");
       	
-      	
       	ArrayList<Student> newStudents = new ArrayList<Student> ();
       	for (int i = 0; i < fields.length; i++) {
-      		ArrayList<Team> n = Teams.getTeams();
-      		for (Team team : n) {
-      			ArrayList<Student> t= team.students;
-      			for(Student student : t ){
-      				String[] fields2 = fields[i].split ("/");
-      			
-      				if(!student.getEmail().equals(fields2[0])){
-      					newStudents.add (Student.fromString (fields[i]));
-      				}
-      			}
-      		}
-      	    
+      	    newStudents.add (Student.fromString (fields[i]));
       	}
-      	// FIXME: We should check that [who] did not change the status of
-      	// FIXME: other team members.
+      	
+      	if(this.students.size()!=newStudents.size()+1 || !(this.students.containsAll(newStudents) && newStudents.containsAll(this.students))) {
+      		System.out.println("You are trying to add or remove someone else");
+      		return;
+      	}
+      	
       	this.students = newStudents;
       }
     }
@@ -207,10 +199,10 @@ public class Team {
         }
     }
 
-    public void miseajourmail(Team equipe){
+    public void updatemail(){
       for (Student student : students){
-        if(student.getEmail().compareTo(equipe.mail)<0){
-          equipe.mail=student.getEmail();
+        if(student.getEmail().compareTo(this.mail)<0){
+          this.mail=student.getEmail();
         }
       }
     }
