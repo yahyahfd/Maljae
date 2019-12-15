@@ -116,16 +116,8 @@ public class Team {
         a++;
         }
       }
-      for(int b=0;b<newPreferences.size();b++){
-        int a=0;
-        while(a!=this.preferences.size()&&(newPreferences.get(b)!=this.preferences.get(a))){
-          if(newPreferences.get(b).getIdentifier()==this.preferences.get(a).getIdentifier()){
-            permut2++;
-          }
-              a++;
-              }
-            }
-            if ((permut==permut2)&&(permut==this.preferences.size())){
+
+            if (permut==this.preferences.size()){
               this.preferences = newPreferences;
             }else{
               return;
