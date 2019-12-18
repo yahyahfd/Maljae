@@ -111,7 +111,6 @@ public class Team {
     /** Updates a team's preferences with the ones from the string s. */
     public void updatePreferencesFromString (String s) {
       int permut =0;
-      int permut2 =0;
     	System.out.println ("Prefs: " + s);
     	String[] fields = s.split (";");
     	ArrayList<Task> newPreferences = new ArrayList<Task> ();
@@ -124,6 +123,7 @@ public class Team {
         while(a!=newPreferences.size()){
           if(this.preferences.get(b).getIdentifier()==newPreferences.get(a).getIdentifier()){
             permut++;
+            break;
           }
         a++;
         }
