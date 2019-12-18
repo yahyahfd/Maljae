@@ -5,60 +5,51 @@ import org.json.*;
 public class Student {
     private String  email;
     private Boolean confirmed;
-    private int groupeTd;
 
-    Student (JSONObject json) {      //Json contructor for student
-	email = json.getString ("email");
-	confirmed = json.getBoolean ("confirmed");
-  if (json.has("groupeTd")) groupeTd = json.getInt("groupeTd");
+    /** Json contructor for student. */
+    Student (JSONObject json) {
+    	email = json.getString ("email");
+    	confirmed = json.getBoolean ("confirmed");
     }
 
-    Student (String email0, Boolean confirmed0) {        //Simple constructor for student without specified TD group
-	email = email0;
-	confirmed = confirmed0;
+    /** Simple constructor for student. */
+    Student (String email0, Boolean confirmed0) {
+    	email = email0;
+    	confirmed = confirmed0;
     }
-    Student (String email0, Boolean confirmed0,int groupeTd0) {      //Same constructor with a specified TD group
- email = email0;
- confirmed = confirmed0;
- groupeTd = groupeTd0;
-   }
 
+    /** Returns the current student's email. */
     public String getEmail () {
-	return email;
+    	return email;
     }
 
+    /** Returns the current student's status, whether he is confirmed or not. */
     public Boolean getConfirmed () {
-	return confirmed;
+	     return confirmed;
     }
 
-    public int getGroupeTd(){
-  return groupeTd;
-    }
-
+    /** Changes the current student's status to confirmed if b equals true, or not confirmed if b equals false. */
     public void setConfirmed (Boolean b) {
-	confirmed = b;
+    	confirmed = b;
     }
 
-    public void setGroupeTd(int g){
- groupeTd=g;
-   }
-
+    /** Changes the toString method so that it returns a string that shows the current student's email and status. */
     public String toString () {
-  if(groupeTd>0&&groupeTd<5)return  email + "/" + confirmed + "/"+String.valueOf(groupeTd);
-	return email + "/" + confirmed + "/";
+    	return email + "/" + confirmed + "/";
     }
 
-    public static Student fromString (String s) {            //Creating a student from a string entry
-	String[] fields = s.split ("/");
-	return new Student (fields[0], Boolean.parseBoolean (fields[1]));
+    /** Creating a student from a string entry. */
+    public static Student fromString (String s) {
+    	String[] fields = s.split ("/");
+    	return new Student (fields[0], Boolean.parseBoolean (fields[1]));
     }
 
-    public JSONObject toJSON () {          //Converting into json file
-	JSONObject json = new JSONObject ();
-	json.put ("email", email);
-	json.put ("confirmed", confirmed);
-  if(groupeTd>0&&groupeTd<5) json.put("groupeTd",groupeTd);
-	return json;
+    /** Returns a JSONObject containing the current student's email and status. */
+    public JSONObject toJSON () {
+    	JSONObject json = new JSONObject ();
+    	json.put ("email", email);
+    	json.put ("confirmed", confirmed);
+    	return json;
     }
 
 }

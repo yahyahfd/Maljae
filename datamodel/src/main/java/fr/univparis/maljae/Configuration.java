@@ -18,7 +18,7 @@ public class Configuration
 
     /** Data directory. This is the place where we will put data files. */
     /* FIXME: This should be configurable! */
-     private static String dataDirectory = "./maljae-data";
+    private static String dataDirectory = "./maljae-data";
 
     public static String getDataDirectory () { return dataDirectory; }
 
@@ -33,7 +33,7 @@ public class Configuration
 
     /** Display the date range */
     public static String showDateRange () {
-	return df.format (openingDate) + " - " + df.format (closingDate);
+    	return df.format (openingDate) + " - " + df.format (closingDate);
     }
 
     /** Minimal number of users per team. */
@@ -51,19 +51,22 @@ public class Configuration
     /** Task descriptions. */
     private static Task[] tasks;
 
+    /** Returns the task from the task list with the corresponding identifier to the value of the parameter identifier*/
     public static Task getTask (String identifier) {
-	for (int i = 0; i < tasks.length; i++) {
-	    String tid = tasks[i].getIdentifier ();
-	    if (tid.equals (identifier))
-		return tasks[i];
-	}
-	return null;
+    	for (int i = 0; i < tasks.length; i++) {
+    	    String tid = tasks[i].getIdentifier ();
+    	    if (tid.equals (identifier))
+    		return tasks[i];
+	    }
+	    return null;
     }
 
+    /** Returns the task Array. */
     public static Task[] getTasks () {
-	return tasks;
+    	return tasks;
     }
 
+    /** Sets dates that we get from the JSONObject j. */
     public static void setDates(JSONObject j){
       try{
         openingDate = df.parse (j.getString ("opening_date"));
@@ -72,19 +75,26 @@ public class Configuration
         System.out.println("Incorrect Date(s)");
       }
     }
+
+    /** Sets the mimum and maximum number of users per team to the numbers that we get from the JSONObject j. */
     public static void setNbUsersPerTeam(JSONObject j){
       minNbUsersPerTeam = j.getInt ("min");
     	maxNbUsersPerTeam = j.getInt ("max");
     }
+
+    /** Sets the default number of teams per subject to the numbers that we get from the JSONObject j. */
     public static void setdefaultNbTeamsPerSubject(JSONObject j){
       defaultNbTeamsPerSubject = j.getInt ("default");
     }
+
+    /** Creates a tasks array from the JSONArray j. */
     public static void tasksArray(JSONArray j){
       tasks = new Task [j.length ()];
       for (int index = 0; index < j.length (); index++) {
           tasks[index] = new Task (j.getJSONObject (index));
       }
     }
+
     /** Load configuration file in memory. */
     /* FIXME: This function is badly written! */
     public static void loadFrom (File f) throws Exception {

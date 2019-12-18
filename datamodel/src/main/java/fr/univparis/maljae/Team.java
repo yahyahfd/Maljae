@@ -16,39 +16,47 @@ public class Team {
     public static int[] lestock=new int[100];
     public static int ba=0;
     private String    identifier;
+    /** Returns a string containing the current team's identifier. */
     public String     getIdentifier () { return identifier; }
 
     private ArrayList<Task>    preferences;
+    /** Returns an arraylist of taks containing the current team's preferences. */
     public ArrayList<Task>     getPreferences() { return preferences; }
 
     private ArrayList<Student> students;
+    /** Returns an arraylist of students, containing the current team's student list. */
     public ArrayList<Student> getStudents(){return students;}
     public String mail ;
 
     private Integer            secret;
+    /** Returns the int secret. */
     public Integer getSecret () { return secret; }
     public Integer seed;
+    /** Returns the int seed. */
     public Integer getSeed () { return seed; }
+    /** Sets the int seed. */
     public void setSeed(Integer seed) {
   		this.seed = seed;
   	}
 
-
+    /** Updates the int secret using the string s. */
     public void updateSecretFromString (String s) {
-	secret = Integer.parseInt (s);
+    	secret = Integer.parseInt (s);
     }
 
-    Team (Student creator) {//Team constructor with a first student who is the creator
-	identifier = generateRandomTeamIdentifier ();
-	preferences = new ArrayList<Task> (Arrays.asList (Configuration.getTasks ()));
-	students = new ArrayList<Student> (Configuration.getMaxNbUsersPerTeam ());
-	students.add (creator);
-	this.mail=creator.getEmail();
-	secret = ThreadLocalRandom.current().nextInt(10, 100);
+    /** Team constructor with a first student who is considered as the creator. */
+    Team (Student creator) {
+    	identifier = generateRandomTeamIdentifier ();
+    	preferences = new ArrayList<Task> (Arrays.asList (Configuration.getTasks ()));
+    	students = new ArrayList<Student> (Configuration.getMaxNbUsersPerTeam ());
+    	students.add (creator);
+    	this.mail=creator.getEmail();
+    	secret = ThreadLocalRandom.current().nextInt(10, 100);
     }
 
+    /** Creating a team from the file f. */
     /* FIXME: The following code is ugly! */
-    Team (File f) throws IOException {         //Creating team from json file
+    Team (File f) throws IOException {
     	JSONObject json = new JSONObject (FileUtils.readFileToString (f, "utf-8"));
     	identifier = json.getString ("identifier");
     	if (! f.getName ().equals (identifier + "-team.json")) {
@@ -68,8 +76,9 @@ public class Team {
     	    students.add (i, new Student (students_json.getJSONObject (i)));
     }
 
+    /** We save the team with the preferences in a file. */
     /* FIXME: The following code is ugly! */
-    public void saveTo (File f) throws IOException {         //We save the team with the preferences in a file
+    public void saveTo (File f) throws IOException {
     	JSONObject json = new JSONObject ();
     	json.put ("identifier", identifier);
     	json.put ("secret", secret);
@@ -90,8 +99,8 @@ public class Team {
     	fw.write (json.toString (2));
     	fw.close ();
     }
-
-    public String preferencesToString () {        // If you want to print all the preferences from a team
+     /**  Returns a string with all the preferences' identifiers separated by a ";". */
+    public String preferencesToString () {
     	String result = "";
     	for (int i = 0; i < preferences.size (); i++) {
     	    result += preferences.get (i).getIdentifier () + ";";
@@ -99,6 +108,7 @@ public class Team {
     	return result;
     }
 
+    /** Updates a team's preferences with the ones from the string s. */
     public void updatePreferencesFromString (String s) {
     	System.out.println ("Prefs: " + s);
     	String[] fields = s.split (";");
@@ -111,7 +121,8 @@ public class Team {
     	this.preferences = newPreferences;
     }
 
-    public String studentsToString () {     //If you want to print all the students from a team
+    /** Returns a string with all the students from the current team. */
+    public String studentsToString () {
     	String result = "";
     	for (int i = 0; i < students.size (); i++) {
     	    result += students.get (i).toString () + ";";
@@ -119,6 +130,7 @@ public class Team {
     	return result;
     }
 
+    /** Updates the students in the current team with the string s. This is used so that "who" deletes himself from his team. */
     public void updateStudentsFromString (String who, String s) {
       if(s.isEmpty()){
         Teams.deleteTeam(this);
@@ -135,6 +147,7 @@ public class Team {
       }
     }
 
+    /** Changes the toString method so that it returns a string that shows the current team's identifier, preferences, students' list and the int secret. */
     public String toString () {
     	String description = identifier + "\n";
     	description += preferencesToString () + "\n";
@@ -143,6 +156,7 @@ public class Team {
     	return description;
     }
 
+    /** Generates a random team Identifier. */
     private static String generateRandomTeamIdentifier () {
     	String res="";
     	int g=ThreadLocalRandom.current().nextInt(10000, Integer.MAX_VALUE);
@@ -157,28 +171,30 @@ public class Team {
     	return res;
     }
 
+    /** Checks if fname is a valid team file name. */
     public static boolean isValidTeamFileName (String fname) {
     	Pattern p = Pattern.compile (".*-team.json");
     	Matcher m = p.matcher (fname);
     	return m.find ();
     }
 
-    public void addStudent (Student eleve) {
+    /** Adds the student stud to this team. */
+    public void addStudent (Student stud) {
       ArrayList<Team> n = Teams.getTeams();
       for (Team team : n) {
         ArrayList<Student> t= team.students;
         for(Student student : t ){
-          if(student.getEmail().equals(eleve.getEmail())){
+          if(student.getEmail().equals(stud.getEmail())){
             break;
           }
         }
       }
-      if(eleve!=null){
-        this.students.add(eleve);
+      if(stud!=null){
+        this.students.add(stud);
       }
     }
 
-
+    /** Removes the student with email as his email from this team. */
     public void removeStudent (String email) {
 	     Student found = null;
 	      for (Student student : students) {
@@ -196,6 +212,7 @@ public class Team {
         }
     }
 
+    /** Updates this team's email by using the longest one in the team. */
     public void updatemail(){
       for (Student student : students){
         if(student.getEmail().compareTo(this.mail)<0){
