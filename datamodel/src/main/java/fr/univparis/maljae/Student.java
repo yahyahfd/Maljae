@@ -33,7 +33,7 @@ public class Student {
     	confirmed = b;
     }
 
-    /** Changes the toString Method so that it returns a string that shows the current student's email and status. */
+    /** Changes the toString method so that it returns a string that shows the current student's email and status. */
     public String toString () {
     	return email + "/" + confirmed + "/";
     }
