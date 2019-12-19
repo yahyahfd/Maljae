@@ -93,7 +93,6 @@ public class Teams {
       String path=Configuration.getDataDirectory()+"/"+t.getIdentifier()+"-team.json";
       File f=new File(path);
       System.out.print(f.exists());
-      file.setWritable(true);
       f.delete();
     }
 }
