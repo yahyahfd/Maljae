@@ -109,7 +109,7 @@ public class Team {
     }
 
     /** Updates a team's preferences with the ones from the string s. */
-    public void updatePreferencesFromString (String s) {
+    public boolean updatePreferencesFromString (String s) {
       int permut =0;
     	System.out.println ("Prefs: " + s);
     	String[] fields = s.split (";");
@@ -131,8 +131,9 @@ public class Team {
 
             if (permut==this.preferences.size()){
               this.preferences = newPreferences;
+              return true;
             }else{
-              return;
+              return false;
             }
     	// FIXME: We should check that newPreferences is a permutation
     	// FIXME: of all task identifiers.
