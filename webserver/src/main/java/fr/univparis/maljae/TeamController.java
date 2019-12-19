@@ -18,14 +18,14 @@ import org.json.*;
 public class TeamController {
 
     public static void installTeamCreate (Javalin app) {
-      app.post("/team/create", ctx -> {
-        String email = ctx.formParam ("email");
-        Team newteam = Teams.createTeam (email);
-        Token newtoken = Token.createToken (newteam, email);
-        String host = ctx.host ();
-        Notifier.sendTeamCreation (host, newtoken);
-        ctx.redirect("/team-creation-done.html");
-      });
+	app.post("/team/create", ctx -> {
+		String email = ctx.formParam ("email");
+		Team newteam = Teams.createTeam (email);
+		Token newtoken = Token.createToken (newteam, email);
+		String host = ctx.host();
+		Notifier.sendTeamCreation (host, newtoken);
+		ctx.redirect("/team-creation-done.html");
+	    });
     }
 
     public static void installTeamEdit (Javalin app) {

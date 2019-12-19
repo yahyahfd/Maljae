@@ -1,0 +1,87 @@
+body{
+  margin: 250px;
+  font-family: Arial,Helvetica Neue,Helvetica,sans-serif;
+  background-color: #F8F6F7;
+}
+
+.form {
+  display: block;
+  text-align: center;
+  width: fit-content;
+  height: fit-content;
+	margin: auto;
+}
+
+.form label{
+  color: #595e65;
+}
+
+#email{
+  display: flex;
+  margin-bottom: 15px;
+  border-top: 0;
+  border-right: 0;
+  border-bottom: 0;
+  width: 400px;
+  padding: 10px;
+  outline: none;
+  background-color: #e8f0fe;
+  border-left: 1px inset #474974;
+  margin-top: 15px;
+}
+
+.button {
+  display: inline-flex;
+  height: 40px;
+  width: 250px;
+  border: 2px solid #BFC0C0;
+  margin: 20px 20px 20px 20px;
+  color: #BFC0C0;
+  text-transform: uppercase;
+  text-decoration: none;
+  font-size: .8em;
+  letter-spacing: 1.5px;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  position: relative;
+  cursor: pointer;
+}
+
+.button input[value = "Create!"] {
+  color: #BFC0C0;
+  text-decoration: none;
+  letter-spacing: 1px;
+  position: relative;
+  transition: all .35s ease-Out;
+  background: none;
+  border: none;
+  padding: 0;
+  font: inherit;
+  cursor: pointer;
+  outline: inherit;
+  width: 100%;
+  height: 100%;
+}
+
+#slide {
+  width: 100%;
+  height: 100%;
+  left: -250px;
+  background: #BFC0C0;
+  position: absolute;
+  transition: all .35s ease-Out;
+  bottom: 0;
+}
+
+.button:hover #slide {
+  left: 0;
+}
+
+.button:hover input[value = "Create!"] {
+  color: #2D3142;
+}
+
+p{
+  text-align: center;
+}
