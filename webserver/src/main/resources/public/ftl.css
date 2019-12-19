@@ -1,0 +1,19 @@
+<style type="text/css">
+body{
+  margin: 250px;
+  font-family: Arial,Helvetica Neue,Helvetica,sans-serif;
+  background-color: #F8F6F7;
+}
+
+.form {
+  display: block;
+  text-align: center;
+  width: fit-content;
+  height: fit-content;
+	margin: auto;
+}
+
+.form label{
+  color: #595e65;
+}
+</style>

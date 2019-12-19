@@ -22,7 +22,7 @@ public class TeamController {
 		String email = ctx.formParam ("email");
 		Team newteam = Teams.createTeam (email);
 		Token newtoken = Token.createToken (newteam, email);
-		String host = ctx.host ();
+		String host = ctx.host();
 		Notifier.sendTeamCreation (host, newtoken);
 		ctx.redirect("/team-creation-done.html");
 	    });
