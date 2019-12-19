@@ -48,16 +48,36 @@ public class TeamController {
 		String who = token.getEmail ();
 		String teamName = token.getTeam ().getIdentifier ();
 		Team team = Teams.getTeam (teamName);
-		team.updateSecretFromString (ctx.formParam ("secret"));
-		team.updateStudentsFromString (who, ctx.formParam ("students"));
-    team.updatePreferencesFromString (ctx.formParam ("preferences"));
-		Teams.saveTeam (team);
     String host = ctx.host ();
+		team.updateSecretFromString (ctx.formParam ("secret"));
+    team.updatePreferencesFromString (ctx.formParam ("preferences"));
+    Teams.saveTeam (team);
+    if(team.who(ctx.formParam ("students"))!=null){
+      Edit editToConfirm=team.who(ctx.formParam ("students"));
+      Notifier.sendTeamEditConfirm(host,token,editToConfirm);
+    }
     Notifier.sendUpdate(host,token,who);
 		ctx.redirect("/team-update-done.html");
 	    });
     }
-
+    public static void installConfirmationUpdate(Javalin app){
+       app.get("/team/update-confirmed/:token/:student/:action",ctx ->{
+        Token token = Token.getToken (ctx.pathParam ("token"));
+        boolean act=Boolean.valueOf(ctx.pathParam ("action"));
+        String st=ctx.pathParam ("student");
+     		String teamName = token.getTeam ().getIdentifier ();
+     		Team team = Teams.getTeam (teamName);
+        try {
+          team.updateStudentsFromString(st,act);//true if added or false if deleted
+          Teams.saveTeam (team);
+        }catch(ErrorNotOnThisTeamAnymore e) {
+          ctx.redirect("/team-update-errorDel.html");
+        }catch(ErrorAlreadyOnThisTeam ee){
+          ctx.redirect("/team-update-errorAdd.html");
+        }
+        ctx.redirect("/team-update-done.html");
+      });
+     }
     public static void displayAssignementTrace(Javalin app){
       app.after ("/team/trace", ctx->{
         ArrayList<String> trace = new ArrayList<String>();
@@ -79,6 +99,7 @@ public class TeamController {
 	installTeamCreate (app);
 	installTeamEdit   (app);
 	installTeamUpdate (app);
+  installConfirmationUpdate(app);
   displayAssignementTrace(app);
     }
 

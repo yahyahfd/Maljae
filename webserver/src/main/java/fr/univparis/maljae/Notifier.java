@@ -42,9 +42,7 @@ public class Notifier {
 	    "You have requested the creation of a team.\n" +
 	    "Here are the links to perform actions on this team.\n" +
 	    "- To edit your team information :\n" +
-	    "  http://" + host + "/team/edit/" + token.toString () + "\n" +
-	    "- To delete your team :\n" +
-	    "  http://" + host + "/team/delete/" + token.toString () + "\n";
+	    "  http://" + host + "/team/edit/" + token.toString () + "\n";
 	sendEmail (token.getEmail (), "[maljae] Team Creation", message);
     }
     public static void sendUpdate(String host,Token token,String who)throws IOException{
@@ -52,11 +50,17 @@ public class Notifier {
   	    who+" have edited the team.\n" +
   	    "Here are the links to perform actions on this team.\n" +
   	    "- To edit your team information :\n" +
-  	    "  http://" + host + "/team/edit/" + token.toString () + "\n" +
-  	    "- To delete your team :\n" +
-  	    "  http://" + host + "/team/delete/" + token.toString () + "\n";
+  	    "  http://" + host + "/team/edit/" + token.toString () + "\n";
       for(Student student:token.getTeam().getStudents()){
         sendEmail(student.getEmail(),"[maljae] Team Updated",message);
       }
+    }
+
+    public static void sendTeamEditConfirm(String host,Token token,Edit edit)throws IOException{
+      String message="Hello!\n" +
+        "It's seems you been added or deleted to/from the team.\n" +
+        "Here are the links to confirm such actions on this team.\n" +
+        "  http://" + host + "/team/update-confirmed/" + token.toString()+"/"+edit.getStudent().getEmail()+"/"+edit.getAction()+"\n";
+      sendEmail(edit.getStudent().getEmail(),"[maljae] Team Updated Confirm",message);
     }
 }
