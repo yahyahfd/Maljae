@@ -109,16 +109,34 @@ public class Team {
     }
 
     /** Updates a team's preferences with the ones from the string s. */
-    public void updatePreferencesFromString (String s) {
+    public boolean updatePreferencesFromString (String s) {
+      int permut =0;
     	System.out.println ("Prefs: " + s);
     	String[] fields = s.split (";");
     	ArrayList<Task> newPreferences = new ArrayList<Task> ();
     	for (int i = 0; i < fields.length; i++) {
     	    newPreferences.add (Configuration.getTask (fields[i]));
     	}
+
+      for(int b=0;b<this.preferences.size();b++){
+        int a=0;
+        while(a!=newPreferences.size()){
+          if(this.preferences.get(b).getIdentifier()==newPreferences.get(a).getIdentifier()){
+            permut++;
+            break;
+          }
+        a++;
+        }
+      }
+
+            if (permut==this.preferences.size()){
+              this.preferences = newPreferences;
+              return true;
+            }else{
+              return false;
+            }
     	// FIXME: We should check that newPreferences is a permutation
     	// FIXME: of all task identifiers.
-    	this.preferences = newPreferences;
     }
 
     /** Returns a string with all the students from the current team. */
