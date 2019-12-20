@@ -18,30 +18,34 @@ import org.json.*;
 public class TeamController {
 
     public static void installTeamCreate (Javalin app) {
-	app.post("/team/create", ctx -> {
-		String email = ctx.formParam ("email");
-		Team newteam = Teams.createTeam (email);
-		Token newtoken = Token.createToken (newteam, email);
-		String host = ctx.host();
-		Notifier.sendTeamCreation (host, newtoken);
-		ctx.redirect("/team-creation-done.html");
-	    });
+      app.post("/team/create", ctx -> {
+        try{
+          String email = ctx.formParam ("email");
+          Team newteam = Teams.createTeam (email);
+          Token newtoken = Token.createToken (newteam, email);
+          String host = ctx.host ();
+          Notifier.sendTeamCreation (host, newtoken);
+          ctx.redirect("/team-creation-done.html");
+        }catch(NullPointerException e){
+          ctx.redirect("/team-creation-impossible.html");
+        }
+      });
     }
 
     public static void installTeamEdit (Javalin app) {
       app.get("/team/edit/:token", ctx -> {
-        Token token = Token.getToken (ctx.pathParam ("token"));
-        String teamName = token.getTeam ().getIdentifier ();
-        Team team = Teams.getTeam (teamName);
-        File f = new File (Configuration.getDataDirectory ()+ "/token" + token + ".json");
-        if(f.exists()){
+        try{
+          Token token = Token.getToken (ctx.pathParam ("token"));
+          File f = new File (Configuration.getDataDirectory ()+ "/token" + token + ".json");
+          String teamName = token.getTeam ().getIdentifier ();
+          Team team = Teams.getTeam (teamName);
           ctx.render("/public/edit-team.ftl", TemplateUtil.model
             ("teamName", teamName,
             "secret", team.getSecret (),
             "students", team.studentsToString (),
             "preferences", team.preferencesToString (),
             "token", token.toString ()));
-        }else{
+        }catch(Exception e){
           ctx.redirect("/team-exist-error.html");
         }
       });
@@ -49,44 +53,50 @@ public class TeamController {
 
     public static void installTeamUpdate (Javalin app) {
       app.post("/team/update/:token", ctx -> {
-        Token token = Token.getToken (ctx.pathParam ("token"));
-        String who = token.getEmail ();
-        String teamName = token.getTeam ().getIdentifier ();
-        Team team = Teams.getTeam (teamName);
-        String host = ctx.host ();
-        team.updateSecretFromString (ctx.formParam ("secret"));
-        team.updatePreferencesFromString (ctx.formParam ("preferences"));
-        Teams.saveTeam (team);
-        if(team.who(ctx.formParam ("students"))!=null){
-          Edit editToConfirm=team.who(ctx.formParam ("students"));
-          Notifier.sendTeamEditConfirm(host,token,editToConfirm);
+        try{
+          Token token = Token.getToken (ctx.pathParam ("token"));
+          String who = token.getEmail ();
+          String teamName = token.getTeam ().getIdentifier ();
+          Team team = Teams.getTeam (teamName);
+          String host = ctx.host ();
+          team.updateSecretFromString (ctx.formParam ("secret"));
+          team.updatePreferencesFromString (ctx.formParam ("preferences"));
+          Teams.saveTeam (team);
+          if(team.who(ctx.formParam ("students"))!=null){
+            Edit editToConfirm=team.who(ctx.formParam ("students"));
+            Notifier.sendTeamEditConfirm(host,token,editToConfirm);
+          }
+          Notifier.sendUpdate(host,token,who);
+        }catch(Exception e){
+          ctx.redirect("/team-update-done.html");
         }
-        Notifier.sendUpdate(host,token,who);
-        ctx.redirect("/team-update-done.html");
       });
     }
 
     public static void installConfirmationUpdate(Javalin app){
       app.get("/team/update-confirmed/:token/:student/:action",ctx ->{
-      Token token = Token.getToken (ctx.pathParam ("token"));
-      boolean act=Boolean.valueOf(ctx.pathParam ("action"));
-      String st=ctx.pathParam ("student");
-      String teamName = token.getTeam ().getIdentifier ();
-      Team team = Teams.getTeam (teamName);
-        try {
-          team.updateStudentsFromString(st,act);//true if added or false if deleted
-          if(team.studentsToString().length()!=0){
-            Teams.saveTeam (team);
-          }else{
-            File f = new File (Configuration.getDataDirectory ()+ "/token" + token + ".json");
-            Token.deleteTokenfile(f);
-          }
-        }catch(ErrorNotOnThisTeamAnymore e) {
-          ctx.redirect("/team-update-errorDel.html");
-        }catch(ErrorAlreadyOnThisTeam ee){
-          ctx.redirect("/team-update-errorAdd.html");
-        }
-        ctx.redirect("/team-update-done.html");
+        try{
+          Token token = Token.getToken (ctx.pathParam ("token"));
+          boolean act=Boolean.valueOf(ctx.pathParam ("action"));
+          String st=ctx.pathParam ("student");
+          String teamName = token.getTeam ().getIdentifier ();
+          Team team = Teams.getTeam (teamName);
+            try {
+              team.updateStudentsFromString(st,act);//true if added or false if deleted
+              if(team.studentsToString().length()!=0){
+                Teams.saveTeam (team);
+              }else{
+                File f = new File (Configuration.getDataDirectory ()+ "/token" + token + ".json");
+                Token.deleteTokenfile(f);
+              }
+            }catch(ErrorNotOnThisTeamAnymore e) {
+              ctx.redirect("/team-update-errorDel.html");
+            }catch(ErrorAlreadyOnThisTeam ee){
+              ctx.redirect("/team-update-errorAdd.html");
+            }
+        }catch(Exception eee){
+          ctx.redirect("/team-update-done.html");
+        }        
       });
     }
 
