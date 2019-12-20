@@ -29,33 +29,65 @@ public class TeamController {
     }
 
     public static void installTeamEdit (Javalin app) {
-	app.get("/team/edit/:token", ctx -> {
-		Token token = Token.getToken (ctx.pathParam ("token"));
-		String teamName = token.getTeam ().getIdentifier ();
-		Team team = Teams.getTeam (teamName);
-		ctx.render("/public/edit-team.ftl", TemplateUtil.model
-			   ("teamName", teamName,
-			    "secret", team.getSecret (),
-			    "students", team.studentsToString (),
-			    "preferences", team.preferencesToString (),
-			    "token", token.toString ()));
-	    });
+      app.get("/team/edit/:token", ctx -> {
+        Token token = Token.getToken (ctx.pathParam ("token"));
+        String teamName = token.getTeam ().getIdentifier ();
+        Team team = Teams.getTeam (teamName);
+        File f = new File (Configuration.getDataDirectory ()+ "/token" + token + ".json");
+        if(f.exists()){
+          ctx.render("/public/edit-team.ftl", TemplateUtil.model
+            ("teamName", teamName,
+            "secret", team.getSecret (),
+            "students", team.studentsToString (),
+            "preferences", team.preferencesToString (),
+            "token", token.toString ()));
+        }else{
+          ctx.redirect("/team-exist-error.html");
+        }
+      });
     }
 
     public static void installTeamUpdate (Javalin app) {
-	app.post("/team/update/:token", ctx -> {
-		Token token = Token.getToken (ctx.pathParam ("token"));
-		String who = token.getEmail ();
-		String teamName = token.getTeam ().getIdentifier ();
-		Team team = Teams.getTeam (teamName);
-		team.updateSecretFromString (ctx.formParam ("secret"));
-		team.updateStudentsFromString (who, ctx.formParam ("students"));
-    team.updatePreferencesFromString (ctx.formParam ("preferences"));
-		Teams.saveTeam (team);
-    String host = ctx.host ();
-    Notifier.sendUpdate(host,token,who);
-		ctx.redirect("/team-update-done.html");
-	    });
+      app.post("/team/update/:token", ctx -> {
+        Token token = Token.getToken (ctx.pathParam ("token"));
+        String who = token.getEmail ();
+        String teamName = token.getTeam ().getIdentifier ();
+        Team team = Teams.getTeam (teamName);
+        String host = ctx.host ();
+        team.updateSecretFromString (ctx.formParam ("secret"));
+        team.updatePreferencesFromString (ctx.formParam ("preferences"));
+        Teams.saveTeam (team);
+        if(team.who(ctx.formParam ("students"))!=null){
+          Edit editToConfirm=team.who(ctx.formParam ("students"));
+          Notifier.sendTeamEditConfirm(host,token,editToConfirm);
+        }
+        Notifier.sendUpdate(host,token,who);
+        ctx.redirect("/team-update-done.html");
+      });
+    }
+
+    public static void installConfirmationUpdate(Javalin app){
+      app.get("/team/update-confirmed/:token/:student/:action",ctx ->{
+      Token token = Token.getToken (ctx.pathParam ("token"));
+      boolean act=Boolean.valueOf(ctx.pathParam ("action"));
+      String st=ctx.pathParam ("student");
+      String teamName = token.getTeam ().getIdentifier ();
+      Team team = Teams.getTeam (teamName);
+        try {
+          team.updateStudentsFromString(st,act);//true if added or false if deleted
+          if(team.studentsToString().length()!=0){
+            Teams.saveTeam (team);
+          }else{
+            File f = new File (Configuration.getDataDirectory ()+ "/token" + token + ".json");
+            Token.deleteTokenfile(f);
+          }
+        }catch(ErrorNotOnThisTeamAnymore e) {
+          ctx.redirect("/team-update-errorDel.html");
+        }catch(ErrorAlreadyOnThisTeam ee){
+          ctx.redirect("/team-update-errorAdd.html");
+        }
+        ctx.redirect("/team-update-done.html");
+      });
     }
 
     public static void displayAssignementTrace(Javalin app){
@@ -69,17 +101,17 @@ public class TeamController {
           System.out.println(e);
           trace.add("The tasks have not been assigned yet !");
         }
-        ctx.render("public/display-trace.ftl",TemplateUtil.model
-        ("trace",trace));
+          ctx.render("public/display-trace.ftl",TemplateUtil.model
+          ("trace",trace));
       });
-
     }
+
     public static void install (Javalin app) {
-	JavalinRenderer.register(JavalinFreemarker.INSTANCE, ".ftl");
-	installTeamCreate (app);
-	installTeamEdit   (app);
-	installTeamUpdate (app);
-  displayAssignementTrace(app);
+      JavalinRenderer.register(JavalinFreemarker.INSTANCE, ".ftl");
+      installTeamCreate (app);
+      installTeamEdit   (app);
+      installTeamUpdate (app);
+      installConfirmationUpdate(app);
+      displayAssignementTrace(app);
     }
-
 }

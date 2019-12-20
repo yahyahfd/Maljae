@@ -55,4 +55,12 @@ public class Notifier {
         sendEmail(student.getEmail(),"[maljae] Team Updated",message);
       }
     }
+
+    public static void sendTeamEditConfirm(String host,Token token,Edit edit)throws IOException{
+      String message="Hello!\n" +
+        "It's seems you been added or deleted to/from the team.\n" +
+        "Here are the links to confirm such actions on this team.\n" +
+        "  http://" + host + "/team/update-confirmed/" + token.toString()+"/"+edit.getStudent().getEmail()+"/"+edit.getAction()+"\n";
+      sendEmail(edit.getStudent().getEmail(),"[maljae] Team Updated Confirm",message);
+    }
 }

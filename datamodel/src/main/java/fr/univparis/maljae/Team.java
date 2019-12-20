@@ -148,20 +148,67 @@ public class Team {
     	return result;
     }
 
+      /** This check that we only add one students and that the students is not on the team already, we say that you only add a students at the end of the string*/
+    public Student addingOneStudent(ArrayList<Student> n){
+      if(n.size()-this.students.size()!=1)return null;
+      boolean ok=true;
+      for(int i=0;i<this.students.size();i++){
+        if(!n.get(i).getEmail().equals(this.students.get(i).getEmail()))ok=false;//we check that all the students excepts from the one you add is on the team
+        if(n.get(i).getEmail().equals(n.get(this.students.size()).getEmail()))ok=false;//we check that the students we add is not already on this list
+      }
+      if(ok==true)return n.get(students.size());
+      return null;
+    }
+
+    /** This check that we only delete one students and that the other students are still on the team*/
+    public Student deletingOneStudent(ArrayList<Student> n){
+      if(n.size()-this.students.size()!=-1)return null;
+      int indexOfChange=0;
+      for(int i=0;i<this.students.size();i++){
+        if(i==n.size()){
+          indexOfChange=i;//this means we deleted the last students
+          break;
+        }
+        if(!n.get(i).getEmail().equals(this.students.get(i).getEmail())){
+          indexOfChange=i;//we get the index where the students is not on the team anymore
+          break;
+        }
+      }
+      boolean ok=true;
+      for(int i=indexOfChange;i<n.size();i++){
+        if(!n.get(i).getEmail().equals(this.students.get(i-1).getEmail()))ok=false;//we check that apart from the students deleted  everything is the same
+      }
+      if(ok==true)return this.students.get(indexOfChange);
+      return null;
+    }
+
+/** Return the action to perform true=add false=delete and also the students that is added or deleted, we can only delete or add one student at the time*/
+    public Edit who(String s){
+      ArrayList<Student> newStudents = new ArrayList<Student> ();
+      if(!s.isEmpty()){
+        String[] fields = s.split (";");
+        newStudents = new ArrayList<Student> ();
+        for (int i = 0; i < fields.length; i++) {
+          newStudents.add(Student.fromString (fields[i]));
+        }
+      }
+      Student add=addingOneStudent(newStudents);
+      Student del=deletingOneStudent(newStudents);
+      if(add==null&&del==null)return null;//we aren't changing the team at all
+      else if(add!=null)return new Edit(add,true);
+      //this is the case if we add a students
+      else return new Edit(del,false);
+      //this is  the case if we delete a students
+    }
     /** Updates the students in the current team with the string s. This is used so that "who" deletes himself from his team. */
-    public void updateStudentsFromString (String who, String s) {
-      if(s.isEmpty()){
-        Teams.deleteTeam(this);
+    public void updateStudentsFromString (String student,boolean action) {
+      if(action==true){
+        this.addStudent(new Student(student,true));
       }else{
-        System.out.println (who + " " + s);
-      	String[] fields = s.split (";");
-      	ArrayList<Student> newStudents = new ArrayList<Student> ();
-      	for (int i = 0; i < fields.length; i++) {
-      	    newStudents.add (Student.fromString (fields[i]));
-      	}
-      	// FIXME: We should check that [who] did not change the status of
-      	// FIXME: other team members.
-      	this.students = newStudents;
+        this.removeStudent(student);
+        if(this.students.isEmpty()){
+          Teams.deleteTeam(this);
+        }
       }
     }
 
@@ -203,7 +250,7 @@ public class Team {
         ArrayList<Student> t= team.students;
         for(Student student : t ){
           if(student.getEmail().equals(stud.getEmail())){
-            break;
+            throw new ErrorAlreadyOnThisTeam();
           }
         }
       }
@@ -221,6 +268,7 @@ public class Team {
 		           break;
 	         }
 	  }
+        if(found==null)throw new ErrorNotOnThisTeamAnymore();
       	if (found != null){
           ArrayList<Team> tlist= Teams.getTeams();
       	   students.remove (found);

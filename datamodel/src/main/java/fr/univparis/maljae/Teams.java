@@ -82,6 +82,9 @@ public class Teams {
     /** removes the team t from the teams list. */
     public static void deleteTeam(Team t){
       teams.remove(t);
+      String path=Configuration.getDataDirectory()+"/"+t.getIdentifier()+"-team.json";
+      File f=new File(path);
+      System.out.print(f.exists());
+      f.delete();
     }
-
 }
