@@ -46,23 +46,21 @@ public class Teams {
       return null;
     }
 
-    /** Removing a student from a teamusing his mail. */
-    public static void removeFromExistingTeam (String email) {
-    	for (Team team : teams) {
-    	    team.removeStudent (email);
-    	}
-    }
-
     /** Creates a team using an email as its creator's email. */
     public static Team createTeam (String email) throws IOException {
-    	removeFromExistingTeam (email);
-    	Team newTeam = new Team (new Student (email, true));
-    	teams.add (newTeam);
-    	String filename =
-    	    Configuration.getDataDirectory () + "/" +
-    	    newTeam.getIdentifier () + "-team.json";
-    	newTeam.saveTo (new File (filename));
-    	return newTeam;
+      Team newTeam = new Team (new Student (email, true));;
+      for(Team team: teams){
+        ArrayList<Student> t= team.getStudents();
+        for(Student student : t ){
+          if(student.getEmail().equals(email)){
+            return null;
+          }
+        }
+      }
+      teams.add (newTeam);
+      String filename = Configuration.getDataDirectory () + "/" + newTeam.getIdentifier () + "-team.json";
+      newTeam.saveTo (new File (filename));
+      return newTeam;
     }
 
     /** Saves a team into filename, which is a json. */

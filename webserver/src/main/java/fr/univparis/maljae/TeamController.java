@@ -19,29 +19,33 @@ public class TeamController {
 
     public static void installTeamCreate (Javalin app) {
       app.post("/team/create", ctx -> {
-        String email = ctx.formParam ("email");
-        Team newteam = Teams.createTeam (email);
-        Token newtoken = Token.createToken (newteam, email);
-        String host = ctx.host ();
-        Notifier.sendTeamCreation (host, newtoken);
-        ctx.redirect("/team-creation-done.html");
+        try{
+          String email = ctx.formParam ("email");
+          Team newteam = Teams.createTeam (email);
+          Token newtoken = Token.createToken (newteam, email);
+          String host = ctx.host ();
+          Notifier.sendTeamCreation (host, newtoken);
+          ctx.redirect("/team-creation-done.html");
+        }catch(NullPointerException e){
+          ctx.redirect("/team-creation-impossible.html");
+        }
       });
     }
 
     public static void installTeamEdit (Javalin app) {
       app.get("/team/edit/:token", ctx -> {
-        Token token = Token.getToken (ctx.pathParam ("token"));
-        String teamName = token.getTeam ().getIdentifier ();
-        Team team = Teams.getTeam (teamName);
-        File f = new File (Configuration.getDataDirectory ()+ "/token" + token + ".json");
-        if(f.exists()){
+        try{
+          Token token = Token.getToken (ctx.pathParam ("token"));
+          File f = new File (Configuration.getDataDirectory ()+ "/token" + token + ".json");
+          String teamName = token.getTeam ().getIdentifier ();
+          Team team = Teams.getTeam (teamName);
           ctx.render("/public/edit-team.ftl", TemplateUtil.model
             ("teamName", teamName,
             "secret", team.getSecret (),
             "students", team.studentsToString (),
             "preferences", team.preferencesToString (),
             "token", token.toString ()));
-        }else{
+        }catch(Exception e){
           ctx.redirect("/team-exist-error.html");
         }
       });
