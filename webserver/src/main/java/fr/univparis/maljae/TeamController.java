@@ -61,15 +61,17 @@ public class TeamController {
           String host = ctx.host ();
           team.updateSecretFromString (ctx.formParam ("secret"));
           if(team.updatePreferencesFromString (ctx.formParam ("preferences"))){
-            ctx.redirect("/team-update-done.html");
             Teams.saveTeam (team);
             if(team.who(ctx.formParam ("students"))!=null){
+              ctx.redirect("/team-update-done.html");
               Edit editToConfirm=team.who(ctx.formParam ("students"));
               Notifier.sendTeamEditConfirm(host,token,editToConfirm);
+              Notifier.sendUpdate(host,token,who);
+            }else{
+              ctx.redirect("/team-update-error.html");
             }
-            Notifier.sendUpdate(host,token,who);
           }else{
-            ctx.redirect("/preferences-error.html");
+              ctx.redirect("/preferences-error.html");
           }
         }catch(Exception e){
           ctx.redirect("/team-update-error.html");
