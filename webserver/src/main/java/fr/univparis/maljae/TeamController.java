@@ -100,7 +100,7 @@ public class TeamController {
             }
             ctx.redirect("/team-update-done.html");
         }catch(Exception eee){
-          ctx.redirect("/team-update-error.html")
+          ctx.redirect("/team-update-error.html");
         }
       });
     }
