@@ -48,7 +48,7 @@ public class Teams {
 
     /** Creates a team using an email as its creator's email. */
     public static Team createTeam (String email) throws IOException {
-      Team newTeam = new Team (new Student (email, true));;
+      Team newTeam = new Team (new Student (email));
       for(Team team: teams){
         ArrayList<Student> t= team.getStudents();
         for(Student student : t ){
@@ -90,7 +90,6 @@ public class Teams {
       teams.remove(t);
       String path=Configuration.getDataDirectory()+"/"+t.getIdentifier()+"-team.json";
       File f=new File(path);
-      System.out.print(f.exists());
       f.delete();
     }
 }

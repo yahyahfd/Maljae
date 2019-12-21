@@ -20,10 +20,10 @@ public class TeamTest{
     URL url = this.getClass ().getResource ("/config.json");
     File input = new File (url.getFile());
     Configuration.loadFrom (input);
-    Team testingteam = new Team(new Student("zoeelric@gmail.com",true));
-    testingteam.addStudent(new Student("alphonseelric@gmail.com",true));
-    testingteam.addStudent(new Student("edwardelric@gmail.com",true));
-    testingteam.addStudent(new Student("pereelric@gmail.com",true));
+    Team testingteam = new Team(new Student("zoeelric@gmail.com"));
+    testingteam.addStudent(new Student("alphonseelric@gmail.com"));
+    testingteam.addStudent(new Student("edwardelric@gmail.com"));
+    testingteam.addStudent(new Student("pereelric@gmail.com"));
 
     testingteam.updatemail();
 
@@ -36,10 +36,10 @@ public class TeamTest{
     URL url = this.getClass ().getResource ("/config.json");
     File input = new File (url.getFile());
     Configuration.loadFrom (input);
-    Team testingteam = new Team(new Student("zoeelric@gmail.com",true));
-    testingteam.addStudent(new Student("alphonseelric@gmail.com",true));
-    testingteam.addStudent(new Student("edwardelric@gmail.com",true));
-    testingteam.addStudent(new Student("pereelric@gmail.com",true));
+    Team testingteam = new Team(new Student("zoeelric@gmail.com"));
+    testingteam.addStudent(new Student("alphonseelric@gmail.com"));
+    testingteam.addStudent(new Student("edwardelric@gmail.com"));
+    testingteam.addStudent(new Student("pereelric@gmail.com"));
     testingteam.removeStudent("alphonseelric@gmail.com");
     testingteam.removeStudent("edwardelric@gmail.com");
     testingteam.removeStudent("pereelric@gmail.com");

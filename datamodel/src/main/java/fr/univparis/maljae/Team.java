@@ -135,15 +135,13 @@ public class Team {
             }else{
               return false;
             }
-    	// FIXME: We should check that newPreferences is a permutation
-    	// FIXME: of all task identifiers.
     }
 
     /** Returns a string with all the students from the current team. */
     public String studentsToString () {
     	String result = "";
     	for (int i = 0; i < students.size (); i++) {
-    	    result += students.get (i).toString () + ";";
+    	    result += students.get (i).getEmail() + ";";
     	}
     	return result;
     }
@@ -203,7 +201,7 @@ public class Team {
     /** Updates the students in the current team with the string s. This is used so that "who" deletes himself from his team. */
     public void updateStudentsFromString (String student,boolean action) {
       if(action==true){
-        this.addStudent(new Student(student,true));
+        this.addStudent(new Student(student));
       }else{
         this.removeStudent(student);
         if(this.students.isEmpty()){
