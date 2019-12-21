@@ -60,15 +60,19 @@ public class TeamController {
           Team team = Teams.getTeam (teamName);
           String host = ctx.host ();
           team.updateSecretFromString (ctx.formParam ("secret"));
-          team.updatePreferencesFromString (ctx.formParam ("preferences"));
-          Teams.saveTeam (team);
-          if(team.who(ctx.formParam ("students"))!=null){
-            Edit editToConfirm=team.who(ctx.formParam ("students"));
-            Notifier.sendTeamEditConfirm(host,token,editToConfirm);
+          if(team.updatePreferencesFromString (ctx.formParam ("preferences"))){
+            ctx.redirect("/team-update-done.html");
+            Teams.saveTeam (team);
+            if(team.who(ctx.formParam ("students"))!=null){
+              Edit editToConfirm=team.who(ctx.formParam ("students"));
+              Notifier.sendTeamEditConfirm(host,token,editToConfirm);
+            }
+            Notifier.sendUpdate(host,token,who);
+          }else{
+            ctx.redirect("/preferences-error.html");
           }
-          Notifier.sendUpdate(host,token,who);
         }catch(Exception e){
-          ctx.redirect("/team-update-done.html");
+          ctx.redirect("/team-update-error.html");
         }
       });
     }
@@ -94,9 +98,10 @@ public class TeamController {
             }catch(ErrorAlreadyOnThisTeam ee){
               ctx.redirect("/team-update-errorAdd.html");
             }
+            ctx.redirect("/team-update-done.html");
         }catch(Exception eee){
-          ctx.redirect("/team-update-done.html");
-        }        
+          ctx.redirect("/team-update-error.html");
+        }
       });
     }
 

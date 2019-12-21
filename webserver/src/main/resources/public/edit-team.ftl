@@ -10,21 +10,22 @@
 
   <body>
     <form action="/team/update/${token}" method="post" class="form">
+      <p>Information about ${teamName}</p>
       <div class="form">
-	<p>Information about ${teamName}</p>
-	<label for="email">Enter your secret: </label>
-	<input type="string" name="secret" id="secret" value="${secret}" required>
+        <label for="email">Enter your secret: </label>
+        <input type="string" name="secret" id="secret" value="${secret}" required>
       </div>
       <div class="form">
-	<label for="students">Enter the members of your team</label>
-	<textarea name="students">${students}</textarea>
+        <label for="students">Enter the members of your team: </label>
+        <textarea name="students">${students}</textarea>
       </div>
       <div class="form">
-	<label for="preferences">Enter the preferences of your team</label>
-	<textarea name="preferences">${preferences}</textarea>
+        <label for="preferences">Enter the preferences of your team: </label>
+        <textarea name="preferences">${preferences}</textarea>
       </div>
-      <div class="form">
-	<input type="submit" value="Update">
+      <div class="form button">
+        <div id="slide"></div>
+        <input type="submit" value="Update">
       </div>
     </form>
   </body>

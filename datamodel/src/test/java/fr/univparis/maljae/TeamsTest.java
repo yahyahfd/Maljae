@@ -23,7 +23,7 @@ public class TeamsTest{
     ArrayList<Team> teams=new ArrayList<Team>();
     ArrayList<Student> students=new ArrayList<Student>();
     for(int i=0;i<5;i++){
-      students.add(new Student("test"+String.valueOf(i)+"@gmail.com",true));
+      students.add(new Student("test"+String.valueOf(i)+"@gmail.com"));
     }
     for(int i=0;i<5;i++){
       teams.add(new Team(students.get(i)));
