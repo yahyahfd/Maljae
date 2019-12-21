@@ -98,8 +98,9 @@ public class TeamController {
             }catch(ErrorAlreadyOnThisTeam ee){
               ctx.redirect("/team-update-errorAdd.html");
             }
+            ctx.redirect("/team-update-done.html");
         }catch(Exception eee){
-          ctx.redirect("/team-update-done.html");
+          ctx.redirect("/team-update-error.html")
         }
       });
     }
