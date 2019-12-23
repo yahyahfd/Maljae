@@ -4,6 +4,6 @@ public class ErrorAlreadyOnThisTeam extends RuntimeException{
     super();
   }
   public String toString(){
-    return "You are already on this team so you can't add yourself";
+    return "This student is already in this team.";
   }
 }

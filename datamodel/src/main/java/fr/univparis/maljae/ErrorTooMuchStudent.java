@@ -4,6 +4,6 @@ public class ErrorTooMuchStudent extends RuntimeException{
     super();
   }
   public String toString(){
-    return "You are trying to delete or add more than one students";
+    return "You are either trying to delete or add more than one student or not making any changes";
   }
 }

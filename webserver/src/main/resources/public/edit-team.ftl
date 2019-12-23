@@ -18,7 +18,13 @@
       <div class="form">
         <label for="students">Enter the members of your team: </label>
         <textarea name="students">${students}</textarea>
+
       </div>
+      <ol>
+        <#list prefs as t>
+        <li>${t}</li>
+        </#list>
+      </ol>
       <div class="form">
         <label for="preferences">Enter the preferences of your team: </label>
         <textarea name="preferences">${preferences}</textarea>

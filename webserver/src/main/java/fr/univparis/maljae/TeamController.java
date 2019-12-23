@@ -39,8 +39,10 @@ public class TeamController {
           File f = new File (Configuration.getDataDirectory ()+ "/token" + token + ".json");
           String teamName = token.getTeam ().getIdentifier ();
           Team team = Teams.getTeam (teamName);
+          ArrayList<String> tasks = team.preferencesIdentifiers();
           ctx.render("/public/edit-team.ftl", TemplateUtil.model
             ("teamName", teamName,
+            "prefs", tasks,
             "secret", team.getSecret (),
             "students", team.studentsToString (),
             "preferences", team.preferencesToString (),
@@ -60,20 +62,26 @@ public class TeamController {
           Team team = Teams.getTeam (teamName);
           String host = ctx.host ();
           team.updateSecretFromString (ctx.formParam ("secret"));
-          if(team.updatePreferencesFromString (ctx.formParam ("preferences"))){
-            Teams.saveTeam (team);
+          try{
+            team.updatePreferencesFromString (ctx.formParam ("preferences"));
+            Notifier.sendUpdate(host,token,who);
             if(team.who(ctx.formParam ("students"))!=null){
-              ctx.redirect("/team-update-done.html");
               Edit editToConfirm=team.who(ctx.formParam ("students"));
               Notifier.sendTeamEditConfirm(host,token,editToConfirm);
-              Notifier.sendUpdate(host,token,who);
-            }else{
-              ctx.redirect("/team-update-error.html");
             }
-          }else{
+          }catch(ErrorSamePreferences e){
+            if(team.who(ctx.formParam ("students"))!=null){
+              Edit editToConfirm=team.who(ctx.formParam ("students"));
+              Notifier.sendTeamEditConfirm(host,token,editToConfirm);
+            }else{
               ctx.redirect("/preferences-error.html");
+            }
           }
-        }catch(Exception e){
+          Teams.saveTeam (team);
+          ctx.redirect("/team-update-ask.html");
+        }catch(ErrorAlreadyOnThisTeam ee){
+          ctx.redirect("/team-update-errorAdd.html");
+        }catch(Exception eee){
           ctx.redirect("/team-update-error.html");
         }
       });
@@ -87,20 +95,23 @@ public class TeamController {
           String st=ctx.pathParam ("student");
           String teamName = token.getTeam ().getIdentifier ();
           Team team = Teams.getTeam (teamName);
+          String who = token.getEmail ();
+          String host = ctx.host ();
             try {
               team.updateStudentsFromString(st,act);//true if added or false if deleted
-              if(team.studentsToString().length()!=0){
-                Teams.saveTeam (team);
-              }else{
+              Token.updateTokenEmail(team.mail,token);
+              Teams.saveTeam(team);
+              if(team.studentsToString().length()==0){
                 File f = new File (Configuration.getDataDirectory ()+ "/token" + token + ".json");
                 Token.deleteTokenfile(f);
               }
+              Notifier.sendUpdate(host,token,who);
+              ctx.redirect("/team-update-done.html");
             }catch(ErrorNotOnThisTeamAnymore e) {
               ctx.redirect("/team-update-errorDel.html");
             }catch(ErrorAlreadyOnThisTeam ee){
               ctx.redirect("/team-update-errorAdd.html");
             }
-            ctx.redirect("/team-update-done.html");
         }catch(Exception eee){
           ctx.redirect("/team-update-error.html");
         }
@@ -111,7 +122,7 @@ public class TeamController {
       app.after ("/team/trace", ctx->{
         ArrayList<String> trace = new ArrayList<String>();
         try{
-          File f=new File("datamodel/src/test/resources/assignment1.json");//For the moment we take the assignemnt file of the test but in the futur we should put the file location that will hold the data
+          File f=new File("datamodel/src/test/resources/assignment.json");//For the moment we take the assignemnt file of the test but in the futur we should put the file location that will hold the data
           Assignment.loadFrom(f);
           trace=Assignment.getTrace();
         }catch(Exception e){

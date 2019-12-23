@@ -108,33 +108,42 @@ public class Team {
     	return result;
     }
 
+    public ArrayList<String> preferencesIdentifiers(){
+      ArrayList<String> ids= new ArrayList<String>();
+      for(int i=0;i<preferences.size();i++){
+        ids.add(preferences.get(i).getIdentifier());
+      }
+      return ids;
+    }
+
     /** Updates a team's preferences with the ones from the string s. */
     public boolean updatePreferencesFromString (String s) {
       int permut =0;
-    	System.out.println ("Prefs: " + s);
-    	String[] fields = s.split (";");
-    	ArrayList<Task> newPreferences = new ArrayList<Task> ();
-    	for (int i = 0; i < fields.length; i++) {
-    	    newPreferences.add (Configuration.getTask (fields[i]));
-    	}
-
+      System.out.println ("Prefs: " + s);
+      String[] fields = s.split (";");
+      ArrayList<Task> newPreferences = new ArrayList<Task> ();
+      for (int i = 0; i < fields.length; i++) {
+        newPreferences.add (Configuration.getTask (fields[i]));
+      }
       for(int b=0;b<this.preferences.size();b++){
-        int a=0;
-        while(a!=newPreferences.size()){
+        for(int a=0;a<newPreferences.size();a++){
           if(this.preferences.get(b).getIdentifier()==newPreferences.get(a).getIdentifier()){
             permut++;
             break;
           }
-        a++;
         }
       }
-
-            if (permut==this.preferences.size()){
-              this.preferences = newPreferences;
-              return true;
-            }else{
-              return false;
-            }
+      if (permut==this.preferences.size()){
+        for(int z=0;z<this.preferences.size();z++){
+          if(this.preferences.get(z).getIdentifier()!=newPreferences.get(z).getIdentifier()){
+            this.preferences = newPreferences;
+            return true;
+          }else{
+            throw new ErrorSamePreferences();
+          }
+        }
+      }
+      return false;
     }
 
     /** Returns a string with all the students from the current team. */
@@ -148,19 +157,26 @@ public class Team {
 
       /** This check that we only add one students and that the students is not on the team already, we say that you only add a students at the end of the string*/
     public Student addingOneStudent(ArrayList<Student> n){
-      if(n.size()-this.students.size()!=1)return null;
+      if(n.size()-this.students.size()!=1){
+        throw new ErrorTooMuchStudent();
+      }
       boolean ok=true;
       for(int i=0;i<this.students.size();i++){
         if(!n.get(i).getEmail().equals(this.students.get(i).getEmail()))ok=false;//we check that all the students excepts from the one you add is on the team
-        if(n.get(i).getEmail().equals(n.get(this.students.size()).getEmail()))ok=false;//we check that the students we add is not already on this list
+        if(n.get(i).getEmail().equals(n.get(this.students.size()).getEmail())) ok=false;//we check that the students we add is not already on this list
       }
-      if(ok==true)return n.get(students.size());
-      return null;
+      if(ok==true){
+        return n.get(students.size());
+      }else{
+        throw new ErrorAlreadyOnThisTeam();
+      }
     }
 
     /** This check that we only delete one students and that the other students are still on the team*/
     public Student deletingOneStudent(ArrayList<Student> n){
-      if(n.size()-this.students.size()!=-1)return null;
+      if(n.size()-this.students.size()!=-1){
+        throw new ErrorTooMuchStudent();
+      }
       int indexOfChange=0;
       for(int i=0;i<this.students.size();i++){
         if(i==n.size()){
@@ -176,37 +192,42 @@ public class Team {
       for(int i=indexOfChange;i<n.size();i++){
         if(!n.get(i).getEmail().equals(this.students.get(i-1).getEmail()))ok=false;//we check that apart from the students deleted  everything is the same
       }
-      if(ok==true)return this.students.get(indexOfChange);
-      return null;
+      if(ok==true){
+        return this.students.get(indexOfChange);
+      }else{
+        throw new ErrorNotOnThisTeamAnymore();
+      }
     }
 
-/** Return the action to perform true=add false=delete and also the students that is added or deleted, we can only delete or add one student at the time*/
+    /** Return the action to perform true=add false=delete and also the students that is added or deleted, we can only delete or add one student at the time*/
     public Edit who(String s){
       ArrayList<Student> newStudents = new ArrayList<Student> ();
       if(!s.isEmpty()){
         String[] fields = s.split (";");
-        newStudents = new ArrayList<Student> ();
         for (int i = 0; i < fields.length; i++) {
           newStudents.add(Student.fromString (fields[i]));
         }
       }
-      Student add=addingOneStudent(newStudents);
-      Student del=deletingOneStudent(newStudents);
-      if(add==null&&del==null)return null;//we aren't changing the team at all
-      else if(add!=null)return new Edit(add,true);
-      //this is the case if we add a students
-      else return new Edit(del,false);
-      //this is  the case if we delete a students
+      //we aren't changing the team at all if we catch an exception
+      try{
+        Student add=addingOneStudent(newStudents);
+        return new Edit(add,true);//this is the case if we add a student
+      }catch(Exception e){
+        try{
+          Student del=deletingOneStudent(newStudents);
+          return new Edit(del,false);//this is  the case if we delete a student
+        }catch(Exception ee){
+          throw new ErrorTooMuchStudent();
+        }
+      }
     }
+
     /** Updates the students in the current team with the string s. This is used so that "who" deletes himself from his team. */
     public void updateStudentsFromString (String student,boolean action) {
       if(action==true){
         this.addStudent(new Student(student));
       }else{
         this.removeStudent(student);
-        if(this.students.isEmpty()){
-          Teams.deleteTeam(this);
-        }
       }
     }
 
@@ -243,10 +264,8 @@ public class Team {
 
     /** Adds the student stud to this team. */
     public void addStudent (Student stud) {
-      ArrayList<Team> n = Teams.getTeams();
-      for (Team team : n) {
-        ArrayList<Student> t= team.students;
-        for(Student student : t ){
+      for (Team team : Teams.getTeams()) {
+        for(Student student : this.students ){
           if(student.getEmail().equals(stud.getEmail())){
             throw new ErrorAlreadyOnThisTeam();
           }
@@ -254,35 +273,39 @@ public class Team {
       }
       if(stud!=null){
         this.students.add(stud);
+        this.updatemail();
       }
     }
 
     /** Removes the student with email as his email from this team. */
     public void removeStudent (String email) {
-	     Student found = null;
-	      for (Student student : students) {
-	         if (student.getEmail ().equals (email)) {
-		           found = student;
-		           break;
-	         }
-	  }
-        if(found==null)throw new ErrorNotOnThisTeamAnymore();
-      	if (found != null){
-          ArrayList<Team> tlist= Teams.getTeams();
-      	   students.remove (found);
-           if(students.isEmpty()){
-             tlist.remove(this);
-           }
+      Student found = null;
+      for (Student student : this.students) {
+        if (student.getEmail ().equals (email)) {
+          found = student;
+          break;
         }
-    }
-
-    /** Updates this team's email by using the longest one in the team. */
-    public void updatemail(){
-      for (Student student : students){
-        if(student.getEmail().compareTo(this.mail)<0){
-          this.mail=student.getEmail();
+      }
+      if(found==null){
+        throw new ErrorNotOnThisTeamAnymore();
+      }else{
+        this.students.remove(found);
+        if(this.studentsToString().length()==0){
+          Teams.deleteTeam(this);
+        }else{
+          this.updatemail();
         }
       }
     }
 
+    /** Updates this team's email by using the longest one in the team. */
+    public void updatemail(){
+      String longest = this.students.get(0).getEmail();
+      for (Student student : this.students) {
+        if(longest.length()<student.getEmail().length()){
+          longest = student.getEmail();
+        }
+      }
+      this.mail=longest;
+    }
 }
