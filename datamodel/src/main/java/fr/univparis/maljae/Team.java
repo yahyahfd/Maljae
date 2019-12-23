@@ -108,6 +108,7 @@ public class Team {
     	return result;
     }
 
+    /** This method is only used at the moment for tests on the edit page*/
     public ArrayList<String> preferencesIdentifiers(){
       ArrayList<String> ids= new ArrayList<String>();
       for(int i=0;i<preferences.size();i++){
