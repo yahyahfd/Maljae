@@ -40,9 +40,13 @@ public class TeamController {
           String teamName = token.getTeam ().getIdentifier ();
           Team team = Teams.getTeam (teamName);
           ArrayList<String> tasks = team.preferencesIdentifiers();
+          ArrayList<String> emails = team.membersEmails();
+          String teamMail = team.mail;
           ctx.render("/public/edit-team.ftl", TemplateUtil.model
             ("teamName", teamName,
             "prefs", tasks,
+            "mail", teamMail,
+            "emails", emails,
             "secret", team.getSecret (),
             "students", team.studentsToString (),
             "preferences", team.preferencesToString (),
@@ -57,14 +61,13 @@ public class TeamController {
       app.post("/team/update/:token", ctx -> {
         try{
           Token token = Token.getToken (ctx.pathParam ("token"));
-          String who = token.getEmail ();
           String teamName = token.getTeam ().getIdentifier ();
           Team team = Teams.getTeam (teamName);
           String host = ctx.host ();
           team.updateSecretFromString (ctx.formParam ("secret"));
           try{
             team.updatePreferencesFromString (ctx.formParam ("preferences"));
-            Notifier.sendUpdate(host,token,who);
+            Notifier.sendUpdate(host,token);
             if(team.who(ctx.formParam ("students"))!=null){
               Edit editToConfirm=team.who(ctx.formParam ("students"));
               Notifier.sendTeamEditConfirm(host,token,editToConfirm);
@@ -82,6 +85,7 @@ public class TeamController {
         }catch(ErrorAlreadyOnThisTeam ee){
           ctx.redirect("/team-update-errorAdd.html");
         }catch(Exception eee){
+          System.out.println(eee);
           ctx.redirect("/team-update-error.html");
         }
       });
@@ -95,17 +99,17 @@ public class TeamController {
           String st=ctx.pathParam ("student");
           String teamName = token.getTeam ().getIdentifier ();
           Team team = Teams.getTeam (teamName);
-          String who = token.getEmail ();
           String host = ctx.host ();
             try {
               team.updateStudentsFromString(st,act);//true if added or false if deleted
               Token.updateTokenEmail(team.mail,token);
-              Teams.saveTeam(team);
               if(team.studentsToString().length()==0){
                 File f = new File (Configuration.getDataDirectory ()+ "/token" + token + ".json");
                 Token.deleteTokenfile(f);
+              }else{
+                Teams.saveTeam(team);
               }
-              Notifier.sendUpdate(host,token,who);
+              Notifier.sendUpdate(host,token);
               ctx.redirect("/team-update-done.html");
             }catch(ErrorNotOnThisTeamAnymore e) {
               ctx.redirect("/team-update-errorDel.html");

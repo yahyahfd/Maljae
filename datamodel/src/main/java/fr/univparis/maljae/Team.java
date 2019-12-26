@@ -111,16 +111,24 @@ public class Team {
     /** This method is only used at the moment for tests on the edit page*/
     public ArrayList<String> preferencesIdentifiers(){
       ArrayList<String> ids= new ArrayList<String>();
-      for(int i=0;i<preferences.size();i++){
-        ids.add(preferences.get(i).getIdentifier());
+      for(int i=0;i<this.preferences.size();i++){
+        ids.add(this.preferences.get(i).getIdentifier());
       }
       return ids;
+    }
+
+    /** This method is only used at the moment for tests on the edit page*/
+    public ArrayList<String> membersEmails(){
+      ArrayList<String> mails= new ArrayList<String>();
+      for(int i=0;i<this.students.size();i++){
+        mails.add(this.students.get(i).getEmail());
+      }
+      return mails;
     }
 
     /** Updates a team's preferences with the ones from the string s. */
     public boolean updatePreferencesFromString (String s) {
       int permut =0;
-      System.out.println ("Prefs: " + s);
       String[] fields = s.split (";");
       ArrayList<Task> newPreferences = new ArrayList<Task> ();
       for (int i = 0; i < fields.length; i++) {
@@ -175,24 +183,29 @@ public class Team {
 
     /** This check that we only delete one students and that the other students are still on the team*/
     public Student deletingOneStudent(ArrayList<Student> n){
-      if(n.size()-this.students.size()!=-1){
+      if(this.students.size()-n.size()!=1){
         throw new ErrorTooMuchStudent();
       }
-      int indexOfChange=0;
-      for(int i=0;i<this.students.size();i++){
-        if(i==n.size()){
-          indexOfChange=i;//this means we deleted the last students
-          break;
-        }
-        if(!n.get(i).getEmail().equals(this.students.get(i).getEmail())){
-          indexOfChange=i;//we get the index where the students is not on the team anymore
-          break;
+
+      int indexOfChange = 0;
+      if(n.get(0).getEmail().equals(this.students.get(0).getEmail())){ // we first check if the first element is not the one deleted (else no changed on indexOfChange)
+        for(int i=1;i<n.size();i++){ // if the first element is still there, we go throught the whole n arraylist and check what got changed
+          if(n.get(i).getEmail().equals(this.students.get(i).getEmail())){ // if no changes, that means that the last element of the current arraylist got deleted
+            indexOfChange=this.students.size(); // indexOfChange becomes the last element of the current arraylist
+          }else{
+            indexOfChange=i; // else it takes the value of the index where we found a difference;
+            break;
+          }
         }
       }
+
       boolean ok=true;
-      for(int i=indexOfChange;i<n.size();i++){
-        if(!n.get(i).getEmail().equals(this.students.get(i-1).getEmail()))ok=false;//we check that apart from the students deleted  everything is the same
+      if(indexOfChange!=this.students.size()){
+        for(int i=indexOfChange;i<n.size();i++){
+          if(!n.get(i).getEmail().equals(this.students.get(i+1).getEmail()))ok=false; // we check that all of the elements of n correspond to the remaining ones in the current arraylist
+        }
       }
+
       if(ok==true){
         return this.students.get(indexOfChange);
       }else{
@@ -214,12 +227,8 @@ public class Team {
         Student add=addingOneStudent(newStudents);
         return new Edit(add,true);//this is the case if we add a student
       }catch(Exception e){
-        try{
-          Student del=deletingOneStudent(newStudents);
-          return new Edit(del,false);//this is  the case if we delete a student
-        }catch(Exception ee){
-          throw new ErrorTooMuchStudent();
-        }
+        Student del=deletingOneStudent(newStudents);
+        return new Edit(del,false);//this is  the case if we delete a student
       }
     }
 
