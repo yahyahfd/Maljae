@@ -4,6 +4,6 @@ public class ErrorNotOnThisTeamAnymore extends RuntimeException{
     super();
   }
   public String toString(){
-    return "You are not on this team anymore so you can't delete yourself";
+    return "This student was either already removed from this team or never was in it, you can't delete something that doesn't exist.";
   }
 }

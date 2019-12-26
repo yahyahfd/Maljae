@@ -5,14 +5,15 @@
     <meta content="IE=edge" http-equiv="X-UA-Compatible">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <#include "ftl.css">
-    <title>maljae home</title>
+    <title>Trace</title>
   </head>
 
   <body>
-    <p style=text-size=20;>This is the assignement trace :
-    <#list trace as t>
-    <div>${t}</div>
-    </#list>
-    </p>
+    <div class="assign">
+      <h3>This is the assignement trace :</h3>
+        <#list trace as t>
+        <div>${t}</div>
+        </#list>
+    </div>
   </body>
 </html>

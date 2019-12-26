@@ -39,6 +39,13 @@ public final class Token {
     return result;
   }
 
+  public static void updateTokenEmail(String em, Token t) throws IOException{
+    Token n = new Token(t.team, em, t.raw);
+    File f = new File (Configuration.getDataDirectory ()+ "/token" + t.raw + ".json");
+    deleteTokenfile(f);
+    n.saveToFile();
+  }
+
   public static Token loadFromFile (Integer raw) throws IOException {
     File f = new File (Configuration.getDataDirectory ()+ "/token" + raw + ".json");
     JSONObject json = new JSONObject (FileUtils.readFileToString (f, "utf-8"));
