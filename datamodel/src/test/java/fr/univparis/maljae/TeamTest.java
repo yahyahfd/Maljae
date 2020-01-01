@@ -48,4 +48,19 @@ public class TeamTest{
     //checking
     assertEquals(testingteam.getStudents().size(),0);
   }
+  
+  @Test
+public void addStudentTest() throws Exception {
+  Team testeam = new Team(new Student("arobaz@yahoo.fr"));
+  testeam.addStudent(new Student("pointdot@gmail.com"));
+  testeam.addStudent(new Student("glasss@gmail.com"));
+  Student test = new Student("testest@gmail.com");
+  testeam.addStudent(test);
+
+  assertEquals(testeam.getStudents().size(),4);
+
+
+
+
+}
 }
