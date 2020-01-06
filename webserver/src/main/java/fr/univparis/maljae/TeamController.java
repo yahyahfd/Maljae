@@ -79,13 +79,14 @@ public class TeamController {
             }else{
               ctx.redirect("/preferences-error.html");
             }
+          }catch(ErrorTooMuchStudent ee){
+            ctx.redirect("/team-update-ask.html");
           }
           Teams.saveTeam (team);
           ctx.redirect("/team-update-ask.html");
-        }catch(ErrorAlreadyOnThisTeam ee){
+        }catch(ErrorAlreadyOnThisTeam eee){
           ctx.redirect("/team-update-errorAdd.html");
-        }catch(Exception eee){
-          System.out.println(eee);
+        }catch(Exception eeee){
           ctx.redirect("/team-update-error.html");
         }
       });
