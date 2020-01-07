@@ -136,7 +136,7 @@ public class Team {
       }
       for(int b=0;b<this.preferences.size();b++){
         for(int a=0;a<newPreferences.size();a++){
-          if(this.preferences.get(b).getIdentifier()==newPreferences.get(a).getIdentifier()){
+          if(this.preferences.get(b).getIdentifier().equals(newPreferences.get(a).getIdentifier())){
             permut++;
             break;
           }
@@ -144,7 +144,7 @@ public class Team {
       }
       if (permut==this.preferences.size()){
         for(int z=0;z<this.preferences.size();z++){
-          if(this.preferences.get(z).getIdentifier()!=newPreferences.get(z).getIdentifier()){
+          if(!this.preferences.get(z).getIdentifier().equals(newPreferences.get(z).getIdentifier())){
             this.preferences = newPreferences;
             return true;
           }else{
