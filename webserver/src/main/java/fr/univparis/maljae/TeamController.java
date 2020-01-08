@@ -127,7 +127,7 @@ public class TeamController {
       app.after ("/team/trace", ctx->{
         ArrayList<String> trace = new ArrayList<String>();
         try{
-          File f=new File("datamodel/src/test/resources/assignment.json");//For the moment we take the assignemnt file of the test but in the futur we should put the file location that will hold the data
+          File f=new File("datamodel/src/test/resources/assignment1.json");//For the moment we take the assignemnt file of the test but in the futur we should put the file location that will hold the data
           Assignment.loadFrom(f);
           trace=Assignment.getTrace();
         }catch(Exception e){
