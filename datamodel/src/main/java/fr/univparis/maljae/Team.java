@@ -144,13 +144,12 @@ public class Team {
       }
       if (permut==this.preferences.size()){
         for(int z=0;z<this.preferences.size();z++){
-          if(!this.preferences.get(z).getIdentifier().equals(newPreferences.get(z).getIdentifier())){
-            this.preferences = newPreferences;
-            return true;
-          }else{
-            throw new ErrorSamePreferences();
+          if(this.preferences.get(z).getIdentifier().equals(newPreferences.get(z).getIdentifier())){
+            return false;
           }
         }
+        this.preferences = newPreferences;
+        return true;
       }
       return false;
     }
@@ -188,27 +187,31 @@ public class Team {
       }
 
       int indexOfChange = 0;
-      if(n.get(0).getEmail().equals(this.students.get(0).getEmail())){ // we first check if the first element is not the one deleted (else no changed on indexOfChange)
-        for(int i=1;i<n.size();i++){ // if the first element is still there, we go throught the whole n arraylist and check what got changed
-          if(n.get(i).getEmail().equals(this.students.get(i).getEmail())){ // if no changes, that means that the last element of the current arraylist got deleted
-            indexOfChange=this.students.size(); // indexOfChange becomes the last element of the current arraylist
-          }else{
-            indexOfChange=i; // else it takes the value of the index where we found a difference;
-            break;
+      if(n.size()==1){
+        indexOfChange=1;
+      }else{
+        if(n.get(0).getEmail().equals(this.students.get(0).getEmail())){ // we first check if the first element is not the one deleted (else no changed on indexOfChange)
+          for(int i=1;i<n.size();i++){ // if the first element is still there, we go throught the whole n arraylist and check what got changed
+            if(n.get(i).getEmail().equals(this.students.get(i).getEmail())){ // if no changes, that means that the last element of the current arraylist got deleted
+              indexOfChange=this.students.size(); // indexOfChange becomes the last element of the current arraylist
+            }else{
+              indexOfChange=i; // else it takes the value of the index where we found a difference;
+              break;
+            }
           }
         }
       }
-
       boolean ok=true;
       if(indexOfChange!=this.students.size()){
         for(int i=indexOfChange;i<n.size();i++){
-          if(!n.get(i).getEmail().equals(this.students.get(i+1).getEmail()))ok=false; // we check that all of the elements of n correspond to the remaining ones in the current arraylist
+          if(!n.get(i).getEmail().equals(this.students.get(i+1).getEmail()))ok=false;break; // we check that all of the elements of n correspond to the remaining ones in the current arraylist
         }
       }
 
       if(ok==true){
         return this.students.get(indexOfChange);
       }else{
+        System.out.println(indexOfChange);
         throw new ErrorNotOnThisTeamAnymore();
       }
     }

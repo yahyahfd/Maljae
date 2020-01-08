@@ -68,25 +68,16 @@ public class TeamController {
           try{
             team.updatePreferencesFromString (ctx.formParam ("preferences"));
             Notifier.sendUpdate(host,token);
-            if(team.who(ctx.formParam ("students"))!=null){
-              Edit editToConfirm=team.who(ctx.formParam ("students"));
-              Notifier.sendTeamEditConfirm(host,token,editToConfirm);
-            }
-          }catch(ErrorSamePreferences e){
-            if(team.who(ctx.formParam ("students"))!=null){
-              Edit editToConfirm=team.who(ctx.formParam ("students"));
-              Notifier.sendTeamEditConfirm(host,token,editToConfirm);
-            }else{
-              ctx.redirect("/preferences-error.html");
-            }
           }catch(ErrorTooMuchStudent ee){
             ctx.redirect("/team-update-ask.html");
           }
+          Notifier.sendTeamEditConfirm(host,token,team.who(ctx.formParam ("students")));
           Teams.saveTeam (team);
           ctx.redirect("/team-update-ask.html");
         }catch(ErrorAlreadyOnThisTeam eee){
           ctx.redirect("/team-update-errorAdd.html");
         }catch(Exception eeee){
+          System.out.println(eeee);
           ctx.redirect("/team-update-error.html");
         }
       });
