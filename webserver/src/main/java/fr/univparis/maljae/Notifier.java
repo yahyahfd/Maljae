@@ -42,7 +42,9 @@ public class Notifier {
 	    "You have requested the creation of a team.\n" +
 	    "Here are the links to perform actions on it.\n" +
 	    "- To edit your team information :\n" +
-	    "  http://" + host + "/team/edit/" + token.toString () + "\n";
+	    "  http://" + host + "/team/edit/" + token.toString () + "\n"+
+      "- To see the task assigned to your team and the assignement trace :\n" +
+	    "  http://" + host + "/team/trace/"+"\n";
 	sendEmail (token.getEmail (), "[maljae] Team Creation", message);
     }
     public static void sendUpdate(String host,Token token)throws IOException{
@@ -50,7 +52,9 @@ public class Notifier {
   	   "Your team has been edited.\n" +
   	    "Here are the links to perform actions on it.\n" +
   	    "- To edit your team information :\n" +
-  	    "  http://" + host + "/team/edit/" + token.toString () + "\n";
+  	    "  http://" + host + "/team/edit/" + token.toString () + "\n"+
+        "- To see the task assigned to your team and the assignement trace :\n" +
+        "  http://" + host + "/team/trace/"+"\n";;
       for(Student student:token.getTeam().getStudents()){
         sendEmail(student.getEmail(),"[maljae] Team Updated",message);
       }
