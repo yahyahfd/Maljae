@@ -43,9 +43,10 @@ public class Assign
  public static void SortingAlgo()
  {
    alphabetical_order();
-   for(int i=0; i<Teams.getTeams().size();i++)
+   for(int i=0; i<Teams.getTeams().size()-1;i++)
    {
-     int indexForTrace=(i+(Teams.getTeams().get(i).getSeed()%(Teams.getTeams().size()-i)))-1;
+     int indexForTrace=i+(Teams.getTeams().get(i).getSeed()%(Teams.getTeams().size()-i-1));
+     System.out.println(indexForTrace);
      Assignment.addTraceStep("<br>Transposition","exchange "+Teams.getTeams().get(i).getIdentifier()+" with the team in index i + (n_i%(k-i-1)) = "+ String.valueOf(indexForTrace)+ " wich is team "+Teams.getTeams().get(i).getIdentifier());//add a trace for the transposition
      Collections.swap(Teams.getTeams(), i, indexForTrace);//here we do the swapping using the alghorithm
    }
@@ -72,8 +73,7 @@ public class Assign
  public static void loadFrom(){
    try {
      Teams.loadFrom(new File("./maljae-data/"));
-     System.out.print(Teams.getTeams().size());
-     System.out.print(Assignment.getTrace());
+
    } catch(Exception e) {
      System.out.print(e);
    }
