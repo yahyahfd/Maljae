@@ -1,0 +1,26 @@
+maljae-data/
+
+#Java
+*.class
+*.jar
+
+#Maven
+target/
+
+# Emacs autosave files
+*~
+
+#Eclipse, if you use it
+.settings/
+bin/
+tmp/
+.metadata
+.classpath
+.project
+*.tmp
+*.bak
+*.swp
+*~.nib
+local.properties
+.loadpath
+assignment1.json
