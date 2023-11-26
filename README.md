@@ -63,11 +63,23 @@ maljae is made of two main components:
 
 ### Webserver
 
-`maljae` server can be run with the following command:
+`maljae` server can be run with the following commands:
+
 
 ```
-java -jar maljae-webserver configuration-file.json
+make
 ```
+
+```
+java -jar maljae-webserver.jar datamodel/src/test/resources/config.json
+```
+
+Then go on a web browser and search for
+
+```
+http://localhost:8080/
+```
+
 
 (An example of configuration file can be found in `datamodel/src/test/resources/config.json`.)
 
